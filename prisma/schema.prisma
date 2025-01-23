@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:1234@localhost:5432/"
+}
+
+model Cartao {
+  id Int @id @default(autoincrement())
+  numero String 
+  cvv String
+  preferencial Boolean
+  bandeira String
+
+  cliente Cliente @relation(fields: [clienteId], references: [id])
+  clienteId Int
+}
+
+model Cidade {
+  id Int @id @default(autoincrement())
+  nome String
+
+  estado Estado @relation(fields: [estadoId], references: [id])
+  estadoId Int
+
+  Endereco Endereco[]
+}
+
+model Cliente {
+  id Int @id @default(autoincrement())
+  nome String
+  dataNascimento DateTime
+  cpf String
+  genero String
+  email String
+  senha String
+  status Boolean
+  ranking Int
+
+  Cartao Cartao[]
+  Endereco Endereco[]
+  Telefone Telefone[]
+}
+
+model Endereco {
+  id Int @id @default(autoincrement())
+  apelido String
+  logradouro String
+  numero String
+  bairro String
+  cep String
+  observacoes String
+  tipoEndereco String
+  tipoLogradouro String
+  tipoResidencia String
+
+  cliente Cliente @relation(fields: [clienteId], references: [id])
+  clienteId Int
+
+  cidade Cidade @relation(fields: [cidadeId], references: [id])
+  cidadeId Int
+}
+
+model Estado {
+  id Int @id @default(autoincrement())
+  nome String
+
+  pais Pais @relation(fields: [paisId], references: [id])
+  paisId Int
+
+  Cidade Cidade[]
+}
+
+model Pais {
+  id Int @id @default(autoincrement())
+  nome String
+
+  Estado Estado[]
+}
+
+model Log {
+  id Int @id @default(autoincrement())
+  entidade String
+  usuario String
+  dataHora DateTime @default(now())
+}
+
+model Telefone {
+  id Int @id @default(autoincrement())
+  ddd String
+  numero String
+  tipoTelefone String
+  cliente Cliente @relation(fields: [clienteId], references: [id])
+  clienteId Int
+}
