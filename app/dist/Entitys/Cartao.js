@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cartao = void 0;
 const EntidadeDominio_1 = require("./EntidadeDominio");
 class Cartao extends EntidadeDominio_1.EntidadeDominio {
-    constructor(id, _cliente, _numero, _nomeImpresso, _cvv, _validade, _preferencial, _bandeiraCartao) {
+    constructor(id, _clienteId, _numero, _nomeImpresso, _cvv, _validade, _preferencial, _bandeiraCartao) {
         super(id);
-        this._cliente = _cliente;
+        this._clienteId = _clienteId;
         this._numero = _numero;
         this._nomeImpresso = _nomeImpresso;
         this._cvv = _cvv;
@@ -13,11 +13,11 @@ class Cartao extends EntidadeDominio_1.EntidadeDominio {
         this._preferencial = _preferencial;
         this._bandeiraCartao = _bandeiraCartao;
     }
-    get Cliente() {
-        return this._cliente;
+    get ClienteId() {
+        return this._clienteId;
     }
-    set Cliente(cliente) {
-        this._cliente = cliente;
+    set ClienteId(clienteId) {
+        this._clienteId = clienteId;
     }
     get Numero() {
         return this._numero;

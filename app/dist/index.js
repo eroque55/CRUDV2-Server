@@ -10,10 +10,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
+const Cartao_1 = require("./Entitys/Cartao");
+const BandeiraCartao_1 = require("./Entitys/BandeiraCartao");
+const CartaoDAO_1 = require("./DAO/CartaoDAO");
 const prisma = new client_1.PrismaClient();
 const http = require("node:http");
 const hostname = "127.0.0.1";
 const port = 3000;
+const cartao = new Cartao_1.Cartao(5, 2, "123456789", "Nome impresso", "123", "12/2023", false, BandeiraCartao_1.BandeiraCartao.DINERS_CLUB);
+teste(cartao);
+function teste(cartao) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const lista = yield new CartaoDAO_1.CartaoDAO().selecionar(cartao);
+        console.log(lista);
+    });
+}
 class Pais {
     constructor(nome, id) {
         this.nome = nome;

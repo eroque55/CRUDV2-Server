@@ -1,6 +1,9 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 import { Prisma, PrismaClient } from "@prisma/client";
+import { Cartao } from "./Entitys/Cartao";
+import { BandeiraCartao } from "./Entitys/BandeiraCartao";
+import { CartaoDAO } from "./DAO/CartaoDAO";
 
 const prisma = new PrismaClient();
 
@@ -8,6 +11,26 @@ const http = require("node:http");
 
 const hostname = "127.0.0.1";
 const port = 3000;
+
+
+const cartao = new Cartao(
+  5,
+  2,
+  "123456789",
+  "Nome impresso",
+  "123",
+  "12/2023",
+  false,
+  BandeiraCartao.DINERS_CLUB
+);
+
+teste(cartao);
+
+async function teste(cartao: Cartao) {
+  const lista = await new CartaoDAO().selecionar(cartao);
+  console.log(lista);
+}
+
 
 class Pais {
   id?: number;

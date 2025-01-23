@@ -5,7 +5,7 @@ import { EntidadeDominio } from "./EntidadeDominio";
 export class Cartao extends EntidadeDominio {
   constructor(
     id: number,
-    private _cliente: Cliente,
+    private _clienteId: number,
     private _numero: string,
     private _nomeImpresso: string,
     private _cvv: string,
@@ -14,12 +14,12 @@ export class Cartao extends EntidadeDominio {
     private _bandeiraCartao: BandeiraCartao
   ) {super(id);}
 
-    get Cliente(): Cliente {
-        return this._cliente;
+    get ClienteId(): number {
+        return this._clienteId;
     }
 
-    set Cliente(cliente: Cliente) {
-        this._cliente = cliente;
+    set ClienteId(clienteId: number) {
+        this._clienteId = clienteId;
     }
 
     get Numero(): string {

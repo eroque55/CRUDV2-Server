@@ -1,9 +1,9 @@
 export enum BandeiraCartao {
-    VISA = "Visa",
-    MASTERCARD = "Mastercard",
-    AMERICAN_EXPRESS = "American Express",
-    DISCOVER = "Discover",
-    DINERS_CLUB = "Diners Club",
-    JCB = "JCB",
-    OUTRAS = "Outras"
+  VISA = "VISA",
+  MASTERCARD = "MASTERCARD",
+  AMERICAN_EXPRESS = "AMERICAN_EXPRESS",
+  DISCOVER = "DISCOVER",
+  DINERS_CLUB = "DINERS_CLUB",
+  JCB = "JCB",
+  OUTRAS = "OUTRAS"
 }

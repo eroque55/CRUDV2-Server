@@ -3,11 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BandeiraCartao = void 0;
 var BandeiraCartao;
 (function (BandeiraCartao) {
-    BandeiraCartao["VISA"] = "Visa";
-    BandeiraCartao["MASTERCARD"] = "Mastercard";
-    BandeiraCartao["AMERICAN_EXPRESS"] = "American Express";
-    BandeiraCartao["DISCOVER"] = "Discover";
-    BandeiraCartao["DINERS_CLUB"] = "Diners Club";
+    BandeiraCartao["VISA"] = "VISA";
+    BandeiraCartao["MASTERCARD"] = "MASTERCARD";
+    BandeiraCartao["AMERICAN_EXPRESS"] = "AMERICAN_EXPRESS";
+    BandeiraCartao["DISCOVER"] = "DISCOVER";
+    BandeiraCartao["DINERS_CLUB"] = "DINERS_CLUB";
     BandeiraCartao["JCB"] = "JCB";
-    BandeiraCartao["OUTRAS"] = "Outras";
+    BandeiraCartao["OUTRAS"] = "OUTRAS";
 })(BandeiraCartao || (exports.BandeiraCartao = BandeiraCartao = {}));

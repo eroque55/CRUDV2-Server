@@ -15,10 +15,12 @@ datasource db {
 
 model Cartao {
   id Int @id @default(autoincrement())
-  numero String 
+  numero String
+  nomeImpresso String
   cvv String
   preferencial Boolean
-  bandeira String
+  validade String
+  bandeiraCartao String
 
   cliente Cliente @relation(fields: [clienteId], references: [id])
   clienteId Int
