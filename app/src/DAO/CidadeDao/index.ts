@@ -5,7 +5,7 @@ import Cidade from "../../models/Cidade";
 
 const prisma = new PrismaClient();
 
-export class CidadeDAO implements IDAO {
+export default class CidadeDAO implements IDAO {
   async salvar(
     entidadeDominio: EntidadeDominio
   ): Promise<EntidadeDominio | null> {
