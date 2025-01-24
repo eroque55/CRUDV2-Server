@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import IDAO from "../Idao";
+import IDAO from "../IDAO";
 import EntidadeDominio from "../../models/EntidadeDominio";
 import Estado from "../../models/Estado";
 

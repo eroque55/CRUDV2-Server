@@ -12,22 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CidadeDAO = void 0;
 const client_1 = require("@prisma/client");
-const Cidade_1 = __importDefault(require("../../models/Cidade"));
+const Telefone_1 = __importDefault(require("../../models/Telefone"));
+const TipoTelefone_1 = __importDefault(require("../../models/TipoTelefone"));
 const prisma = new client_1.PrismaClient();
-class CidadeDAO {
+class TelefoneDAO {
     salvar(entidadeDominio) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const entidade = this.validarTipo(entidadeDominio);
-                const cidade = yield prisma.cidade.create({
+                const telefone = yield prisma.telefone.create({
                     data: {
-                        nome: entidade.Nome,
-                        estadoId: entidade.EstadoId,
+                        ddd: entidade.Ddd,
+                        numero: entidade.Numero,
+                        tipoTelefone: entidade.Tipo.toString(),
+                        cliente: { connect: { id: entidade.ClienteId } },
                     },
                 });
-                return new Cidade_1.default(cidade.id, cidade.nome, cidade.estadoId);
+                return new Telefone_1.default(telefone.id, telefone.clienteId, telefone.ddd, telefone.numero, TipoTelefone_1.default[telefone.tipoTelefone]);
             }
             catch (error) {
                 return null;
@@ -38,14 +40,16 @@ class CidadeDAO {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const entidade = this.validarTipo(entidadeDominio);
-                const cidade = yield prisma.cidade.update({
+                const telefone = yield prisma.telefone.update({
                     where: { id: entidade.Id },
                     data: {
-                        nome: entidade.Nome,
-                        estadoId: entidade.EstadoId,
+                        ddd: entidade.Ddd,
+                        numero: entidade.Numero,
+                        tipoTelefone: entidade.Tipo.toString(),
+                        cliente: { connect: { id: entidade.ClienteId } },
                     },
                 });
-                return new Cidade_1.default(cidade.id, cidade.nome, cidade.estadoId);
+                return new Telefone_1.default(telefone.id, telefone.clienteId, telefone.ddd, telefone.numero, TipoTelefone_1.default[telefone.tipoTelefone]);
             }
             catch (error) {
                 return null;
@@ -56,7 +60,7 @@ class CidadeDAO {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const entidade = this.validarTipo(entidadeDominio);
-                yield prisma.cidade.delete({
+                yield prisma.telefone.delete({
                     where: { id: entidade.Id },
                 });
                 return true;
@@ -69,13 +73,13 @@ class CidadeDAO {
     consultar(entidadeDominio) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const listaPaises = [];
-                const cidades = yield prisma.cidade.findMany();
-                for (let cidade of cidades) {
-                    const cidadeTemp = new Cidade_1.default(cidade.id, cidade.nome, cidade.estadoId);
-                    listaPaises.push(cidadeTemp);
+                const listaTelefones = [];
+                const telefones = yield prisma.telefone.findMany();
+                for (let telefone of telefones) {
+                    const telefoneTemp = new Telefone_1.default(telefone.id, telefone.clienteId, telefone.ddd, telefone.numero, TipoTelefone_1.default[telefone.tipoTelefone]);
+                    listaTelefones.push(telefoneTemp);
                 }
-                return listaPaises;
+                return listaTelefones;
             }
             catch (error) {
                 return [];
@@ -85,13 +89,13 @@ class CidadeDAO {
     selecionar(entidadeDominio) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const cidade = yield prisma.cidade.findUnique({
+                const telefone = yield prisma.telefone.findUnique({
                     where: { id: entidadeDominio.Id },
                 });
-                if (!cidade) {
-                    throw new Error("Cidade não encontrada");
+                if (!telefone) {
+                    throw new Error("Telefone não encontrado");
                 }
-                return new Cidade_1.default(cidade.id, cidade.nome, cidade.estadoId);
+                return new Telefone_1.default(telefone.id, telefone.clienteId, telefone.ddd, telefone.numero, TipoTelefone_1.default[telefone.tipoTelefone]);
             }
             catch (error) {
                 return null;
@@ -99,12 +103,12 @@ class CidadeDAO {
         });
     }
     validarTipo(entidade) {
-        if (entidade instanceof Cidade_1.default) {
+        if (entidade instanceof Telefone_1.default) {
             return entidade;
         }
         else {
-            throw new Error("Entidade não é uma Cidade");
+            throw new Error("Entidade não é um Telefone");
         }
     }
 }
-exports.CidadeDAO = CidadeDAO;
+exports.default = TelefoneDAO;

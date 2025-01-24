@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import Cartao from "../../models/Cartao";
 import EntidadeDominio from "../../models/EntidadeDominio";
-import IDAO from "../Idao";
+import IDAO from "../IDAO";
 import BandeiraCartao from "../../models/BandeiraCartao";
 
 const prisma = new PrismaClient();
