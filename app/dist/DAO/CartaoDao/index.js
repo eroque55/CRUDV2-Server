@@ -8,11 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CartaoDAO = void 0;
-const Cartao_1 = require("../Entitys/Cartao");
 const client_1 = require("@prisma/client");
-const BandeiraCartao_1 = require("../Entitys/BandeiraCartao");
+const Cartao_1 = __importDefault(require("../../models/Cartao"));
+const BandeiraCartao_1 = __importDefault(require("../../models/BandeiraCartao"));
 const prisma = new client_1.PrismaClient();
 class CartaoDAO {
     salvar(entidadeDominio) {
@@ -30,7 +32,7 @@ class CartaoDAO {
                         bandeiraCartao: entidade.BandeiraCartao.toString(),
                     },
                 });
-                return new Cartao_1.Cartao(cartao.id, cartao.clienteId, cartao.numero, cartao.nomeImpresso, cartao.cvv, cartao.validade, cartao.preferencial, BandeiraCartao_1.BandeiraCartao[cartao.bandeiraCartao]);
+                return new Cartao_1.default(cartao.id, cartao.clienteId, cartao.numero, cartao.nomeImpresso, cartao.cvv, cartao.validade, cartao.preferencial, BandeiraCartao_1.default[cartao.bandeiraCartao]);
             }
             catch (error) {
                 return null;
@@ -53,7 +55,7 @@ class CartaoDAO {
                         bandeiraCartao: entidade.BandeiraCartao.toString(),
                     },
                 });
-                return new Cartao_1.Cartao(cartao.id, cartao.clienteId, cartao.numero, cartao.nomeImpresso, cartao.cvv, cartao.validade, cartao.preferencial, BandeiraCartao_1.BandeiraCartao[cartao.bandeiraCartao]);
+                return new Cartao_1.default(cartao.id, cartao.clienteId, cartao.numero, cartao.nomeImpresso, cartao.cvv, cartao.validade, cartao.preferencial, BandeiraCartao_1.default[cartao.bandeiraCartao]);
             }
             catch (error) {
                 return null;
@@ -80,8 +82,8 @@ class CartaoDAO {
                 const listaCartoes = [];
                 const cartoes = yield prisma.cartao.findMany();
                 for (let cartao of cartoes) {
-                    const bandeiraTemp = BandeiraCartao_1.BandeiraCartao[cartao.bandeiraCartao];
-                    const cartaoTemp = new Cartao_1.Cartao(cartao.id, cartao.clienteId, cartao.numero, cartao.nomeImpresso, cartao.cvv, cartao.validade, cartao.preferencial, bandeiraTemp);
+                    const bandeiraTemp = BandeiraCartao_1.default[cartao.bandeiraCartao];
+                    const cartaoTemp = new Cartao_1.default(cartao.id, cartao.clienteId, cartao.numero, cartao.nomeImpresso, cartao.cvv, cartao.validade, cartao.preferencial, bandeiraTemp);
                     listaCartoes.push(cartaoTemp);
                 }
                 return listaCartoes;
@@ -94,13 +96,13 @@ class CartaoDAO {
     selecionar(entidadeDominio) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const entidade = yield prisma.cartao.findUnique({
+                const cartao = yield prisma.cartao.findUnique({
                     where: { id: entidadeDominio.Id },
                 });
-                if (!entidade) {
+                if (!cartao) {
                     throw new Error("Cartão não encontrado");
                 }
-                return new Cartao_1.Cartao(entidade.id, entidade.clienteId, entidade.numero, entidade.nomeImpresso, entidade.cvv, entidade.validade, entidade.preferencial, BandeiraCartao_1.BandeiraCartao[entidade.bandeiraCartao]);
+                return new Cartao_1.default(cartao.id, cartao.clienteId, cartao.numero, cartao.nomeImpresso, cartao.cvv, cartao.validade, cartao.preferencial, BandeiraCartao_1.default[cartao.bandeiraCartao]);
             }
             catch (error) {
                 return null;
@@ -108,7 +110,7 @@ class CartaoDAO {
         });
     }
     validarTipo(entidade) {
-        if (entidade instanceof Cartao_1.Cartao) {
+        if (entidade instanceof Cartao_1.default) {
             return entidade;
         }
         else {
@@ -127,4 +129,4 @@ class CartaoDAO {
         return cvvMascarado;
     }
 }
-exports.CartaoDAO = CartaoDAO;
+exports.default = CartaoDAO;

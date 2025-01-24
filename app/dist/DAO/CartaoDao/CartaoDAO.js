@@ -10,9 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CartaoDAO = void 0;
-const Cartao_1 = require("../Entitys/Cartao");
+const Cartao_1 = require("../../Entitys/Cartao");
 const client_1 = require("@prisma/client");
-const BandeiraCartao_1 = require("../Entitys/BandeiraCartao");
+const BandeiraCartao_1 = require("../../Entitys/BandeiraCartao");
 const prisma = new client_1.PrismaClient();
 class CartaoDAO {
     salvar(entidadeDominio) {
