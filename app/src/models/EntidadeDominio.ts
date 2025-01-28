@@ -1,4 +1,4 @@
-export class EntidadeDominio {
+export default class EntidadeDominio {
    private _id: number = 0;
 
    get Id(): number {

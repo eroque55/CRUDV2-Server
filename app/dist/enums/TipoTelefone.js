@@ -9,3 +9,4 @@ var TipoTelefone;
     TipoTelefone["OUTRO"] = "OUTRO";
     TipoTelefone["NAO_DEFINIDO"] = "NAO_DEFINIDO";
 })(TipoTelefone || (exports.TipoTelefone = TipoTelefone = {}));
+exports.default = TipoTelefone;

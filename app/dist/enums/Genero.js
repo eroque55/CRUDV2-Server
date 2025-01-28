@@ -8,3 +8,4 @@ var Genero;
     Genero["OUTRO"] = "OUTRO";
     Genero["NAO_DEFINIDO"] = "NAO_DEFINIDO";
 })(Genero || (exports.Genero = Genero = {}));
+exports.default = Genero;

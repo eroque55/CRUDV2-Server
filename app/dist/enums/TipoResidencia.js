@@ -8,3 +8,4 @@ var TipoResidencia;
     TipoResidencia["OUTRO"] = "OUTRO";
     TipoResidencia["NAO_DEFINIDO"] = "NAO_DEFINIDO";
 })(TipoResidencia || (exports.TipoResidencia = TipoResidencia = {}));
+exports.default = TipoResidencia;

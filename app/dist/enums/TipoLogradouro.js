@@ -11,3 +11,4 @@ var TipoLogradouro;
     TipoLogradouro["OUTRO"] = "OUTRO";
     TipoLogradouro["NAO_DEFINIDO"] = "NAO_DEFINIDO";
 })(TipoLogradouro || (exports.TipoLogradouro = TipoLogradouro = {}));
+exports.default = TipoLogradouro;

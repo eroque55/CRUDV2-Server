@@ -1,13 +1,14 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Cidade = void 0;
-const EntidadeDominio_1 = require("./EntidadeDominio");
-const Estado_1 = require("./Estado");
-class Cidade extends EntidadeDominio_1.EntidadeDominio {
+const EntidadeDominio_1 = __importDefault(require("./EntidadeDominio"));
+class Cidade extends EntidadeDominio_1.default {
     constructor() {
         super(...arguments);
         this._nome = "";
-        this._estado = new Estado_1.Estado();
+        this._estadoId = 0;
     }
     get Nome() {
         return this._nome;
@@ -15,11 +16,11 @@ class Cidade extends EntidadeDominio_1.EntidadeDominio {
     set Nome(nome) {
         this._nome = nome;
     }
-    get Estado() {
-        return this._estado;
+    get EstadoId() {
+        return this._estadoId;
     }
-    set Estado(estado) {
-        this._estado = estado;
+    set EstadoId(estadoId) {
+        this._estadoId = estadoId;
     }
 }
-exports.Cidade = Cidade;
+exports.default = Cidade;

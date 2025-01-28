@@ -8,3 +8,4 @@ var TipoEndereco;
     TipoEndereco["ENTREGA"] = "ENTREGA";
     TipoEndereco["NAO_DEFINIDO"] = "NAO_DEFINIDO";
 })(TipoEndereco || (exports.TipoEndereco = TipoEndereco = {}));
+exports.default = TipoEndereco;

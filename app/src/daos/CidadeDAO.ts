@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient, Cidade as CidadePrisma } from "@prisma/client";
-import { IDAO } from "./IDAO";
+import IDAO from "./IDAO";
 
-import { Cidade } from "../models/Cidade";
+import Cidade from "../models/Cidade";
 
 const prisma = new PrismaClient();
 
@@ -78,7 +78,7 @@ export default class CidadeDAO implements IDAO {
    private prepararDadosParaSalvar(entidade: Cidade): Prisma.CidadeCreateInput {
       return {
          nome: entidade.Nome,
-         estado: { connect: { id: entidade.Estado.Id } },
+         estado: { connect: { id: entidade.EstadoId } },
       };
    }
 
@@ -91,7 +91,7 @@ export default class CidadeDAO implements IDAO {
 
       CidadeDeRetorno.Id = cidade.id;
       CidadeDeRetorno.Nome = cidade.nome;
-      CidadeDeRetorno.Estado.Id = cidade.estadoId;
+      CidadeDeRetorno.EstadoId = cidade.estadoId;
 
       return CidadeDeRetorno;
    }

@@ -1,7 +1,7 @@
-import { BandeiraCartao } from "../enums/BandeiraCartao";
-import { EntidadeDominio } from "./EntidadeDominio";
+import BandeiraCartao from "../enums/BandeiraCartao";
+import EntidadeDominio from "./EntidadeDominio";
 
-export class Cartao extends EntidadeDominio {
+export default class Cartao extends EntidadeDominio {
    private _clienteId: number = 0;
    private _numero: string = "";
    private _nomeImpresso: string = "";

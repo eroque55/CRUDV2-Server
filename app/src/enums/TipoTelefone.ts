@@ -5,3 +5,5 @@ export enum TipoTelefone {
    OUTRO = "OUTRO",
    NAO_DEFINIDO = "NAO_DEFINIDO",
 }
+
+export default TipoTelefone;

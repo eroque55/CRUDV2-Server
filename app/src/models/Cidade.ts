@@ -1,9 +1,8 @@
-import { EntidadeDominio } from "./EntidadeDominio";
-import { Estado } from "./Estado";
+import EntidadeDominio from "./EntidadeDominio";
 
-export class Cidade extends EntidadeDominio {
+export default class Cidade extends EntidadeDominio {
    private _nome: string = "";
-   private _estado: Estado = new Estado();
+   private _estadoId: number = 0;
 
    get Nome(): string {
       return this._nome;
@@ -13,11 +12,11 @@ export class Cidade extends EntidadeDominio {
       this._nome = nome;
    }
 
-   get Estado(): Estado {
-      return this._estado;
+   get EstadoId(): number {
+      return this._estadoId;
    }
 
-   set Estado(estado: Estado) {
-      this._estado = estado;
+   set EstadoId(estadoId: number) {
+      this._estadoId = estadoId;
    }
 }

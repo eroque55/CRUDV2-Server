@@ -8,11 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CartaoDAO = void 0;
 const client_1 = require("@prisma/client");
-const Cartao_1 = require("../models/Cartao");
-const BandeiraCartao_1 = require("../enums/BandeiraCartao");
+const Cartao_1 = __importDefault(require("../models/Cartao"));
+const BandeiraCartao_1 = __importDefault(require("../enums/BandeiraCartao"));
 const prisma = new client_1.PrismaClient();
 class CartaoDAO {
     salvar(entidadeDominio) {
@@ -120,7 +122,7 @@ class CartaoDAO {
         if (!cartao) {
             throw new Error("Cartão inválido para mapeamento.");
         }
-        const cartaoDeRetorno = new Cartao_1.Cartao();
+        const cartaoDeRetorno = new Cartao_1.default();
         cartaoDeRetorno.Id = cartao.id;
         cartaoDeRetorno.ClienteId = cartao.clienteId;
         cartaoDeRetorno.Numero = cartao.numero;
@@ -129,8 +131,8 @@ class CartaoDAO {
         cartaoDeRetorno.Validade = cartao.validade;
         cartaoDeRetorno.Preferencial = cartao.preferencial;
         cartaoDeRetorno.BandeiraCartao =
-            BandeiraCartao_1.BandeiraCartao[cartao.bandeiraCartao];
+            BandeiraCartao_1.default[cartao.bandeiraCartao];
         return cartaoDeRetorno;
     }
 }
-exports.CartaoDAO = CartaoDAO;
+exports.default = CartaoDAO;

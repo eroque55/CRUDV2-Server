@@ -1,9 +1,8 @@
-import { EntidadeDominio } from "./EntidadeDominio";
-import { Pais } from "./Pais";
+import EntidadeDominio from "./EntidadeDominio";
 
-export class Estado extends EntidadeDominio {
+export default class Estado extends EntidadeDominio {
    private _nome: string = "";
-   private _pais: Pais = new Pais();
+   private _paisId: number = 0;
 
    get Nome(): string {
       return this._nome;
@@ -13,11 +12,11 @@ export class Estado extends EntidadeDominio {
       this._nome = nome;
    }
 
-   get Pais(): Pais {
-      return this._pais;
+   get PaisId(): number {
+      return this._paisId;
    }
 
-   set Pais(pais: Pais) {
-      this._pais = pais;
+   set PaisId(paisId: number) {
+      this._paisId = paisId;
    }
 }

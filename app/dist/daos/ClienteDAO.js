@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const crypto_1 = __importDefault(require("crypto"));
-const Cliente_1 = require("../models/Cliente");
-const Genero_1 = require("../enums/Genero");
+const Cliente_1 = __importDefault(require("../models/Cliente"));
+const Genero_1 = __importDefault(require("../enums/Genero"));
 const prisma = new client_1.PrismaClient();
 class ClienteDAO {
     salvar(entidadeDominio) {
@@ -128,14 +128,14 @@ class ClienteDAO {
         if (!cliente) {
             throw new Error("Cliente inválido para mapeamento.");
         }
-        const clienteDeRetorno = new Cliente_1.Cliente();
+        const clienteDeRetorno = new Cliente_1.default();
         clienteDeRetorno.Id = cliente.id;
         clienteDeRetorno.Nome = cliente.nome;
         clienteDeRetorno.DataNascimento = cliente.dataNascimento;
         clienteDeRetorno.Cpf = cliente.cpf;
         clienteDeRetorno.Email = cliente.email;
         clienteDeRetorno.Status = cliente.status;
-        clienteDeRetorno.Genero = Genero_1.Genero[cliente.genero];
+        clienteDeRetorno.Genero = Genero_1.default[cliente.genero];
         clienteDeRetorno.Ranking = cliente.ranking;
         return clienteDeRetorno;
     }

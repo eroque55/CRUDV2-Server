@@ -7,3 +7,5 @@ export enum TipoLogradouro {
    OUTRO = "OUTRO",
    NAO_DEFINIDO = "NAO_DEFINIDO",
 }
+
+export default TipoLogradouro;

@@ -4,3 +4,5 @@ export enum TipoEndereco {
    ENTREGA = "ENTREGA",
    NAO_DEFINIDO = "NAO_DEFINIDO",
 }
+
+export default TipoEndereco;

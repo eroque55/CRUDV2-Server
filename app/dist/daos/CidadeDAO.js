@@ -8,9 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
-const Cidade_1 = require("../models/Cidade");
+const Cidade_1 = __importDefault(require("../models/Cidade"));
 const prisma = new client_1.PrismaClient();
 class CidadeDAO {
     salvar(entidadeDominio) {
@@ -90,17 +93,17 @@ class CidadeDAO {
     prepararDadosParaSalvar(entidade) {
         return {
             nome: entidade.Nome,
-            estado: { connect: { id: entidade.Estado.Id } },
+            estado: { connect: { id: entidade.EstadoId } },
         };
     }
     mapearParaDominio(cidade) {
         if (!cidade) {
             throw new Error("Cidade inválida para mapeamento.");
         }
-        const CidadeDeRetorno = new Cidade_1.Cidade();
+        const CidadeDeRetorno = new Cidade_1.default();
         CidadeDeRetorno.Id = cidade.id;
         CidadeDeRetorno.Nome = cidade.nome;
-        CidadeDeRetorno.Estado.Id = cidade.estadoId;
+        CidadeDeRetorno.EstadoId = cidade.estadoId;
         return CidadeDeRetorno;
     }
 }

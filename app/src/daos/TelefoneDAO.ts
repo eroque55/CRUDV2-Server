@@ -3,10 +3,10 @@ import {
    PrismaClient,
    Telefone as TelefonePrisma,
 } from "@prisma/client";
-import { IDAO } from "./IDAO";
+import IDAO from "./IDAO";
 
-import { Telefone } from "../models/Telefone";
-import { TipoTelefone } from "../enums/TipoTelefone";
+import Telefone from "../models/Telefone";
+import TipoTelefone from "../enums/TipoTelefone";
 
 const prisma = new PrismaClient();
 

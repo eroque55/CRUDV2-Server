@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BandeiraCartao = void 0;
 var BandeiraCartao;
 (function (BandeiraCartao) {
     BandeiraCartao["VISA"] = "VISA";
@@ -11,4 +10,5 @@ var BandeiraCartao;
     BandeiraCartao["JCB"] = "JCB";
     BandeiraCartao["OUTRAS"] = "OUTRAS";
     BandeiraCartao["NAO_DEFINIDO"] = "NAO_DEFINIDO";
-})(BandeiraCartao || (exports.BandeiraCartao = BandeiraCartao = {}));
+})(BandeiraCartao || (BandeiraCartao = {}));
+exports.default = BandeiraCartao;

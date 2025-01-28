@@ -8,12 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
-const Endereco_1 = require("../models/Endereco");
-const TipoEndereco_1 = require("../enums/TipoEndereco");
-const TipoLogradouro_1 = require("../enums/TipoLogradouro");
-const TipoResidencia_1 = require("../enums/TipoResidencia");
+const Endereco_1 = __importDefault(require("../models/Endereco"));
+const TipoEndereco_1 = __importDefault(require("../enums/TipoEndereco"));
+const TipoLogradouro_1 = __importDefault(require("../enums/TipoLogradouro"));
+const TipoResidencia_1 = __importDefault(require("../enums/TipoResidencia"));
 const prisma = new client_1.PrismaClient();
 class EnderecoDAO {
     salvar(entidadeDominio) {
@@ -98,7 +101,7 @@ class EnderecoDAO {
             bairro: entidade.Bairro,
             cep: entidade.Cep,
             observacoes: entidade.Observacoes,
-            cidade: { connect: { id: entidade.Cidade.Id } },
+            cidade: { connect: { id: entidade.CidadeId } },
             tipoEndereco: entidade.TipoEndereco.toString(),
             tipoLogradouro: entidade.TipoLogradouro.toString(),
             tipoResidencia: entidade.TipoResidencia.toString(),
@@ -112,7 +115,7 @@ class EnderecoDAO {
             bairro: entidade.Bairro,
             cep: entidade.Cep,
             observacoes: entidade.Observacoes,
-            cidade: { connect: { id: entidade.Cidade.Id } },
+            cidade: { connect: { id: entidade.CidadeId } },
             tipoLogradouro: entidade.TipoLogradouro.toString(),
             tipoResidencia: entidade.TipoResidencia.toString(),
         };
@@ -121,7 +124,7 @@ class EnderecoDAO {
         if (!endereco) {
             throw new Error("Endereco inválido para mapeamento.");
         }
-        const enderecoDeRetorno = new Endereco_1.Endereco();
+        const enderecoDeRetorno = new Endereco_1.default();
         enderecoDeRetorno.Id = endereco.id;
         enderecoDeRetorno.ClienteId = endereco.clienteId;
         enderecoDeRetorno.Apelido = endereco.apelido;
@@ -130,13 +133,13 @@ class EnderecoDAO {
         enderecoDeRetorno.Bairro = endereco.bairro;
         enderecoDeRetorno.Cep = endereco.cep;
         enderecoDeRetorno.Observacoes = endereco.observacoes;
-        enderecoDeRetorno.Cidade.Id = endereco.cidadeId;
+        enderecoDeRetorno.CidadeId = endereco.cidadeId;
         enderecoDeRetorno.TipoEndereco =
-            TipoEndereco_1.TipoEndereco[endereco.tipoEndereco];
+            TipoEndereco_1.default[endereco.tipoEndereco];
         enderecoDeRetorno.TipoLogradouro =
-            TipoLogradouro_1.TipoLogradouro[endereco.tipoLogradouro];
+            TipoLogradouro_1.default[endereco.tipoLogradouro];
         enderecoDeRetorno.TipoResidencia =
-            TipoResidencia_1.TipoResidencia[endereco.tipoResidencia];
+            TipoResidencia_1.default[endereco.tipoResidencia];
         return enderecoDeRetorno;
     }
 }

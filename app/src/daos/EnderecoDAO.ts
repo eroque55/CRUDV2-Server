@@ -3,12 +3,12 @@ import {
    PrismaClient,
    Endereco as EnderecoPrisma,
 } from "@prisma/client";
-import { IDAO } from "./IDAO";
+import IDAO from "./IDAO";
 
-import { Endereco } from "../models/Endereco";
-import { TipoEndereco } from "../enums/TipoEndereco";
-import { TipoLogradouro } from "../enums/TipoLogradouro";
-import { TipoResidencia } from "../enums/TipoResidencia";
+import Endereco from "../models/Endereco";
+import TipoEndereco from "../enums/TipoEndereco";
+import TipoLogradouro from "../enums/TipoLogradouro";
+import TipoResidencia from "../enums/TipoResidencia";
 
 const prisma = new PrismaClient();
 
@@ -95,7 +95,7 @@ export default class EnderecoDAO implements IDAO {
          bairro: entidade.Bairro,
          cep: entidade.Cep,
          observacoes: entidade.Observacoes,
-         cidade: { connect: { id: entidade.Cidade.Id } },
+         cidade: { connect: { id: entidade.CidadeId } },
          tipoEndereco: entidade.TipoEndereco.toString(),
          tipoLogradouro: entidade.TipoLogradouro.toString(),
          tipoResidencia: entidade.TipoResidencia.toString(),
@@ -112,7 +112,7 @@ export default class EnderecoDAO implements IDAO {
          bairro: entidade.Bairro,
          cep: entidade.Cep,
          observacoes: entidade.Observacoes,
-         cidade: { connect: { id: entidade.Cidade.Id } },
+         cidade: { connect: { id: entidade.CidadeId } },
          tipoLogradouro: entidade.TipoLogradouro.toString(),
          tipoResidencia: entidade.TipoResidencia.toString(),
       };
@@ -133,7 +133,7 @@ export default class EnderecoDAO implements IDAO {
       enderecoDeRetorno.Bairro = endereco.bairro;
       enderecoDeRetorno.Cep = endereco.cep;
       enderecoDeRetorno.Observacoes = endereco.observacoes;
-      enderecoDeRetorno.Cidade.Id = endereco.cidadeId;
+      enderecoDeRetorno.CidadeId = endereco.cidadeId;
       enderecoDeRetorno.TipoEndereco =
          TipoEndereco[endereco.tipoEndereco as keyof typeof TipoEndereco];
       enderecoDeRetorno.TipoLogradouro =

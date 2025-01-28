@@ -1,8 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Pais = void 0;
-const EntidadeDominio_1 = require("./EntidadeDominio");
-class Pais extends EntidadeDominio_1.EntidadeDominio {
+const EntidadeDominio_1 = __importDefault(require("./EntidadeDominio"));
+class Pais extends EntidadeDominio_1.default {
     constructor() {
         super(...arguments);
         this._nome = "";
@@ -14,4 +16,4 @@ class Pais extends EntidadeDominio_1.EntidadeDominio {
         this._nome = nome;
     }
 }
-exports.Pais = Pais;
+exports.default = Pais;

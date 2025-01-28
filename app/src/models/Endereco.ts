@@ -1,10 +1,9 @@
-import { EntidadeDominio } from "./EntidadeDominio";
-import { TipoEndereco } from "../enums/TipoEndereco";
-import { TipoLogradouro } from "../enums/TipoLogradouro";
-import { TipoResidencia } from "../enums/TipoResidencia";
-import { Cidade } from "./Cidade";
+import EntidadeDominio from "./EntidadeDominio";
+import TipoEndereco from "../enums/TipoEndereco";
+import TipoLogradouro from "../enums/TipoLogradouro";
+import TipoResidencia from "../enums/TipoResidencia";
 
-export class Endereco extends EntidadeDominio {
+export default class Endereco extends EntidadeDominio {
    private _clienteId: number = 0;
    private _apelido: string = "";
    private _logradouro: string = "";
@@ -12,7 +11,7 @@ export class Endereco extends EntidadeDominio {
    private _bairro: string = "";
    private _cep: string = "";
    private _observacoes: string = "";
-   private _cidade: Cidade = new Cidade();
+   private _cidadeId: number = 0;
    private _tipoEndereco: TipoEndereco = TipoEndereco.NAO_DEFINIDO;
    private _tipoLogradouro: TipoLogradouro = TipoLogradouro.NAO_DEFINIDO;
    private _tipoResidencia: TipoResidencia = TipoResidencia.NAO_DEFINIDO;
@@ -73,12 +72,12 @@ export class Endereco extends EntidadeDominio {
       this._observacoes = observacoes;
    }
 
-   get Cidade(): Cidade {
-      return this._cidade;
+   get CidadeId(): number {
+      return this._cidadeId;
    }
 
-   set Cidade(cidade: Cidade) {
-      this._cidade = cidade;
+   set CidadeId(cidadeId: number) {
+      this._cidadeId = cidadeId;
    }
 
    get TipoEndereco(): TipoEndereco {

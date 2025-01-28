@@ -1,15 +1,17 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Telefone = void 0;
-const EntidadeDominio_1 = require("./EntidadeDominio");
-const TipoTelefone_1 = require("../enums/TipoTelefone");
-class Telefone extends EntidadeDominio_1.EntidadeDominio {
+const EntidadeDominio_1 = __importDefault(require("./EntidadeDominio"));
+const TipoTelefone_1 = __importDefault(require("../enums/TipoTelefone"));
+class Telefone extends EntidadeDominio_1.default {
     constructor() {
         super(...arguments);
         this._clienteId = 0;
         this._ddd = "";
         this._numero = "";
-        this._tipo = TipoTelefone_1.TipoTelefone.NAO_DEFINIDO;
+        this._tipo = TipoTelefone_1.default.NAO_DEFINIDO;
     }
     get ClienteId() {
         return this._clienteId;
@@ -36,4 +38,4 @@ class Telefone extends EntidadeDominio_1.EntidadeDominio {
         this._tipo = tipo;
     }
 }
-exports.Telefone = Telefone;
+exports.default = Telefone;

@@ -1,6 +1,6 @@
-import { EntidadeDominio } from "./EntidadeDominio";
+import EntidadeDominio from "./EntidadeDominio";
 
-export class Pais extends EntidadeDominio {
+export default class Pais extends EntidadeDominio {
    private _nome: string = "";
 
    get Nome(): string {

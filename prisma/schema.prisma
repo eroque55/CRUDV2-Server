@@ -28,7 +28,7 @@ model Cartao {
 
 model Cidade {
   id Int @id @default(autoincrement())
-  nome String
+  nome String @unique
 
   estado Estado @relation(fields: [estadoId], references: [id])
   estadoId Int
@@ -40,9 +40,9 @@ model Cliente {
   id Int @id @default(autoincrement())
   nome String
   dataNascimento DateTime
-  cpf String
+  cpf String @unique
   genero String
-  email String
+  email String @unique
   senha String
   status Boolean
   ranking Int
@@ -73,7 +73,7 @@ model Endereco {
 
 model Estado {
   id Int @id @default(autoincrement())
-  nome String
+  nome String @unique
 
   pais Pais @relation(fields: [paisId], references: [id])
   paisId Int
@@ -83,7 +83,7 @@ model Estado {
 
 model Pais {
   id Int @id @default(autoincrement())
-  nome String
+  nome String @unique
 
   Estado Estado[]
 }
@@ -98,7 +98,7 @@ model Log {
 model Telefone {
   id Int @id @default(autoincrement())
   ddd String
-  numero String
+  numero String @unique
   tipoTelefone String
   cliente Cliente @relation(fields: [clienteId], references: [id])
   clienteId Int

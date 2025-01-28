@@ -1,7 +1,7 @@
-import { EntidadeDominio } from "./EntidadeDominio";
-import { TipoTelefone } from "../enums/TipoTelefone";
+import EntidadeDominio from "./EntidadeDominio";
+import TipoTelefone from "../enums/TipoTelefone";
 
-export class Telefone extends EntidadeDominio {
+export default class Telefone extends EntidadeDominio {
    private _clienteId: number = 0;
    private _ddd: string = "";
    private _numero: string = "";

@@ -8,10 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
-const Telefone_1 = require("../models/Telefone");
-const TipoTelefone_1 = require("../enums/TipoTelefone");
+const Telefone_1 = __importDefault(require("../models/Telefone"));
+const TipoTelefone_1 = __importDefault(require("../enums/TipoTelefone"));
 const prisma = new client_1.PrismaClient();
 class TelefoneDAO {
     salvar(entidadeDominio) {
@@ -106,13 +109,13 @@ class TelefoneDAO {
         if (!telefone) {
             throw new Error("Telefone invalido para mapeamento.");
         }
-        const telefoneDeRetorno = new Telefone_1.Telefone();
+        const telefoneDeRetorno = new Telefone_1.default();
         telefoneDeRetorno.Id = telefone.id;
         telefoneDeRetorno.ClienteId = telefone.clienteId;
         telefoneDeRetorno.Ddd = telefone.ddd;
         telefoneDeRetorno.Numero = telefone.numero;
         telefoneDeRetorno.Tipo =
-            TipoTelefone_1.TipoTelefone[telefone.tipoTelefone];
+            TipoTelefone_1.default[telefone.tipoTelefone];
         return telefoneDeRetorno;
     }
 }

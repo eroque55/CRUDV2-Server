@@ -1,12 +1,12 @@
 import { Prisma, PrismaClient, Cartao as CartaoPrisma } from "@prisma/client";
-import { IDAO } from "./IDAO";
+import IDAO from "./IDAO";
 
-import { Cartao } from "../models/Cartao";
-import { BandeiraCartao } from "../enums/BandeiraCartao";
+import Cartao from "../models/Cartao";
+import BandeiraCartao from "../enums/BandeiraCartao";
 
 const prisma = new PrismaClient();
 
-export class CartaoDAO implements IDAO {
+export default class CartaoDAO implements IDAO {
    async salvar(entidadeDominio: Cartao): Promise<Cartao | null> {
       try {
          const dadosParaSalvar = this.prepararDadosParaSalvar(entidadeDominio);

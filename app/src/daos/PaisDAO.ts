@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient, Pais as PaisPrisma } from "@prisma/client";
-import { IDAO } from "./IDAO";
+import IDAO from "./IDAO";
 
-import { Pais } from "../models/Pais";
+import Pais from "../models/Pais";
 
 const prisma = new PrismaClient();
 

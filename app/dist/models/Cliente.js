@@ -1,15 +1,17 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Cliente = void 0;
-const EntidadeDominio_1 = require("./EntidadeDominio");
-const Genero_1 = require("../enums/Genero");
-class Cliente extends EntidadeDominio_1.EntidadeDominio {
+const EntidadeDominio_1 = __importDefault(require("./EntidadeDominio"));
+const Genero_1 = __importDefault(require("../enums/Genero"));
+class Cliente extends EntidadeDominio_1.default {
     constructor() {
         super(...arguments);
         this._nome = "";
         this._dataNascimento = new Date();
         this._cpf = "";
-        this._genero = Genero_1.Genero.NAO_DEFINIDO;
+        this._genero = Genero_1.default.NAO_DEFINIDO;
         this._email = "";
         this._senha = "";
         this._confirmacaoSenha = "";
@@ -71,4 +73,4 @@ class Cliente extends EntidadeDominio_1.EntidadeDominio {
         this._ranking = ranking;
     }
 }
-exports.Cliente = Cliente;
+exports.default = Cliente;

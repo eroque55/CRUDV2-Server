@@ -1,7 +1,7 @@
-import { EntidadeDominio } from "./EntidadeDominio";
-import { Genero } from "../enums/Genero";
+import EntidadeDominio from "./EntidadeDominio";
+import Genero from "../enums/Genero";
 
-export class Cliente extends EntidadeDominio {
+export default class Cliente extends EntidadeDominio {
    private _nome: string = "";
    private _dataNascimento: Date = new Date();
    private _cpf: string = "";

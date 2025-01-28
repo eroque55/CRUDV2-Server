@@ -4,3 +4,5 @@ export enum TipoResidencia {
    OUTRO = "OUTRO",
    NAO_DEFINIDO = "NAO_DEFINIDO",
 }
+
+export default TipoResidencia;

@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient, Estado as EstadoPrisma } from "@prisma/client";
-import { IDAO } from "./IDAO";
+import IDAO from "./IDAO";
 
-import { Estado } from "../models/Estado";
+import Estado from "../models/Estado";
 
 const prisma = new PrismaClient();
 
@@ -80,7 +80,7 @@ export default class EstadoDAO implements IDAO {
    private prepararDadosParaSalvar(entidade: Estado): Prisma.EstadoCreateInput {
       return {
          nome: entidade.Nome,
-         pais: { connect: { id: entidade.Pais.Id } },
+         pais: { connect: { id: entidade.PaisId } },
       };
    }
    private mapearParaDominio(estado: EstadoPrisma): Estado {
@@ -92,7 +92,7 @@ export default class EstadoDAO implements IDAO {
 
       estadoDeRetorno.Id = estado.id;
       estadoDeRetorno.Nome = estado.nome;
-      estadoDeRetorno.Pais.Id = estado.paisId;
+      estadoDeRetorno.PaisId = estado.paisId;
 
       return estadoDeRetorno;
    }

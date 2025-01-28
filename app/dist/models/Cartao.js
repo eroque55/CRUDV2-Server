@@ -1,9 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Cartao = void 0;
-const BandeiraCartao_1 = require("../enums/BandeiraCartao");
-const EntidadeDominio_1 = require("./EntidadeDominio");
-class Cartao extends EntidadeDominio_1.EntidadeDominio {
+const BandeiraCartao_1 = __importDefault(require("../enums/BandeiraCartao"));
+const EntidadeDominio_1 = __importDefault(require("./EntidadeDominio"));
+class Cartao extends EntidadeDominio_1.default {
     constructor() {
         super(...arguments);
         this._clienteId = 0;
@@ -12,7 +14,7 @@ class Cartao extends EntidadeDominio_1.EntidadeDominio {
         this._cvv = "";
         this._validade = "";
         this._preferencial = false;
-        this._bandeiraCartao = BandeiraCartao_1.BandeiraCartao.NAO_DEFINIDO;
+        this._bandeiraCartao = BandeiraCartao_1.default.NAO_DEFINIDO;
     }
     get ClienteId() {
         return this._clienteId;
@@ -57,4 +59,4 @@ class Cartao extends EntidadeDominio_1.EntidadeDominio {
         this._bandeiraCartao = bandeiraCartao;
     }
 }
-exports.Cartao = Cartao;
+exports.default = Cartao;

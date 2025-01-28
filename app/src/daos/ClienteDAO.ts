@@ -1,10 +1,10 @@
 import { Prisma, PrismaClient, Cliente as ClientePrisma } from "@prisma/client";
-import { IDAO } from "./IDAO";
+import IDAO from "./IDAO";
 
 import crypto from "crypto";
 
-import { Cliente } from "../models/Cliente";
-import { Genero } from "../enums/Genero";
+import Cliente from "../models/Cliente";
+import Genero from "../enums/Genero";
 
 const prisma = new PrismaClient();
 

@@ -8,9 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
-const Estado_1 = require("../models/Estado");
+const Estado_1 = __importDefault(require("../models/Estado"));
 const prisma = new client_1.PrismaClient();
 class EstadoDAO {
     salvar(entidadeDominio) {
@@ -90,17 +93,17 @@ class EstadoDAO {
     prepararDadosParaSalvar(entidade) {
         return {
             nome: entidade.Nome,
-            pais: { connect: { id: entidade.Pais.Id } },
+            pais: { connect: { id: entidade.PaisId } },
         };
     }
     mapearParaDominio(estado) {
         if (!estado) {
             throw new Error("Estado inválido para mapeamento");
         }
-        const estadoDeRetorno = new Estado_1.Estado();
+        const estadoDeRetorno = new Estado_1.default();
         estadoDeRetorno.Id = estado.id;
         estadoDeRetorno.Nome = estado.nome;
-        estadoDeRetorno.Pais.Id = estado.paisId;
+        estadoDeRetorno.PaisId = estado.paisId;
         return estadoDeRetorno;
     }
 }
