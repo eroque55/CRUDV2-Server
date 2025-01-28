@@ -1,45 +1,39 @@
-import { IncomingMessage, ServerResponse } from "http";
+import express from "express";
 
-import { PrismaClient } from "@prisma/client";
-
+import routesCartao from "./routes/routesCartao";
+import Cliente from "./models/Cliente";
+import Genero from "./enums/Genero";
 import ClienteController from "./controllers/ClienteController";
-import Endereco from "./models/Endereco";
-import TipoEndereco from "./enums/TipoEndereco";
-import TipoLogradouro from "./enums/TipoLogradouro";
-import TipoResidencia from "./enums/TipoResidencia";
-import Telefone from "./models/Telefone";
-import TipoTelefone from "./enums/TipoTelefone";
 
-const prisma = new PrismaClient();
+const app = express();
+app.use(express.json());
 
-const http = require("node:http");
-
-const hostname = "127.0.0.1";
-const port = 3000;
-
-const server = http.createServer(
-   (req: IncomingMessage, res: ServerResponse) => {
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "text/plain");
-      res.end("Hello, World!\n");
-   }
+app.listen(3000, () =>
+   console.log("Servidor rodando em: http://localhost:3000")
 );
 
-server.listen(port, hostname, () => {
-   console.log(`Servidor rodando em http://${hostname}:${port}/`);
+app.get("/", (req, res) => {
+   res.send("Hello World!");
 });
 
-async function executar() {
-   try {
-      const telefone = new Telefone();
-      telefone.Ddd = "11";
-      telefone.Numero = "999999999";
-      telefone.Tipo = TipoTelefone.CELULAR;
-      telefone.ClienteId = 1;
+app.use("/cartao", routesCartao);
 
-      const resultado = await new ClienteController().salvar(telefone);
-      console.log("Salvo com sucesso:", resultado);
-   } catch (erro: any) {
-      console.log(erro.message);
+const cliente = new Cliente();
+
+cliente.Nome = "Fulano";
+cliente.DataNascimento = new Date();
+cliente.Cpf = "44505306836";
+cliente.Email = "dadas@dfsdf";
+cliente.Senha = "123456aA@";
+cliente.ConfirmacaoSenha = "123456aA@";
+cliente.Status = true;
+cliente.Genero = Genero.MASCULINO;
+
+async function salvarCliente(cliente: Cliente) {
+   try {
+      const response = await new ClienteController().salvar(cliente);
+      console.log(response);
+   } catch (error) {
+      console.error(error);
    }
 }

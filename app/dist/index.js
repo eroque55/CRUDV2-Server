@@ -12,35 +12,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const client_1 = require("@prisma/client");
+const express_1 = __importDefault(require("express"));
+const routesCartao_1 = __importDefault(require("./routes/routesCartao"));
+const Cliente_1 = __importDefault(require("./models/Cliente"));
+const Genero_1 = __importDefault(require("./enums/Genero"));
 const ClienteController_1 = __importDefault(require("./controllers/ClienteController"));
-const Telefone_1 = __importDefault(require("./models/Telefone"));
-const TipoTelefone_1 = __importDefault(require("./enums/TipoTelefone"));
-const prisma = new client_1.PrismaClient();
-const http = require("node:http");
-const hostname = "127.0.0.1";
-const port = 3000;
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/plain");
-    res.end("Hello, World!\n");
+const app = (0, express_1.default)();
+app.use(express_1.default.json());
+app.listen(3000, () => console.log("Servidor rodando em: http://localhost:3000"));
+app.get("/", (req, res) => {
+    res.send("Hello World!");
 });
-server.listen(port, hostname, () => {
-    console.log(`Servidor rodando em http://${hostname}:${port}/`);
-});
-function executar() {
+app.use("/cartao", routesCartao_1.default);
+const cliente = new Cliente_1.default();
+cliente.Nome = "Fulano";
+cliente.DataNascimento = new Date();
+cliente.Cpf = "44505306836";
+cliente.Email = "dadas@dfsdf";
+cliente.Senha = "123456aA@";
+cliente.ConfirmacaoSenha = "123456aA@";
+cliente.Status = true;
+cliente.Genero = Genero_1.default.MASCULINO;
+function salvarCliente(cliente) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const telefone = new Telefone_1.default();
-            telefone.Ddd = "11";
-            telefone.Numero = "999999999";
-            telefone.Tipo = TipoTelefone_1.default.CELULAR;
-            telefone.ClienteId = 1;
-            const resultado = yield new ClienteController_1.default().salvar(telefone);
-            console.log("Salvo com sucesso:", resultado);
+            const response = yield new ClienteController_1.default().salvar(cliente);
+            console.log(response);
         }
-        catch (erro) {
-            console.log(erro.message);
+        catch (error) {
+            console.error(error);
         }
     });
 }

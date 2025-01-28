@@ -86,8 +86,7 @@ class CartaoDAO {
                 return this.mapearParaDominio(cartao);
             }
             catch (error) {
-                console.error("Erro ao selecionar cartão:", error);
-                return null;
+                throw new Error("Cartao não encontrado");
             }
         });
     }
