@@ -13,7 +13,7 @@ import TipoResidencia from "../enums/TipoResidencia";
 const prisma = new PrismaClient();
 
 export default class EnderecoDAO implements IDAO {
-   async salvar(entidadeDominio: Endereco): Promise<Endereco | null> {
+   async salvar(entidadeDominio: Endereco): Promise<Endereco> {
       try {
          const dadosParaSalvar = this.prepararDadosParaSalvar(entidadeDominio);
 
@@ -22,13 +22,12 @@ export default class EnderecoDAO implements IDAO {
          });
 
          return this.mapearParaDominio(endereco);
-      } catch (error) {
-         console.error("Erro ao salvar endereço:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao salvar endereço: ${error.message}`);
       }
    }
 
-   async alterar(entidadeDominio: Endereco): Promise<Endereco | null> {
+   async alterar(entidadeDominio: Endereco): Promise<Endereco> {
       try {
          const dadosParaAlterar =
             this.prepararDadosParaAlterar(entidadeDominio);
@@ -39,21 +38,18 @@ export default class EnderecoDAO implements IDAO {
          });
 
          return this.mapearParaDominio(endereco);
-      } catch (error) {
-         console.error("Erro ao alterar endereço:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao alterar endereço: ${error.message}`);
       }
    }
 
-   async excluir(entidadeDominio: Endereco): Promise<boolean> {
+   async excluir(entidadeDominio: Endereco): Promise<void> {
       try {
          await prisma.endereco.delete({
             where: { id: entidadeDominio.Id },
          });
-
-         return true;
-      } catch (error) {
-         return false;
+      } catch (error: any) {
+         throw new Error(`Erro ao excluir endereço: ${error.message}`);
       }
    }
 
@@ -61,13 +57,12 @@ export default class EnderecoDAO implements IDAO {
       try {
          const enderecos = await prisma.endereco.findMany();
          return enderecos.map(this.mapearParaDominio);
-      } catch (error) {
-         console.error("Erro ao consultar endereços:", error);
-         return [];
+      } catch (error: any) {
+         throw new Error(`Erro ao consultar endereços: ${error.message}`);
       }
    }
 
-   async selecionar(entidadeDominio: Endereco): Promise<Endereco | null> {
+   async selecionar(entidadeDominio: Endereco): Promise<Endereco> {
       try {
          const endereco = await prisma.endereco.findUnique({
             where: { id: entidadeDominio.Id },
@@ -78,9 +73,8 @@ export default class EnderecoDAO implements IDAO {
          }
 
          return this.mapearParaDominio(endereco);
-      } catch (error) {
-         console.error("Erro ao selecionar endereço:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao selecionar endereço: ${error.message}`);
       }
    }
 

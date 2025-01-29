@@ -3,13 +3,13 @@ import Genero from "../enums/Genero";
 
 export default class Cliente extends EntidadeDominio {
    private _nome: string = "";
-   private _dataNascimento: Date = new Date();
+   private _dataNascimento: Date = new Date("2000-01-01");
    private _cpf: string = "";
    private _genero: Genero = Genero.NAO_DEFINIDO;
    private _email: string = "";
    private _senha: string = "";
    private _confirmacaoSenha: string = "";
-   private _status: boolean = false;
+   private _status: boolean = true;
    private _ranking: number = 0;
 
    get Nome(): string {

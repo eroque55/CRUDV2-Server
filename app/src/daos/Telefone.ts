@@ -11,7 +11,7 @@ import TipoTelefone from "../enums/TipoTelefone";
 const prisma = new PrismaClient();
 
 export default class TelefoneDAO implements IDAO {
-   async salvar(entidadeDominio: Telefone): Promise<Telefone | null> {
+   async salvar(entidadeDominio: Telefone): Promise<Telefone> {
       try {
          const dadosParaSalvar = this.prepararDadosParaSalvar(entidadeDominio);
 
@@ -20,13 +20,12 @@ export default class TelefoneDAO implements IDAO {
          });
 
          return this.mapearParaDominio(telefone);
-      } catch (error) {
-         console.error("Erro ao salvar telefone:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao salvar telefone: ${error.message}`);
       }
    }
 
-   async alterar(entidadeDominio: Telefone): Promise<Telefone | null> {
+   async alterar(entidadeDominio: Telefone): Promise<Telefone> {
       try {
          const dadosParaAlterar =
             this.prepararDadosParaAlterar(entidadeDominio);
@@ -37,22 +36,18 @@ export default class TelefoneDAO implements IDAO {
          });
 
          return this.mapearParaDominio(telefone);
-      } catch (error) {
-         console.error("Erro ao alterar telefone:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao alterar telefone: ${error.message}`);
       }
    }
 
-   async excluir(entidadeDominio: Telefone): Promise<boolean> {
+   async excluir(entidadeDominio: Telefone): Promise<void> {
       try {
          await prisma.telefone.delete({
             where: { id: entidadeDominio.Id },
          });
-
-         return true;
-      } catch (error) {
-         console.error("Erro ao excluir telefone:", error);
-         return false;
+      } catch (error: any) {
+         throw new Error(`Erro ao excluir telefone: ${error.message}`);
       }
    }
 
@@ -60,13 +55,12 @@ export default class TelefoneDAO implements IDAO {
       try {
          const telefones = await prisma.telefone.findMany();
          return telefones.map(this.mapearParaDominio);
-      } catch (error) {
-         console.error("Erro ao consultar telefones:", error);
-         return [];
+      } catch (error: any) {
+         throw new Error(`Erro ao consultar telefones: ${error.message}`);
       }
    }
 
-   async selecionar(entidadeDominio: Telefone): Promise<Telefone | null> {
+   async selecionar(entidadeDominio: Telefone): Promise<Telefone> {
       try {
          const telefone = await prisma.telefone.findUnique({
             where: { id: entidadeDominio.Id },
@@ -77,8 +71,8 @@ export default class TelefoneDAO implements IDAO {
          }
 
          return this.mapearParaDominio(telefone);
-      } catch (error) {
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao selecionar telefone: ${error.message}`);
       }
    }
 

@@ -7,7 +7,7 @@ import BandeiraCartao from "../enums/BandeiraCartao";
 const prisma = new PrismaClient();
 
 export default class CartaoDAO implements IDAO {
-   async salvar(entidadeDominio: Cartao): Promise<Cartao | null> {
+   async salvar(entidadeDominio: Cartao): Promise<Cartao> {
       try {
          const dadosParaSalvar = this.prepararDadosParaSalvar(entidadeDominio);
 
@@ -16,13 +16,12 @@ export default class CartaoDAO implements IDAO {
          });
 
          return this.mapearParaDominio(cartao);
-      } catch (error) {
-         console.error("Erro ao salvar cartão:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao salvar cartão: ${error.message}`);
       }
    }
 
-   async alterar(entidadeDominio: Cartao): Promise<Cartao | null> {
+   async alterar(entidadeDominio: Cartao): Promise<Cartao> {
       try {
          const dadosParaAlterar =
             this.prepararDadosParaAlterar(entidadeDominio);
@@ -33,22 +32,18 @@ export default class CartaoDAO implements IDAO {
          });
 
          return this.mapearParaDominio(cartao);
-      } catch (error) {
-         console.error("Erro ao alterar cartão:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao alterar cartão: ${error.message}`);
       }
    }
 
-   async excluir(entidadeDominio: Cartao): Promise<boolean> {
+   async excluir(entidadeDominio: Cartao): Promise<void> {
       try {
          await prisma.cartao.delete({
             where: { id: entidadeDominio.Id },
          });
-
-         return true;
-      } catch (error) {
-         console.error("Erro ao excluir cartão:", error);
-         return false;
+      } catch (error: any) {
+         throw new Error(`Erro ao excluir cartão: ${error.message}`);
       }
    }
 
@@ -56,13 +51,12 @@ export default class CartaoDAO implements IDAO {
       try {
          const cartoes = await prisma.cartao.findMany();
          return cartoes.map(this.mapearParaDominio);
-      } catch (error) {
-         console.error("Erro ao consultar cartões:", error);
-         return [];
+      } catch (error: any) {
+         throw new Error(`Erro ao consultar cartões: ${error.message}`);
       }
    }
 
-   async selecionar(entidadeDominio: Cartao): Promise<Cartao | null> {
+   async selecionar(entidadeDominio: Cartao): Promise<Cartao> {
       try {
          const cartao = await prisma.cartao.findUnique({
             where: { id: entidadeDominio.Id },
@@ -73,8 +67,8 @@ export default class CartaoDAO implements IDAO {
          }
 
          return this.mapearParaDominio(cartao);
-      } catch (error) {
-         throw new Error("Cartao não encontrado");
+      } catch (error: any) {
+         throw new Error(`Erro ao selecionar cartão: ${error.message}`);
       }
    }
 

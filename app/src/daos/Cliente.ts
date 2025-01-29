@@ -9,7 +9,7 @@ import Genero from "../enums/Genero";
 const prisma = new PrismaClient();
 
 export default class ClienteDAO implements IDAO {
-   async salvar(entidadeDominio: Cliente): Promise<Cliente | null> {
+   async salvar(entidadeDominio: Cliente): Promise<Cliente> {
       try {
          const dadosParaSalvar = this.prepararDadosParaSalvar(entidadeDominio);
 
@@ -18,13 +18,12 @@ export default class ClienteDAO implements IDAO {
          });
 
          return this.mapearParaDominio(cliente);
-      } catch (error) {
-         console.error("Erro ao salvar cliente:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao salvar cliente: ${error.message}`);
       }
    }
 
-   async alterar(entidadeDominio: Cliente): Promise<Cliente | null> {
+   async alterar(entidadeDominio: Cliente): Promise<Cliente> {
       try {
          const dadosParaAlterar =
             this.prepararDadosParaAlterar(entidadeDominio);
@@ -35,22 +34,18 @@ export default class ClienteDAO implements IDAO {
          });
 
          return this.mapearParaDominio(cliente);
-      } catch (error) {
-         console.error("Erro ao alterar cliente:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao alterar cliente: ${error.message}`);
       }
    }
 
-   async excluir(entidadeDominio: Cliente): Promise<boolean> {
+   async excluir(entidadeDominio: Cliente): Promise<void> {
       try {
          await prisma.cliente.delete({
             where: { id: entidadeDominio.Id },
          });
-
-         return true;
-      } catch (error) {
-         console.error("Erro ao excluir cliente:", error);
-         return false;
+      } catch (error: any) {
+         throw new Error(`Erro ao excluir cliente: ${error.message}`);
       }
    }
 
@@ -58,13 +53,12 @@ export default class ClienteDAO implements IDAO {
       try {
          const clientes = await prisma.cliente.findMany();
          return clientes.map(this.mapearParaDominio);
-      } catch (error) {
-         console.error("Erro ao consultar clientes:", error);
-         return [];
+      } catch (error: any) {
+         throw new Error(`Erro ao consultar clientes: ${error.message}`);
       }
    }
 
-   async selecionar(entidadeDominio: Cliente): Promise<Cliente | null> {
+   async selecionar(entidadeDominio: Cliente): Promise<Cliente> {
       try {
          const cliente = await prisma.cliente.findUnique({
             where: { id: entidadeDominio.Id },
@@ -75,9 +69,8 @@ export default class ClienteDAO implements IDAO {
          }
 
          return this.mapearParaDominio(cliente);
-      } catch (error) {
-         console.error("Erro ao selecionar cliente:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao selecionar cliente: ${error.message}`);
       }
    }
 
@@ -100,7 +93,7 @@ export default class ClienteDAO implements IDAO {
          email: entidade.Email,
          senha: this.criptografarSenha(entidade.Senha),
          status: entidade.Status,
-         genero: entidade.Genero.toString(),
+         genero: Genero[entidade.Genero as keyof typeof Genero],
          ranking: entidade.Ranking,
       };
    }
@@ -114,7 +107,8 @@ export default class ClienteDAO implements IDAO {
          cpf: entidade.Cpf,
          email: entidade.Email,
          status: entidade.Status,
-         genero: entidade.Genero.toString(),
+         genero: Genero[entidade.Genero as keyof typeof Genero],
+         // genero: entidade.Genero.toString(),
          ranking: entidade.Ranking,
       };
    }
@@ -134,6 +128,8 @@ export default class ClienteDAO implements IDAO {
       clienteDeRetorno.Status = cliente.status;
       clienteDeRetorno.Genero = Genero[cliente.genero as keyof typeof Genero];
       clienteDeRetorno.Ranking = cliente.ranking;
+      clienteDeRetorno.Senha = cliente.senha;
+      clienteDeRetorno.ConfirmacaoSenha = cliente.senha;
 
       return clienteDeRetorno;
    }

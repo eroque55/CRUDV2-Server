@@ -6,7 +6,7 @@ import Pais from "../models/Pais";
 const prisma = new PrismaClient();
 
 export default class PaisDAO implements IDAO {
-   async salvar(entidadeDominio: Pais): Promise<Pais | null> {
+   async salvar(entidadeDominio: Pais): Promise<Pais> {
       try {
          const dadosParaSalvar = this.prepararDadosParaSalvar(entidadeDominio);
 
@@ -15,13 +15,12 @@ export default class PaisDAO implements IDAO {
          });
 
          return this.mapearParaDominio(pais);
-      } catch (error) {
-         console.error("Erro ao salvar pais:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao salvar pais: ${error.message}`);
       }
    }
 
-   async alterar(entidadeDominio: Pais): Promise<Pais | null> {
+   async alterar(entidadeDominio: Pais): Promise<Pais> {
       try {
          const dadosParaSalvar = this.prepararDadosParaSalvar(entidadeDominio);
 
@@ -31,22 +30,18 @@ export default class PaisDAO implements IDAO {
          });
 
          return this.mapearParaDominio(pais);
-      } catch (error) {
-         console.error("Erro ao alterar pais:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao alterar pais: ${error.message}`);
       }
    }
 
-   async excluir(entidadeDominio: Pais): Promise<boolean> {
+   async excluir(entidadeDominio: Pais): Promise<void> {
       try {
          await prisma.pais.delete({
             where: { id: entidadeDominio.Id },
          });
-
-         return true;
-      } catch (error) {
-         console.error("Erro ao excluir pais:", error);
-         return false;
+      } catch (error: any) {
+         throw new Error(`Erro ao excluir pais: ${error.message}`);
       }
    }
 
@@ -54,13 +49,12 @@ export default class PaisDAO implements IDAO {
       try {
          const paises = await prisma.pais.findMany();
          return paises.map(this.mapearParaDominio);
-      } catch (error) {
-         console.error("Erro ao consultar paises:", error);
-         return [];
+      } catch (error: any) {
+         throw new Error(`Erro ao consultar paises: ${error.message}`);
       }
    }
 
-   async selecionar(entidadeDominio: Pais): Promise<Pais | null> {
+   async selecionar(entidadeDominio: Pais): Promise<Pais> {
       try {
          const pais = await prisma.pais.findUnique({
             where: { id: entidadeDominio.Id },
@@ -71,9 +65,8 @@ export default class PaisDAO implements IDAO {
          }
 
          return this.mapearParaDominio(pais);
-      } catch (error) {
-         console.error("Erro ao selecionar pais:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao selecionar pais: ${error.message}`);
       }
    }
 

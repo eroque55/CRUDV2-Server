@@ -6,7 +6,7 @@ import Estado from "../models/Estado";
 const prisma = new PrismaClient();
 
 export default class EstadoDAO implements IDAO {
-   async salvar(entidadeDominio: Estado): Promise<Estado | null> {
+   async salvar(entidadeDominio: Estado): Promise<Estado> {
       try {
          const dadosParaSalvar = this.prepararDadosParaSalvar(entidadeDominio);
 
@@ -15,13 +15,12 @@ export default class EstadoDAO implements IDAO {
          });
 
          return this.mapearParaDominio(estado);
-      } catch (error) {
-         console.error("Erro ao salvar estado:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao salvar estado: ${error.message}`);
       }
    }
 
-   async alterar(entidadeDominio: Estado): Promise<Estado | null> {
+   async alterar(entidadeDominio: Estado): Promise<Estado> {
       try {
          const dadosParaSalvar = this.prepararDadosParaSalvar(entidadeDominio);
 
@@ -31,22 +30,18 @@ export default class EstadoDAO implements IDAO {
          });
 
          return this.mapearParaDominio(estado);
-      } catch (error) {
-         console.error("Erro ao alterar estado:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao alterar estado: ${error.message}`);
       }
    }
 
-   async excluir(entidadeDominio: Estado): Promise<boolean> {
+   async excluir(entidadeDominio: Estado): Promise<void> {
       try {
          await prisma.estado.delete({
             where: { id: entidadeDominio.Id },
          });
-
-         return true;
-      } catch (error) {
-         console.error("Erro ao excluir estado:", error);
-         return false;
+      } catch (error: any) {
+         throw new Error(`Erro ao excluir estado: ${error.message}`);
       }
    }
 
@@ -54,13 +49,12 @@ export default class EstadoDAO implements IDAO {
       try {
          const estados = await prisma.estado.findMany();
          return estados.map(this.mapearParaDominio);
-      } catch (error) {
-         console.error("Erro ao consultar estados:", error);
-         return [];
+      } catch (error: any) {
+         throw new Error(`Erro ao consultar estados: ${error.message}`);
       }
    }
 
-   async selecionar(entidadeDominio: Estado): Promise<Estado | null> {
+   async selecionar(entidadeDominio: Estado): Promise<Estado> {
       try {
          const estado = await prisma.estado.findUnique({
             where: { id: entidadeDominio.Id },
@@ -71,9 +65,8 @@ export default class EstadoDAO implements IDAO {
          }
 
          return this.mapearParaDominio(estado);
-      } catch (error) {
-         console.error("Erro ao selecionar estado:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao selecionar estado: ${error.message}`);
       }
    }
 

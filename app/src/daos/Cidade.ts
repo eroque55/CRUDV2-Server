@@ -6,7 +6,7 @@ import Cidade from "../models/Cidade";
 const prisma = new PrismaClient();
 
 export default class CidadeDAO implements IDAO {
-   async salvar(entidadeDominio: Cidade): Promise<Cidade | null> {
+   async salvar(entidadeDominio: Cidade): Promise<Cidade> {
       try {
          const dadosParaSalvar = this.prepararDadosParaSalvar(entidadeDominio);
 
@@ -15,13 +15,12 @@ export default class CidadeDAO implements IDAO {
          });
 
          return this.mapearParaDominio(cidade);
-      } catch (error) {
-         console.error("Erro ao salvar cidade:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao salvar cidade: ${error.message}`);
       }
    }
 
-   async alterar(entidadeDominio: Cidade): Promise<Cidade | null> {
+   async alterar(entidadeDominio: Cidade): Promise<Cidade> {
       try {
          const dadosParaSalvar = this.prepararDadosParaSalvar(entidadeDominio);
 
@@ -30,22 +29,18 @@ export default class CidadeDAO implements IDAO {
             data: dadosParaSalvar,
          });
          return this.mapearParaDominio(cidade);
-      } catch (error) {
-         console.error("Erro ao alterar cidade:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao alterar cidade: ${error.message}`);
       }
    }
 
-   async excluir(entidadeDominio: Cidade): Promise<boolean> {
+   async excluir(entidadeDominio: Cidade): Promise<void> {
       try {
          await prisma.cidade.delete({
             where: { id: entidadeDominio.Id },
          });
-
-         return true;
-      } catch (error) {
-         console.error("Erro ao excluir cidade:", error);
-         return false;
+      } catch (error: any) {
+         throw new Error(`Erro ao excluir cidade: ${error.message}`);
       }
    }
 
@@ -53,13 +48,12 @@ export default class CidadeDAO implements IDAO {
       try {
          const cidades = await prisma.cidade.findMany();
          return cidades.map(this.mapearParaDominio);
-      } catch (error) {
-         console.error("Erro ao consultar cidades:", error);
-         return [];
+      } catch (error: any) {
+         throw new Error(`Erro ao consultar cidades: ${error.message}`);
       }
    }
 
-   async selecionar(entidadeDominio: Cidade): Promise<Cidade | null> {
+   async selecionar(entidadeDominio: Cidade): Promise<Cidade> {
       try {
          const cidade = await prisma.cidade.findUnique({
             where: { id: entidadeDominio.Id },
@@ -68,10 +62,10 @@ export default class CidadeDAO implements IDAO {
          if (!cidade) {
             throw new Error("Cidade não encontrada");
          }
+
          return this.mapearParaDominio(cidade);
-      } catch (error) {
-         console.error("Erro ao selecionar cidade:", error);
-         return null;
+      } catch (error: any) {
+         throw new Error(`Erro ao selecionar cidade: ${error.message}`);
       }
    }
 

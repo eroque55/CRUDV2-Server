@@ -1,9 +1,12 @@
 import express from "express";
 
-import routesCartao from "./routes/routesCartao";
-import Cliente from "./models/Cliente";
-import Genero from "./enums/Genero";
-import ClienteController from "./controllers/ClienteController";
+import cartaoRoutes from "./routes/Cartao";
+import cidadeRoutes from "./routes/Cidade";
+import clienteRoutes from "./routes/Cliente";
+import enderecoRoutes from "./routes/Endereco";
+import estadoRoutes from "./routes/Estado";
+import paisRoutes from "./routes/Pais";
+import telefoneRoutes from "./routes/Telefone";
 
 const app = express();
 app.use(express.json());
@@ -12,28 +15,16 @@ app.listen(3000, () =>
    console.log("Servidor rodando em: http://localhost:3000")
 );
 
-app.get("/", (req, res) => {
-   res.send("Hello World!");
-});
+app.use("/cartao", cartaoRoutes);
 
-app.use("/cartao", routesCartao);
+app.use("/cidade", cidadeRoutes);
 
-const cliente = new Cliente();
+app.use("/cliente", clienteRoutes);
 
-cliente.Nome = "Fulano";
-cliente.DataNascimento = new Date();
-cliente.Cpf = "44505306836";
-cliente.Email = "dadas@dfsdf";
-cliente.Senha = "123456aA@";
-cliente.ConfirmacaoSenha = "123456aA@";
-cliente.Status = true;
-cliente.Genero = Genero.MASCULINO;
+app.use("/endereco", enderecoRoutes);
 
-async function salvarCliente(cliente: Cliente) {
-   try {
-      const response = await new ClienteController().salvar(cliente);
-      console.log(response);
-   } catch (error) {
-      console.error(error);
-   }
-}
+app.use("/estado", estadoRoutes);
+
+app.use("/pais", paisRoutes);
+
+app.use("/telefone", telefoneRoutes);

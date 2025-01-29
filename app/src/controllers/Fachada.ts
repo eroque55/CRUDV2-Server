@@ -6,12 +6,18 @@ import Cliente from "../models/Cliente";
 import Telefone from "../models/Telefone";
 import Endereco from "../models/Endereco";
 import Cartao from "../models/Cartao";
+import Pais from "../models/Pais";
+import Estado from "../models/Estado";
+import Cidade from "../models/Cidade";
 
-import CartaoDAO from "../daos/CartaoDAO";
-import ClienteDAO from "../daos/ClienteDAO";
-import EnderecoDAO from "../daos/EnderecoDAO";
-import TelefoneDAO from "../daos/TelefoneDAO";
-import LogDAO from "../daos/LogDAO";
+import CartaoDAO from "../daos/Cartao";
+import ClienteDAO from "../daos/Cliente";
+import EnderecoDAO from "../daos/Endereco";
+import TelefoneDAO from "../daos/Telefone";
+import LogDAO from "../daos/Log";
+import PaisDAO from "../daos/Pais";
+import EstadoDAO from "../daos/Estado";
+import CidadeDAO from "../daos/Cidade";
 
 import IStrategy from "../strategies/IStrategy";
 import ValidaCartao from "../strategies/ValidaCartao";
@@ -29,7 +35,7 @@ export default class Fachada implements IFachada {
       this.definirDAOs();
    }
 
-   async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio | null> {
+   async salvar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
       const dao = this.obterDAO(entidade);
       const msg: string = this.executar(entidade);
 
@@ -43,7 +49,7 @@ export default class Fachada implements IFachada {
       return await dao.salvar(entidade);
    }
 
-   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio | null> {
+   async alterar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
       const dao = this.obterDAO(entidade);
       const retorno = await dao.alterar(entidade);
 
@@ -59,20 +65,15 @@ export default class Fachada implements IFachada {
       return retorno;
    }
 
-   async excluir(entidade: EntidadeDominio): Promise<boolean> {
+   async excluir(entidade: EntidadeDominio): Promise<void> {
       const dao = this.obterDAO(entidade);
-      const retorno: boolean = await dao.excluir(entidade);
-
-      if (retorno) {
-         const logDAO: LogDAO = new LogDAO();
-         logDAO.salvar(
-            `${entidade.constructor.name}.excluir`,
-            "admin",
-            new Date()
-         );
-      }
-
-      return retorno;
+      await dao.excluir(entidade);
+      const logDAO: LogDAO = new LogDAO();
+      logDAO.salvar(
+         `${entidade.constructor.name}.excluir`,
+         "admin",
+         new Date()
+      );
    }
 
    async consultar(entidade: EntidadeDominio): Promise<EntidadeDominio[]> {
@@ -81,9 +82,7 @@ export default class Fachada implements IFachada {
       return await dao.consultar(entidade);
    }
 
-   async selecionar(
-      entidade: EntidadeDominio
-   ): Promise<EntidadeDominio | null> {
+   async selecionar(entidade: EntidadeDominio): Promise<EntidadeDominio> {
       const dao = this.obterDAO(entidade);
 
       return await dao.selecionar(entidade);
@@ -101,6 +100,9 @@ export default class Fachada implements IFachada {
       this.daos.set(Cliente.name, new ClienteDAO());
       this.daos.set(Telefone.name, new TelefoneDAO());
       this.daos.set(Endereco.name, new EnderecoDAO());
+      this.daos.set(Pais.name, new PaisDAO());
+      this.daos.set(Estado.name, new EstadoDAO());
+      this.daos.set(Cidade.name, new CidadeDAO());
    }
 
    private executar(entidade: EntidadeDominio): string {
