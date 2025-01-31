@@ -10,7 +10,7 @@ export async function getClientes(req: Request, res: Response) {
    try {
       const clientesResponse = await clienteController.consultar(new Cliente());
 
-      res.send(clientesResponse);
+      res.json(clientesResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }

@@ -11,8 +11,8 @@ import telefoneRoutes from "./routes/Telefone";
 const app = express();
 app.use(express.json());
 
-app.listen(3000, () =>
-   console.log("Servidor rodando em: http://localhost:3000")
+app.listen(3001, () =>
+   console.log("Servidor rodando em: http://localhost:3001")
 );
 
 app.use("/cartao", cartaoRoutes);
