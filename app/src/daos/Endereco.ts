@@ -3,6 +3,7 @@ import {
    PrismaClient,
    Endereco as EnderecoPrisma,
 } from "@prisma/client";
+import { withAccelerate } from "@prisma/extension-accelerate";
 import IDAO from "./IDAO";
 
 import Endereco from "../models/Endereco";
@@ -10,7 +11,7 @@ import TipoEndereco from "../enums/TipoEndereco";
 import TipoLogradouro from "../enums/TipoLogradouro";
 import TipoResidencia from "../enums/TipoResidencia";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient().$extends(withAccelerate());
 
 export default class EnderecoDAO implements IDAO {
    async salvar(entidadeDominio: Endereco): Promise<Endereco> {

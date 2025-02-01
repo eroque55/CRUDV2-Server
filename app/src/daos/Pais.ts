@@ -1,9 +1,11 @@
 import { Prisma, PrismaClient, Pais as PaisPrisma } from "@prisma/client";
+import { withAccelerate } from "@prisma/extension-accelerate";
+
 import IDAO from "./IDAO";
 
 import Pais from "../models/Pais";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient().$extends(withAccelerate());
 
 export default class PaisDAO implements IDAO {
    async salvar(entidadeDominio: Pais): Promise<Pais> {

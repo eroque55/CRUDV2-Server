@@ -23,7 +23,7 @@ export async function getCliente(req: Request, res: Response) {
       cliente.Id = parseInt(req.params.id);
 
       const clienteResponse = await clienteController.selecionar(cliente);
-      res.send(clienteResponse);
+      res.json(clienteResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -42,7 +42,7 @@ export async function postCliente(req: Request, res: Response) {
       cliente.Genero = Genero[req.body.genero as keyof typeof Genero];
 
       const clienteResponse = await clienteController.salvar(cliente);
-      res.send(clienteResponse);
+      res.json(clienteResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -62,7 +62,7 @@ export async function putCliente(req: Request, res: Response) {
       cliente.Ranking = req.body.ranking;
 
       const clienteResponse = await clienteController.alterar(cliente);
-      res.send(clienteResponse);
+      res.json(clienteResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -75,7 +75,7 @@ export async function deleteCliente(req: Request, res: Response) {
       cliente.Id = parseInt(req.params.id);
 
       const clienteResponse = await clienteController.excluir(cliente);
-      res.send(clienteResponse);
+      res.json(clienteResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }

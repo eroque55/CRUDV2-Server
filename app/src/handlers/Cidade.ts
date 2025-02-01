@@ -9,7 +9,7 @@ export async function getCidades(req: Request, res: Response) {
    try {
       const cidadesResponse = await clienteController.consultar(new Cidade());
 
-      res.send(cidadesResponse);
+      res.json(cidadesResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -22,7 +22,7 @@ export async function getCidade(req: Request, res: Response) {
       cidade.Id = parseInt(req.params.id);
 
       const cidadeResponse = await clienteController.selecionar(cidade);
-      res.send(cidadeResponse);
+      res.json(cidadeResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -36,7 +36,7 @@ export async function postCidade(req: Request, res: Response) {
       cidade.EstadoId = req.body.estadoId;
 
       const cidadeResponse = await clienteController.salvar(cidade);
-      res.send(cidadeResponse);
+      res.json(cidadeResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -51,7 +51,7 @@ export async function putCidade(req: Request, res: Response) {
       cidade.EstadoId = req.body.estadoId;
 
       const cidadeResponse = await clienteController.alterar(cidade);
-      res.send(cidadeResponse);
+      res.json(cidadeResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -64,7 +64,7 @@ export async function deleteCidade(req: Request, res: Response) {
       cidade.Id = parseInt(req.params.id);
 
       const cidadeResponse = await clienteController.excluir(cidade);
-      res.send(cidadeResponse);
+      res.json(cidadeResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }

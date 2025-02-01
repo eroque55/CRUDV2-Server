@@ -14,7 +14,7 @@ export async function getEnderecos(req: Request, res: Response) {
          new Endereco()
       );
 
-      res.send(enderecosResponse);
+      res.json(enderecosResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -27,7 +27,7 @@ export async function getEndereco(req: Request, res: Response) {
       endereco.Id = parseInt(req.params.id);
 
       const enderecoResponse = await clienteController.selecionar(endereco);
-      res.send(enderecoResponse);
+      res.json(enderecoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -53,7 +53,7 @@ export async function postEndereco(req: Request, res: Response) {
          TipoResidencia[req.body.tipoResidencia as keyof typeof TipoResidencia];
 
       const enderecoResponse = await clienteController.salvar(endereco);
-      res.send(enderecoResponse);
+      res.json(enderecoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -77,7 +77,7 @@ export async function putEndereco(req: Request, res: Response) {
          TipoResidencia[req.body.tipoResidencia as keyof typeof TipoResidencia];
 
       const enderecoResponse = await clienteController.alterar(endereco);
-      res.send(enderecoResponse);
+      res.json(enderecoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -90,7 +90,7 @@ export async function deleteEndereco(req: Request, res: Response) {
       endereco.Id = parseInt(req.params.id);
 
       const enderecoResponse = await clienteController.excluir(endereco);
-      res.send(enderecoResponse);
+      res.json(enderecoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }

@@ -12,7 +12,7 @@ export async function getTelefones(req: Request, res: Response) {
          new Telefone()
       );
 
-      res.send(telefonesResponse);
+      res.json(telefonesResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -25,7 +25,7 @@ export async function getTelefone(req: Request, res: Response) {
       telefone.Id = parseInt(req.params.id);
 
       const telefoneResponse = await clienteController.selecionar(telefone);
-      res.send(telefoneResponse);
+      res.json(telefoneResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -41,7 +41,7 @@ export async function postTelefone(req: Request, res: Response) {
       telefone.Tipo = TipoTelefone[req.body.tipo as keyof typeof TipoTelefone];
 
       const telefoneResponse = await clienteController.salvar(telefone);
-      res.send(telefoneResponse);
+      res.json(telefoneResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -57,7 +57,7 @@ export async function putTelefone(req: Request, res: Response) {
       telefone.Tipo = TipoTelefone[req.body.tipo as keyof typeof TipoTelefone];
 
       const telefoneResponse = await clienteController.alterar(telefone);
-      res.send(telefoneResponse);
+      res.json(telefoneResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -70,7 +70,7 @@ export async function deleteTelefone(req: Request, res: Response) {
       telefone.Id = parseInt(req.params.id);
 
       const telefoneResponse = await clienteController.excluir(telefone);
-      res.send(telefoneResponse);
+      res.json(telefoneResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }

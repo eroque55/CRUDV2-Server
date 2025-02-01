@@ -10,7 +10,7 @@ export async function getCartoes(req: Request, res: Response) {
    try {
       const cartoesResponse = await clienteController.consultar(new Cartao());
 
-      res.send(cartoesResponse);
+      res.json(cartoesResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -23,7 +23,7 @@ export async function getCartao(req: Request, res: Response) {
       cartao.Id = parseInt(req.params.id);
 
       const cartaoResponse = await clienteController.selecionar(cartao);
-      res.send(cartaoResponse);
+      res.json(cartaoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -42,7 +42,7 @@ export async function postCartao(req: Request, res: Response) {
          BandeiraCartao[req.body.bandeiraCartao as keyof typeof BandeiraCartao];
 
       const cartaoResponse = await clienteController.salvar(cartao);
-      res.send(cartaoResponse);
+      res.json(cartaoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -56,7 +56,7 @@ export async function putCartao(req: Request, res: Response) {
       cartao.Preferencial = req.body.preferencial;
 
       const cartaoResponse = await clienteController.alterar(cartao);
-      res.send(cartaoResponse);
+      res.json(cartaoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -69,7 +69,7 @@ export async function deleteCartao(req: Request, res: Response) {
       cartao.Id = parseInt(req.params.id);
 
       const cartaoResponse = await clienteController.excluir(cartao);
-      res.send(cartaoResponse);
+      res.json(cartaoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }

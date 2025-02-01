@@ -9,7 +9,7 @@ export async function getEstados(req: Request, res: Response) {
    try {
       const estadosResponse = await clienteController.consultar(new Estado());
 
-      res.send(estadosResponse);
+      res.json(estadosResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -22,7 +22,7 @@ export async function getEstado(req: Request, res: Response) {
       estado.Id = parseInt(req.params.id);
 
       const estadoResponse = await clienteController.selecionar(estado);
-      res.send(estadoResponse);
+      res.json(estadoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -36,7 +36,7 @@ export async function postEstado(req: Request, res: Response) {
       estado.PaisId = req.body.paisId;
 
       const estadoResponse = await clienteController.salvar(estado);
-      res.send(estadoResponse);
+      res.json(estadoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -51,7 +51,7 @@ export async function putEstado(req: Request, res: Response) {
       estado.PaisId = req.body.paisId;
 
       const estadoResponse = await clienteController.alterar(estado);
-      res.send(estadoResponse);
+      res.json(estadoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }
@@ -64,7 +64,7 @@ export async function deleteEstado(req: Request, res: Response) {
       estado.Id = parseInt(req.params.id);
 
       const estadoResponse = await clienteController.excluir(estado);
-      res.send(estadoResponse);
+      res.json(estadoResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }

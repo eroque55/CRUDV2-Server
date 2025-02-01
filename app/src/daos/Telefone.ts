@@ -3,12 +3,13 @@ import {
    PrismaClient,
    Telefone as TelefonePrisma,
 } from "@prisma/client";
+import { withAccelerate } from "@prisma/extension-accelerate";
 import IDAO from "./IDAO";
 
 import Telefone from "../models/Telefone";
 import TipoTelefone from "../enums/TipoTelefone";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient().$extends(withAccelerate());
 
 export default class TelefoneDAO implements IDAO {
    async salvar(entidadeDominio: Telefone): Promise<Telefone> {

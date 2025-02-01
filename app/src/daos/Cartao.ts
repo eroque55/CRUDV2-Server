@@ -1,10 +1,11 @@
 import { Prisma, PrismaClient, Cartao as CartaoPrisma } from "@prisma/client";
+import { withAccelerate } from "@prisma/extension-accelerate";
 import IDAO from "./IDAO";
 
 import Cartao from "../models/Cartao";
 import BandeiraCartao from "../enums/BandeiraCartao";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient().$extends(withAccelerate());
 
 export default class CartaoDAO implements IDAO {
    async salvar(entidadeDominio: Cartao): Promise<Cartao> {

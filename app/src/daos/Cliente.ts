@@ -1,4 +1,6 @@
 import { Prisma, PrismaClient, Cliente as ClientePrisma } from "@prisma/client";
+import { withAccelerate } from "@prisma/extension-accelerate";
+
 import IDAO from "./IDAO";
 
 import crypto from "crypto";
@@ -6,7 +8,7 @@ import crypto from "crypto";
 import Cliente from "../models/Cliente";
 import Genero from "../enums/Genero";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient().$extends(withAccelerate());
 
 export default class ClienteDAO implements IDAO {
    async salvar(entidadeDominio: Cliente): Promise<Cliente> {
