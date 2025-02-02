@@ -53,7 +53,9 @@ export default class ClienteDAO implements IDAO {
 
    async consultar(): Promise<Cliente[]> {
       try {
-         const clientes = await prisma.cliente.findMany();
+         const clientes = await prisma.cliente.findMany({
+            orderBy: { id: "asc" },
+         });
          return clientes.map(this.mapearParaDominio);
       } catch (error: any) {
          throw new Error(`Erro ao consultar clientes: ${error.message}`);

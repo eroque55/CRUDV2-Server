@@ -33,13 +33,15 @@ export async function postCartao(req: Request, res: Response) {
    try {
       const cartao = new Cartao();
 
-      cartao.ClienteId = req.body.clienteId;
-      cartao.Numero = req.body.numero;
-      cartao.NomeImpresso = req.body.nomeImpresso;
-      cartao.Cvv = req.body.cvv;
-      cartao.Validade = req.body.validade;
+      cartao.ClienteId = req.body._clienteId;
+      cartao.Numero = req.body._numero;
+      cartao.NomeImpresso = req.body._nomeImpresso;
+      cartao.Cvv = req.body._cvv;
+      cartao.Validade = req.body._validade;
       cartao.BandeiraCartao =
-         BandeiraCartao[req.body.bandeiraCartao as keyof typeof BandeiraCartao];
+         BandeiraCartao[
+            req.body._bandeiraCartao as keyof typeof BandeiraCartao
+         ];
 
       const cartaoResponse = await clienteController.salvar(cartao);
       res.json(cartaoResponse);
@@ -52,8 +54,8 @@ export async function putCartao(req: Request, res: Response) {
    try {
       const cartao = new Cartao();
 
-      cartao.Id = parseInt(req.body.id);
-      cartao.Preferencial = req.body.preferencial;
+      cartao.Id = req.body._id;
+      cartao.Preferencial = req.body._preferencial;
 
       const cartaoResponse = await clienteController.alterar(cartao);
       res.json(cartaoResponse);
@@ -66,7 +68,7 @@ export async function deleteCartao(req: Request, res: Response) {
    try {
       const cartao = new Cartao();
 
-      cartao.Id = parseInt(req.params.id);
+      cartao.Id = req.body._id;
 
       const cartaoResponse = await clienteController.excluir(cartao);
       res.json(cartaoResponse);

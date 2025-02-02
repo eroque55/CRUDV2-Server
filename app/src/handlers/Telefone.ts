@@ -35,10 +35,10 @@ export async function postTelefone(req: Request, res: Response) {
    try {
       const telefone = new Telefone();
 
-      telefone.ClienteId = req.body.clienteId;
-      telefone.Ddd = req.body.ddd;
-      telefone.Numero = req.body.numero;
-      telefone.Tipo = TipoTelefone[req.body.tipo as keyof typeof TipoTelefone];
+      telefone.ClienteId = req.body._clienteId;
+      telefone.Ddd = req.body._ddd;
+      telefone.Numero = req.body._numero;
+      telefone.Tipo = TipoTelefone[req.body._tipo as keyof typeof TipoTelefone];
 
       const telefoneResponse = await clienteController.salvar(telefone);
       res.json(telefoneResponse);
@@ -51,10 +51,10 @@ export async function putTelefone(req: Request, res: Response) {
    try {
       const telefone = new Telefone();
 
-      telefone.Id = parseInt(req.params.id);
-      telefone.Ddd = req.body.ddd;
-      telefone.Numero = req.body.numero;
-      telefone.Tipo = TipoTelefone[req.body.tipo as keyof typeof TipoTelefone];
+      telefone.Id = req.body._id;
+      telefone.Ddd = req.body._ddd;
+      telefone.Numero = req.body._numero;
+      telefone.Tipo = TipoTelefone[req.body._tipo as keyof typeof TipoTelefone];
 
       const telefoneResponse = await clienteController.alterar(telefone);
       res.json(telefoneResponse);
@@ -67,7 +67,7 @@ export async function deleteTelefone(req: Request, res: Response) {
    try {
       const telefone = new Telefone();
 
-      telefone.Id = parseInt(req.params.id);
+      telefone.Id = req.body._id;
 
       const telefoneResponse = await clienteController.excluir(telefone);
       res.json(telefoneResponse);

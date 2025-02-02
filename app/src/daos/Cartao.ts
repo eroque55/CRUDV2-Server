@@ -50,7 +50,9 @@ export default class CartaoDAO implements IDAO {
 
    async consultar(): Promise<Cartao[]> {
       try {
-         const cartoes = await prisma.cartao.findMany();
+         const cartoes = await prisma.cartao.findMany({
+            orderBy: { id: "asc" },
+         });
          return cartoes.map(this.mapearParaDominio);
       } catch (error: any) {
          throw new Error(`Erro ao consultar cartões: ${error.message}`);

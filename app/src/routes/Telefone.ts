@@ -15,8 +15,8 @@ router.get("/:id", getTelefone);
 
 router.post("/", postTelefone);
 
-router.put("/:id", putTelefone);
+router.put("/", putTelefone);
 
-router.delete("/:id", deleteTelefone);
+router.delete("/", deleteTelefone);
 
 export default router;

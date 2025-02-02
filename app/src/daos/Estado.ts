@@ -48,7 +48,9 @@ export default class EstadoDAO implements IDAO {
 
    async consultar(): Promise<Estado[]> {
       try {
-         const estados = await prisma.estado.findMany();
+         const estados = await prisma.estado.findMany({
+            orderBy: { id: "asc" },
+         });
          return estados.map(this.mapearParaDominio);
       } catch (error: any) {
          throw new Error(`Erro ao consultar estados: ${error.message}`);

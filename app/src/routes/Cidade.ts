@@ -15,8 +15,8 @@ router.get("/:id", getCidade);
 
 router.post("/", postCidade);
 
-router.put("/:id", putCidade);
+router.put("/", putCidade);
 
-router.delete("/:id", deleteCidade);
+router.delete("/", deleteCidade);
 
 export default router;

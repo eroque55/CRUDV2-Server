@@ -15,8 +15,8 @@ router.get("/:id", getEndereco);
 
 router.post("/", postEndereco);
 
-router.put("/:id", putEndereco);
+router.put("/", putEndereco);
 
-router.delete("/:id", deleteEndereco);
+router.delete("/", deleteEndereco);
 
 export default router;

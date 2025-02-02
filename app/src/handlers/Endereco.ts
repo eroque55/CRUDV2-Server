@@ -37,20 +37,24 @@ export async function postEndereco(req: Request, res: Response) {
    try {
       const endereco = new Endereco();
 
-      endereco.ClienteId = req.body.clienteId;
-      endereco.Apelido = req.body.apelido;
-      endereco.Logradouro = req.body.logradouro;
-      endereco.Numero = req.body.numero;
-      endereco.Bairro = req.body.bairro;
-      endereco.Cep = req.body.cep;
-      endereco.Observacoes = req.body.observacoes;
-      endereco.CidadeId = req.body.cidadeId;
+      endereco.ClienteId = req.body._clienteId;
+      endereco.Apelido = req.body._apelido;
+      endereco.Logradouro = req.body._logradouro;
+      endereco.Numero = req.body._numero;
+      endereco.Bairro = req.body._bairro;
+      endereco.Cep = req.body._cep;
+      endereco.Observacoes = req.body._observacoes;
+      endereco.CidadeId = req.body._cidadeId;
       endereco.TipoEndereco =
-         TipoEndereco[req.body.tipoEndereco as keyof typeof TipoEndereco];
+         TipoEndereco[req.body._tipoEndereco as keyof typeof TipoEndereco];
       endereco.TipoLogradouro =
-         TipoLogradouro[req.body.tipoLogradouro as keyof typeof TipoLogradouro];
+         TipoLogradouro[
+            req.body._tipoLogradouro as keyof typeof TipoLogradouro
+         ];
       endereco.TipoResidencia =
-         TipoResidencia[req.body.tipoResidencia as keyof typeof TipoResidencia];
+         TipoResidencia[
+            req.body._tipoResidencia as keyof typeof TipoResidencia
+         ];
 
       const enderecoResponse = await clienteController.salvar(endereco);
       res.json(enderecoResponse);
@@ -63,18 +67,22 @@ export async function putEndereco(req: Request, res: Response) {
    try {
       const endereco = new Endereco();
 
-      endereco.Id = parseInt(req.params.id);
-      endereco.Apelido = req.body.apelido;
-      endereco.Logradouro = req.body.logradouro;
-      endereco.Numero = req.body.numero;
-      endereco.Bairro = req.body.bairro;
-      endereco.Cep = req.body.cep;
-      endereco.Observacoes = req.body.observacoes;
-      endereco.CidadeId = req.body.cidadeId;
+      endereco.Id = req.body._id;
+      endereco.Apelido = req.body._apelido;
+      endereco.Logradouro = req.body._logradouro;
+      endereco.Numero = req.body._numero;
+      endereco.Bairro = req.body._bairro;
+      endereco.Cep = req.body._cep;
+      endereco.Observacoes = req.body._observacoes;
+      endereco.CidadeId = req.body._cidadeId;
       endereco.TipoLogradouro =
-         TipoLogradouro[req.body.tipoLogradouro as keyof typeof TipoLogradouro];
+         TipoLogradouro[
+            req.body._tipoLogradouro as keyof typeof TipoLogradouro
+         ];
       endereco.TipoResidencia =
-         TipoResidencia[req.body.tipoResidencia as keyof typeof TipoResidencia];
+         TipoResidencia[
+            req.body._tipoResidencia as keyof typeof TipoResidencia
+         ];
 
       const enderecoResponse = await clienteController.alterar(endereco);
       res.json(enderecoResponse);
@@ -87,7 +95,7 @@ export async function deleteEndereco(req: Request, res: Response) {
    try {
       const endereco = new Endereco();
 
-      endereco.Id = parseInt(req.params.id);
+      endereco.Id = req.body._id;
 
       const enderecoResponse = await clienteController.excluir(endereco);
       res.json(enderecoResponse);

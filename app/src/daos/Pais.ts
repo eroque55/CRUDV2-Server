@@ -49,7 +49,9 @@ export default class PaisDAO implements IDAO {
 
    async consultar(): Promise<Pais[]> {
       try {
-         const paises = await prisma.pais.findMany();
+         const paises = await prisma.pais.findMany({
+            orderBy: { id: "asc" },
+         });
          return paises.map(this.mapearParaDominio);
       } catch (error: any) {
          throw new Error(`Erro ao consultar paises: ${error.message}`);

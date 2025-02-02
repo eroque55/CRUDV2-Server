@@ -48,7 +48,9 @@ export default class CidadeDAO implements IDAO {
 
    async consultar(): Promise<Cidade[]> {
       try {
-         const cidades = await prisma.cidade.findMany();
+         const cidades = await prisma.cidade.findMany({
+            orderBy: { id: "asc" },
+         });
          return cidades.map(this.mapearParaDominio);
       } catch (error: any) {
          throw new Error(`Erro ao consultar cidades: ${error.message}`);

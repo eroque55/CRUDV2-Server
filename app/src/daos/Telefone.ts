@@ -54,7 +54,9 @@ export default class TelefoneDAO implements IDAO {
 
    async consultar(): Promise<Telefone[]> {
       try {
-         const telefones = await prisma.telefone.findMany();
+         const telefones = await prisma.telefone.findMany({
+            orderBy: { id: "asc" },
+         });
          return telefones.map(this.mapearParaDominio);
       } catch (error: any) {
          throw new Error(`Erro ao consultar telefones: ${error.message}`);

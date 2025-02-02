@@ -32,8 +32,8 @@ export async function postCidade(req: Request, res: Response) {
    try {
       const cidade = new Cidade();
 
-      cidade.Nome = req.body.nome;
-      cidade.EstadoId = req.body.estadoId;
+      cidade.Nome = req.body._nome;
+      cidade.EstadoId = req.body._estadoId;
 
       const cidadeResponse = await clienteController.salvar(cidade);
       res.json(cidadeResponse);
@@ -46,9 +46,9 @@ export async function putCidade(req: Request, res: Response) {
    try {
       const cidade = new Cidade();
 
-      cidade.Id = parseInt(req.body.id);
-      cidade.Nome = req.body.nome;
-      cidade.EstadoId = req.body.estadoId;
+      cidade.Id = req.body._id;
+      cidade.Nome = req.body._nome;
+      cidade.EstadoId = req.body._estadoId;
 
       const cidadeResponse = await clienteController.alterar(cidade);
       res.json(cidadeResponse);
@@ -61,7 +61,7 @@ export async function deleteCidade(req: Request, res: Response) {
    try {
       const cidade = new Cidade();
 
-      cidade.Id = parseInt(req.params.id);
+      cidade.Id = req.body._id;
 
       const cidadeResponse = await clienteController.excluir(cidade);
       res.json(cidadeResponse);

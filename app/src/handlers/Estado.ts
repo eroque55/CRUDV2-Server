@@ -32,8 +32,8 @@ export async function postEstado(req: Request, res: Response) {
    try {
       const estado = new Estado();
 
-      estado.Nome = req.body.nome;
-      estado.PaisId = req.body.paisId;
+      estado.Nome = req.body._nome;
+      estado.PaisId = req.body._paisId;
 
       const estadoResponse = await clienteController.salvar(estado);
       res.json(estadoResponse);
@@ -46,9 +46,9 @@ export async function putEstado(req: Request, res: Response) {
    try {
       const estado = new Estado();
 
-      estado.Id = parseInt(req.body.id);
-      estado.Nome = req.body.nome;
-      estado.PaisId = req.body.paisId;
+      estado.Id = req.body._id;
+      estado.Nome = req.body._nome;
+      estado.PaisId = req.body._paisId;
 
       const estadoResponse = await clienteController.alterar(estado);
       res.json(estadoResponse);
@@ -61,7 +61,7 @@ export async function deleteEstado(req: Request, res: Response) {
    try {
       const estado = new Estado();
 
-      estado.Id = parseInt(req.params.id);
+      estado.Id = req.body._id;
 
       const estadoResponse = await clienteController.excluir(estado);
       res.json(estadoResponse);

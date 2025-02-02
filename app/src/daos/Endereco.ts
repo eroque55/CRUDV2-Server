@@ -56,7 +56,9 @@ export default class EnderecoDAO implements IDAO {
 
    async consultar(): Promise<Endereco[]> {
       try {
-         const enderecos = await prisma.endereco.findMany();
+         const enderecos = await prisma.endereco.findMany({
+            orderBy: { id: "asc" },
+         });
          return enderecos.map(this.mapearParaDominio);
       } catch (error: any) {
          throw new Error(`Erro ao consultar endereços: ${error.message}`);

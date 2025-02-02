@@ -32,7 +32,7 @@ export async function postPais(req: Request, res: Response) {
    try {
       const pais = new Pais();
 
-      pais.Nome = req.body.nome;
+      pais.Nome = req.body._nome;
 
       const paisResponse = await clienteController.salvar(pais);
       res.json(paisResponse);
@@ -45,8 +45,8 @@ export async function putPais(req: Request, res: Response) {
    try {
       const pais = new Pais();
 
-      pais.Id = parseInt(req.body.id);
-      pais.Nome = req.body.nome;
+      pais.Id = req.body._id;
+      pais.Nome = req.body._nome;
 
       const paisResponse = await clienteController.alterar(pais);
       res.json(paisResponse);
@@ -59,7 +59,7 @@ export async function deletePais(req: Request, res: Response) {
    try {
       const pais = new Pais();
 
-      pais.Id = parseInt(req.params.id);
+      pais.Id = req.body._id;
 
       const paisResponse = await clienteController.excluir(pais);
       res.json(paisResponse);
