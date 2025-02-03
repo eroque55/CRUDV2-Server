@@ -17,6 +17,6 @@ router.post("/", postTelefone);
 
 router.put("/", putTelefone);
 
-router.delete("/", deleteTelefone);
+router.delete("/:id", deleteTelefone);
 
 export default router;

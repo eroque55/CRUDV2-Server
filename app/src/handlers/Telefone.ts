@@ -67,7 +67,7 @@ export async function deleteTelefone(req: Request, res: Response) {
    try {
       const telefone = new Telefone();
 
-      telefone.Id = req.body._id;
+      telefone.Id = parseInt(req.params.id);
 
       const telefoneResponse = await clienteController.excluir(telefone);
       res.json(telefoneResponse);

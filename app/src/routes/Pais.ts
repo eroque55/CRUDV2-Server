@@ -17,6 +17,6 @@ router.post("/", postPais);
 
 router.put("/", putPais);
 
-router.delete("/", deletePais);
+router.delete("/:id", deletePais);
 
 export default router;

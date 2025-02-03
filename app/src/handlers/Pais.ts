@@ -59,7 +59,7 @@ export async function deletePais(req: Request, res: Response) {
    try {
       const pais = new Pais();
 
-      pais.Id = req.body._id;
+      pais.Id = parseInt(req.params.id);
 
       const paisResponse = await clienteController.excluir(pais);
       res.json(paisResponse);

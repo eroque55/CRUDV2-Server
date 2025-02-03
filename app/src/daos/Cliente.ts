@@ -112,7 +112,6 @@ export default class ClienteDAO implements IDAO {
          email: entidade.Email,
          status: entidade.Status,
          genero: Genero[entidade.Genero as keyof typeof Genero],
-         // genero: entidade.Genero.toString(),
          ranking: entidade.Ranking,
       };
    }

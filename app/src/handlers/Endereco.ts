@@ -95,7 +95,7 @@ export async function deleteEndereco(req: Request, res: Response) {
    try {
       const endereco = new Endereco();
 
-      endereco.Id = req.body._id;
+      endereco.Id = parseInt(req.params.id);
 
       const enderecoResponse = await clienteController.excluir(endereco);
       res.json(enderecoResponse);

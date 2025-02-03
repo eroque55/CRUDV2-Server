@@ -72,7 +72,7 @@ export async function deleteCliente(req: Request, res: Response) {
    try {
       const cliente = new Cliente();
 
-      cliente.Id = req.body._id;
+      cliente.Id = parseInt(req.params.id);
 
       const clienteResponse = await clienteController.excluir(cliente);
       res.json(clienteResponse);

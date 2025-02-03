@@ -68,7 +68,7 @@ export async function deleteCartao(req: Request, res: Response) {
    try {
       const cartao = new Cartao();
 
-      cartao.Id = req.body._id;
+      cartao.Id = parseInt(req.params.id);
 
       const cartaoResponse = await clienteController.excluir(cartao);
       res.json(cartaoResponse);

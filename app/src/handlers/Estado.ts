@@ -61,7 +61,7 @@ export async function deleteEstado(req: Request, res: Response) {
    try {
       const estado = new Estado();
 
-      estado.Id = req.body._id;
+      estado.Id = parseInt(req.params.id);
 
       const estadoResponse = await clienteController.excluir(estado);
       res.json(estadoResponse);

@@ -61,7 +61,7 @@ export async function deleteCidade(req: Request, res: Response) {
    try {
       const cidade = new Cidade();
 
-      cidade.Id = req.body._id;
+      cidade.Id = parseInt(req.params.id);
 
       const cidadeResponse = await clienteController.excluir(cidade);
       res.json(cidadeResponse);

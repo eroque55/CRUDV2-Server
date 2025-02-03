@@ -17,6 +17,6 @@ router.post("/", postCartao);
 
 router.put("/", putCartao);
 
-router.delete("/", deleteCartao);
+router.delete("/:id", deleteCartao);
 
 export default router;
