@@ -67,7 +67,7 @@ export async function putEndereco(req: Request, res: Response) {
    try {
       const endereco = new Endereco();
 
-      endereco.Id = req.body._id;
+      endereco.Id = parseInt(req.params.id);
       endereco.Apelido = req.body._apelido;
       endereco.Logradouro = req.body._logradouro;
       endereco.Numero = req.body._numero;

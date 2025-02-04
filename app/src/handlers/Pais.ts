@@ -45,7 +45,7 @@ export async function putPais(req: Request, res: Response) {
    try {
       const pais = new Pais();
 
-      pais.Id = req.body._id;
+      pais.Id = parseInt(req.params.id);
       pais.Nome = req.body._nome;
 
       const paisResponse = await clienteController.alterar(pais);

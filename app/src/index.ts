@@ -17,16 +17,16 @@ app.listen(8000, () =>
    console.log("Servidor rodando em: http://localhost:8000")
 );
 
-app.use("/cartao", cartaoRoutes);
+app.use("/cartoes", cartaoRoutes);
 
-app.use("/cidade", cidadeRoutes);
+app.use("/cidades", cidadeRoutes);
 
-app.use("/cliente", clienteRoutes);
+app.use("/clientes", clienteRoutes);
 
-app.use("/endereco", enderecoRoutes);
+app.use("/enderecos", enderecoRoutes);
 
-app.use("/estado", estadoRoutes);
+app.use("/estados", estadoRoutes);
 
-app.use("/pais", paisRoutes);
+app.use("/paises", paisRoutes);
 
-app.use("/telefone", telefoneRoutes);
+app.use("/telefones", telefoneRoutes);

@@ -15,7 +15,7 @@ datasource db {
 
 model Cartao {
   id Int @id @default(autoincrement())
-  numero String
+  numero String @unique
   nomeImpresso String
   cvv String
   preferencial Boolean
@@ -39,7 +39,7 @@ model Cidade {
 model Cliente {
   id Int @id @default(autoincrement())
   nome String
-  dataNascimento DateTime
+  dataNascimento DateTime @db.Date
   cpf String @unique
   genero String
   email String @unique

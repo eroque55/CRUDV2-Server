@@ -54,7 +54,7 @@ export async function putCartao(req: Request, res: Response) {
    try {
       const cartao = new Cartao();
 
-      cartao.Id = req.body._id;
+      cartao.Id = parseInt(req.params.id);
       cartao.Preferencial = req.body._preferencial;
 
       const cartaoResponse = await clienteController.alterar(cartao);

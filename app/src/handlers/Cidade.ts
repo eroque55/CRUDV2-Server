@@ -46,7 +46,7 @@ export async function putCidade(req: Request, res: Response) {
    try {
       const cidade = new Cidade();
 
-      cidade.Id = req.body._id;
+      cidade.Id = parseInt(req.params.id);
       cidade.Nome = req.body._nome;
       cidade.EstadoId = req.body._estadoId;
 

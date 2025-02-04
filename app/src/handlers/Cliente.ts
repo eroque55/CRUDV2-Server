@@ -52,9 +52,9 @@ export async function putCliente(req: Request, res: Response) {
    try {
       const cliente = new Cliente();
 
-      cliente.Id = req.body._id;
+      cliente.Id = parseInt(req.params.id);
       cliente.Nome = req.body._nome;
-      cliente.DataNascimento = new Date(req.body._dataNascimento);
+      cliente.DataNascimento = req.body._dataNascimento;
       cliente.Cpf = req.body._cpf;
       cliente.Email = req.body._email;
       cliente.Genero = Genero[req.body._genero as keyof typeof Genero];

@@ -15,7 +15,7 @@ router.get("/:id", getPais);
 
 router.post("/", postPais);
 
-router.put("/", putPais);
+router.put("/:id", putPais);
 
 router.delete("/:id", deletePais);
 

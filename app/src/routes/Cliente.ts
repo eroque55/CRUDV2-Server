@@ -15,7 +15,7 @@ router.get("/:id", getCliente);
 
 router.post("/", postCliente);
 
-router.put("/", putCliente);
+router.put("/:id", putCliente);
 
 router.delete("/:id", deleteCliente);
 

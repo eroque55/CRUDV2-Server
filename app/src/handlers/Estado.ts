@@ -46,7 +46,7 @@ export async function putEstado(req: Request, res: Response) {
    try {
       const estado = new Estado();
 
-      estado.Id = req.body._id;
+      estado.Id = parseInt(req.params.id);
       estado.Nome = req.body._nome;
       estado.PaisId = req.body._paisId;
 

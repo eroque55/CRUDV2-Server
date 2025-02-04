@@ -3,7 +3,7 @@ import Genero from "../enums/Genero";
 
 export default class Cliente extends EntidadeDominio {
    private _nome: string = "";
-   private _dataNascimento: Date = new Date("2000-01-01");
+   private _dataNascimento: Date = new Date(2000);
    private _cpf: string = "";
    private _genero: Genero = Genero.NAO_DEFINIDO;
    private _email: string = "";
@@ -21,6 +21,7 @@ export default class Cliente extends EntidadeDominio {
    }
 
    get DataNascimento(): Date {
+      console.log(this._dataNascimento);
       return this._dataNascimento;
    }
 

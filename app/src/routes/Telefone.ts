@@ -15,7 +15,7 @@ router.get("/:id", getTelefone);
 
 router.post("/", postTelefone);
 
-router.put("/", putTelefone);
+router.put("/:id", putTelefone);
 
 router.delete("/:id", deleteTelefone);
 

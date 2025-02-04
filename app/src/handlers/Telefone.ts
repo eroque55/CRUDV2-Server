@@ -51,7 +51,7 @@ export async function putTelefone(req: Request, res: Response) {
    try {
       const telefone = new Telefone();
 
-      telefone.Id = req.body._id;
+      telefone.Id = parseInt(req.params.id);
       telefone.Ddd = req.body._ddd;
       telefone.Numero = req.body._numero;
       telefone.Tipo = TipoTelefone[req.body._tipo as keyof typeof TipoTelefone];
