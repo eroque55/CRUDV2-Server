@@ -21,7 +21,6 @@ export default class Cliente extends EntidadeDominio {
    }
 
    get DataNascimento(): Date {
-      console.log(this._dataNascimento);
       return this._dataNascimento;
    }
 
