@@ -1,9 +1,9 @@
-import EntidadeDominio from "../models/EntidadeDominio";
+import DomainEntity from "../models/DomainEntity";
 
 export default interface IDAO {
-   salvar(entidade: EntidadeDominio): Promise<EntidadeDominio>;
-   alterar(entidade: EntidadeDominio): Promise<EntidadeDominio>;
-   excluir(entidade: EntidadeDominio): Promise<void>;
-   consultar(entidade: EntidadeDominio): Promise<EntidadeDominio[]>;
-   selecionar(entidade: EntidadeDominio): Promise<EntidadeDominio>;
+   create(entity: DomainEntity): Promise<DomainEntity>;
+   read(entity: DomainEntity): Promise<DomainEntity[]>;
+   update(entity: DomainEntity): Promise<DomainEntity>;
+   delete(entity: DomainEntity): Promise<void>;
+   get(entity: DomainEntity): Promise<DomainEntity>;
 }

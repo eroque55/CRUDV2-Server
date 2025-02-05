@@ -13,93 +13,94 @@ datasource db {
   url      = "postgresql://postgres:1234@localhost:5432/"
 }
 
-model Cartao {
+model Card {
   id Int @id @default(autoincrement())
-  numero String @unique
-  nomeImpresso String
+  number String @unique
+  cardholder String
   cvv String
-  preferencial Boolean
-  validade String
-  bandeiraCartao String
+  preferential Boolean
+  expirationDate String
+  cardBrand String
 
-  cliente Cliente @relation(fields: [clienteId], references: [id])
-  clienteId Int
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int @map("clienteId")
 }
 
-model Cidade {
+model City {
   id Int @id @default(autoincrement())
-  nome String @unique
+  name String @unique
 
-  estado Estado @relation(fields: [estadoId], references: [id])
-  estadoId Int
+  state State @relation(fields: [stateId], references: [id])
+  stateId Int
 
-  Endereco Endereco[]
+  Address Address[]
 }
 
-model Cliente {
+model Customer {
   id Int @id @default(autoincrement())
-  nome String
-  dataNascimento DateTime @db.Date
+  name String
+  birthDate DateTime @db.Date
   cpf String @unique
-  genero String
+  gender String
   email String @unique
-  senha String
+  password String
   status Boolean
   ranking Int
 
-  Cartao Cartao[]
-  Endereco Endereco[]
-  Telefone Telefone[]
+  Card Card[]
+  Address Address[]
+  Phone Phone[]
 }
 
-model Endereco {
+model Address {
   id Int @id @default(autoincrement())
-  apelido String
-  logradouro String
-  numero String
-  bairro String
+  nickname String
+  street String
+  number String
+  neighborhood String
   cep String
-  observacoes String
-  tipoEndereco String
-  tipoLogradouro String
-  tipoResidencia String
+  complement String
+  addressType String
+  streetType String
+  residenceType String
 
-  cliente Cliente @relation(fields: [clienteId], references: [id])
-  clienteId Int
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
 
-  cidade Cidade @relation(fields: [cidadeId], references: [id])
-  cidadeId Int
+  city City @relation(fields: [cityId], references: [id])
+  cityId Int
 }
 
-model Estado {
+model State {
   id Int @id @default(autoincrement())
-  nome String @unique
+  name String @unique
 
-  pais Pais @relation(fields: [paisId], references: [id])
-  paisId Int
+  country Country @relation(fields: [countryId], references: [id])
+  countryId Int
 
-  Cidade Cidade[]
+  City City[]
 }
 
-model Pais {
+model Country {
   id Int @id @default(autoincrement())
-  nome String @unique
+  name String @unique
 
-  Estado Estado[]
+  State State[]
 }
 
 model Log {
   id Int @id @default(autoincrement())
-  entidade String
-  usuario String
-  dataHora DateTime @default(now())
+  entity String
+  user String
+  createdAt DateTime @updatedAt
 }
 
-model Telefone {
+model Phone {
   id Int @id @default(autoincrement())
   ddd String
-  numero String @unique
-  tipoTelefone String
-  cliente Cliente @relation(fields: [clienteId], references: [id])
-  clienteId Int
+  number String @unique
+  phoneType String
+
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
 }

@@ -1,5 +1,5 @@
-import EntidadeDominio from "../models/EntidadeDominio";
+import DomainEntity from "../models/DomainEntity";
 
 export default interface IStrategy {
-   processar(entidadeDominio: EntidadeDominio): string;
+   execute(entity: DomainEntity): string;
 }

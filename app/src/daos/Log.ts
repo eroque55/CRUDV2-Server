@@ -3,18 +3,13 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export default class LogDAO {
-   async salvar(
-      entidade: string,
-      usuario: string,
-      dataHora: Date
-   ): Promise<boolean> {
+export default class Log {
+   async create(entity: string, user: string): Promise<boolean> {
       try {
          await prisma.log.create({
             data: {
-               entidade,
-               usuario,
-               dataHora,
+               entity,
+               user,
             },
          });
          return true;

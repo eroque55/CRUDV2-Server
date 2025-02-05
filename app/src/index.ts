@@ -1,13 +1,13 @@
 import express from "express";
 import cors from "cors";
 
-import cartaoRoutes from "./routes/Cartao";
-import cidadeRoutes from "./routes/Cidade";
-import clienteRoutes from "./routes/Cliente";
-import enderecoRoutes from "./routes/Endereco";
-import estadoRoutes from "./routes/Estado";
-import paisRoutes from "./routes/Pais";
-import telefoneRoutes from "./routes/Telefone";
+import cardRoutes from "./routes/Card";
+import cityRoutes from "./routes/City";
+import customerRoutes from "./routes/Customer";
+import addressRoutes from "./routes/Address";
+import stateRoutes from "./routes/State";
+import countryRoutes from "./routes/Country";
+import phoneRoutes from "./routes/Phone";
 
 const app = express();
 app.use(express.json());
@@ -17,16 +17,16 @@ app.listen(8000, () =>
    console.log("Servidor rodando em: http://localhost:8000")
 );
 
-app.use("/cartoes", cartaoRoutes);
+app.use("/cards", cardRoutes);
 
-app.use("/cidades", cidadeRoutes);
+app.use("/cities", cityRoutes);
 
-app.use("/clientes", clienteRoutes);
+app.use("/customers", customerRoutes);
 
-app.use("/enderecos", enderecoRoutes);
+app.use("/addresses", addressRoutes);
 
-app.use("/estados", estadoRoutes);
+app.use("/states", stateRoutes);
 
-app.use("/paises", paisRoutes);
+app.use("/contries", countryRoutes);
 
-app.use("/telefones", telefoneRoutes);
+app.use("/phones", phoneRoutes);
