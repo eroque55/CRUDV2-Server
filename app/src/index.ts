@@ -1,13 +1,7 @@
 import express from "express";
 import cors from "cors";
 
-import cardRoutes from "./routes/Card";
-import cityRoutes from "./routes/City";
-import customerRoutes from "./routes/Customer";
-import addressRoutes from "./routes/Address";
-import stateRoutes from "./routes/State";
-import countryRoutes from "./routes/Country";
-import phoneRoutes from "./routes/Phone";
+import * as Routes from "./routes";
 
 const app = express();
 app.use(express.json());
@@ -17,16 +11,16 @@ app.listen(8000, () =>
    console.log("Servidor rodando em: http://localhost:8000")
 );
 
-app.use("/cards", cardRoutes);
+app.use("/cards", Routes.CardRoutes);
 
-app.use("/cities", cityRoutes);
+app.use("/cities", Routes.CityRoutes);
 
-app.use("/customers", customerRoutes);
+app.use("/customers", Routes.CustomerRoutes);
 
-app.use("/addresses", addressRoutes);
+app.use("/addresses", Routes.AddressRoutes);
 
-app.use("/states", stateRoutes);
+app.use("/states", Routes.StateRoutes);
 
-app.use("/contries", countryRoutes);
+app.use("/contries", Routes.CountryRoutes);
 
-app.use("/phones", phoneRoutes);
+app.use("/phones", Routes.PhoneRoutes);
