@@ -2,13 +2,28 @@ import { Request, Response } from "express";
 import CustomerController from "../controllers/Customer";
 
 import State from "../models/State";
+import { StateDao } from "../daos";
 
 const customerController = new CustomerController();
+const stateDao = new StateDao();
 
 export async function getStates(req: Request, res: Response) {
    try {
       const statesResponse = await customerController.read(new State());
 
+      res.json(statesResponse);
+   } catch (error: any) {
+      res.status(500).send(error.message);
+   }
+}
+
+export async function getStatesByContry(req: Request, res: Response) {
+   try {
+      const state = new State();
+
+      state.CountryId = parseInt(req.params.countryId);
+
+      const statesResponse = await stateDao.getByContry(state);
       res.json(statesResponse);
    } catch (error: any) {
       res.status(500).send(error.message);

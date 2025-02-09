@@ -45,7 +45,7 @@ export default class City implements IDAO {
    async read(): Promise<CityModel[]> {
       try {
          const cities = await prisma.city.findMany({
-            orderBy: { id: "asc" },
+            orderBy: { name: "asc" },
          });
          return cities.map(this.mapToDomain);
       } catch (error: any) {
@@ -66,6 +66,21 @@ export default class City implements IDAO {
          return this.mapToDomain(city);
       } catch (error: any) {
          throw new Error(`Erro ao selecionar cidade: ${error.message}`);
+      }
+   }
+
+   async getByState(entity: CityModel): Promise<CityModel[]> {
+      try {
+         const cities = await prisma.city.findMany({
+            orderBy: { name: "asc" },
+            where: { stateId: entity.StateId },
+         });
+
+         return cities.map(this.mapToDomain);
+      } catch (error: any) {
+         throw new Error(
+            `Erro ao consultar cidades por estado: ${error.message}`
+         );
       }
    }
 
