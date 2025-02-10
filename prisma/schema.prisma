@@ -18,11 +18,11 @@ model Card {
   number String @unique
   cardholder String
   cvv String
-  preferential Boolean
+  preferential Boolean @default(false)
   expirationDate String
   cardBrand String
 
-  customer Customer @relation(fields: [customerId], references: [id])
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
   customerId Int @map("clienteId")
 }
 
@@ -56,15 +56,15 @@ model Address {
   id Int @id @default(autoincrement())
   nickname String
   street String
-  number String
+  number Int
   neighborhood String
   cep String
-  complement String
+  complement String? @default("")
   addressType String
   streetType String
   residenceType String
 
-  customer Customer @relation(fields: [customerId], references: [id])
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
   customerId Int
 
   city City @relation(fields: [cityId], references: [id])
@@ -101,6 +101,6 @@ model Phone {
   number String @unique
   phoneType String
 
-  customer Customer @relation(fields: [customerId], references: [id])
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
   customerId Int
 }

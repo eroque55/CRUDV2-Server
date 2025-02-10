@@ -45,7 +45,7 @@ export default class City implements IDAO {
    async read(): Promise<CityModel[]> {
       try {
          const cities = await prisma.city.findMany({
-            orderBy: { name: "asc" },
+            orderBy: { id: "asc" },
          });
          return cities.map(this.mapToDomain);
       } catch (error: any) {
@@ -72,7 +72,7 @@ export default class City implements IDAO {
    async getByState(entity: CityModel): Promise<CityModel[]> {
       try {
          const cities = await prisma.city.findMany({
-            orderBy: { name: "asc" },
+            orderBy: { id: "asc" },
             where: { stateId: entity.StateId },
          });
 

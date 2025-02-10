@@ -46,7 +46,7 @@ export default class Country implements IDAO {
    async read(): Promise<CountryModel[]> {
       try {
          const countries = await prisma.country.findMany({
-            orderBy: { name: "asc" },
+            orderBy: { id: "asc" },
          });
 
          return countries.map(this.mapToDomain);

@@ -5,6 +5,7 @@ import {
    postAddress,
    putAddress,
    deleteAddress,
+   getAddressesByCustomer,
 } from "../handlers/Address";
 
 const router = Router();
@@ -12,6 +13,8 @@ const router = Router();
 router.get("/", getAddresses);
 
 router.get("/:id", getAddress);
+
+router.get("/customer/:customerId", getAddressesByCustomer);
 
 router.post("/", postAddress);
 

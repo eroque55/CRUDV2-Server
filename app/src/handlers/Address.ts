@@ -5,8 +5,10 @@ import Address from "../models/Address";
 import AddressType from "../enums/AddressType";
 import StreetType from "../enums/StreetType";
 import ResidenceType from "../enums/ResidenceType";
+import { AddressDao } from "../daos";
 
 const customerController = new CustomerController();
+const addressDao = new AddressDao();
 
 export async function getAddresses(req: Request, res: Response) {
    try {
@@ -26,6 +28,19 @@ export async function getAddress(req: Request, res: Response) {
 
       const addressResponse = await customerController.get(address);
       res.json(addressResponse);
+   } catch (error: any) {
+      res.status(500).send(error.message);
+   }
+}
+
+export async function getAddressesByCustomer(req: Request, res: Response) {
+   try {
+      const address = new Address();
+
+      address.CustomerId = parseInt(req.params.customerId);
+
+      const addressesResponse = await addressDao.getByCustomer(address);
+      res.json(addressesResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }

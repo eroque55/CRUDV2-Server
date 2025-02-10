@@ -7,7 +7,7 @@ export default class Address extends DomainEntity {
    private _customerId: number = 0;
    private _nickname: string = "";
    private _street: string = "";
-   private _number: string = "";
+   private _number: number = 0;
    private _neighborhood: string = "";
    private _cep: string = "";
    private _complement: string = "";
@@ -40,11 +40,11 @@ export default class Address extends DomainEntity {
       this._street = street;
    }
 
-   get Number(): string {
+   get Number(): number {
       return this._number;
    }
 
-   set Number(number: string) {
+   set Number(number: number) {
       this._number = number;
    }
 

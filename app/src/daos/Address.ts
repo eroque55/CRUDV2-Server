@@ -18,7 +18,7 @@ export default class Address implements IDAO {
 
          return this.mapToDomain(address);
       } catch (error: any) {
-         throw new Error(`Erro ao salvar endereço: ${error.message}`);
+         throw new Error(`Erro ao salvar endereço: ${error}`);
       }
    }
 
@@ -72,6 +72,21 @@ export default class Address implements IDAO {
       }
    }
 
+   async getByCustomer(entity: AddressModel): Promise<AddressModel[]> {
+      try {
+         const addresses = await prisma.address.findMany({
+            orderBy: { id: "asc" },
+            where: { customerId: entity.CustomerId },
+         });
+
+         return addresses.map(this.mapToDomain);
+      } catch (error: any) {
+         throw new Error(
+            `Erro ao consultar cidades por estado: ${error.message}`
+         );
+      }
+   }
+
    private saveData(entity: AddressModel): Prisma.AddressCreateInput {
       return {
          customer: { connect: { id: entity.CustomerId } },
@@ -116,7 +131,7 @@ export default class Address implements IDAO {
       returnAddress.Number = address.number;
       returnAddress.Neighborhood = address.neighborhood;
       returnAddress.Cep = address.cep;
-      returnAddress.Complement = address.complement;
+      returnAddress.Complement = address.complement || "";
       returnAddress.CityId = address.cityId;
       returnAddress.AddressType =
          AddressType[address.addressType as keyof typeof AddressType];

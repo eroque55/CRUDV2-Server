@@ -21,6 +21,6 @@ app.use("/addresses", Routes.AddressRoutes);
 
 app.use("/states", Routes.StateRoutes);
 
-app.use("/contries", Routes.CountryRoutes);
+app.use("/countries", Routes.CountryRoutes);
 
 app.use("/phones", Routes.PhoneRoutes);
