@@ -5,7 +5,7 @@ enum CardBrand {
    DISCOVER = "DISCOVER",
    DINERS_CLUB = "DINERS_CLUB",
    JCB = "JCB",
-   OUTRAS = "OUTRAS",
+   OUTRA = "OUTRA",
    UNDEFINED = "UNDEFINED",
 }
 
