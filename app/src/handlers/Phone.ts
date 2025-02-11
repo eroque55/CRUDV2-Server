@@ -3,8 +3,10 @@ import CustomerController from "../controllers/Customer";
 
 import Phone from "../models/Phone";
 import PhoneType from "../enums/PhoneType";
+import { PhoneDao } from "../daos";
 
 const customerController = new CustomerController();
+const phoneDao = new PhoneDao();
 
 export async function getPhones(req: Request, res: Response) {
    try {
@@ -23,6 +25,19 @@ export async function getPhone(req: Request, res: Response) {
       phone.Id = parseInt(req.params.id);
 
       const phoneResponse = await customerController.get(phone);
+      res.json(phoneResponse);
+   } catch (error: any) {
+      res.status(500).send(error.message);
+   }
+}
+
+export async function getPhoneByCustomer(req: Request, res: Response) {
+   try {
+      const phone = new Phone();
+
+      phone.CustomerId = parseInt(req.params.customerId);
+
+      const phoneResponse = await phoneDao.getByCustomer(phone);
       res.json(phoneResponse);
    } catch (error: any) {
       res.status(500).send(error.message);

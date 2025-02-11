@@ -3,8 +3,10 @@ import CustomerController from "../controllers/Customer";
 
 import Card from "../models/Card";
 import CardBrand from "../enums/CardBrand";
+import { CardDao } from "../daos";
 
 const customerController = new CustomerController();
+const cardDao = new CardDao();
 
 export async function getCards(req: Request, res: Response) {
    try {
@@ -24,6 +26,19 @@ export async function getCard(req: Request, res: Response) {
 
       const cardResponse = await customerController.get(card);
       res.json(cardResponse);
+   } catch (error: any) {
+      res.status(500).send(error.message);
+   }
+}
+
+export async function getCardsByCustomer(req: Request, res: Response) {
+   try {
+      const card = new Card();
+
+      card.CustomerId = parseInt(req.params.customerId);
+
+      const cardsResponse = await cardDao.getByCustomer(card);
+      res.json(cardsResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }

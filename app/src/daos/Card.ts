@@ -70,6 +70,21 @@ export default class Card implements IDAO {
       }
    }
 
+   async getByCustomer(entity: CardModel): Promise<CardModel[]> {
+      try {
+         const cards = await prisma.card.findMany({
+            orderBy: { id: "asc" },
+            where: { customerId: entity.CustomerId },
+         });
+
+         return cards.map(this.mapToDomain);
+      } catch (error: any) {
+         throw new Error(
+            `Erro ao consultar cartões por cliente: ${error.message}`
+         );
+      }
+   }
+
    private maskCardNumber(number: string): string {
       const length = number.length;
       const lastFourDigits = number.substring(length - 4, length);

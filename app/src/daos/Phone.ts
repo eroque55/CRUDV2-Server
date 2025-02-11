@@ -14,6 +14,9 @@ export default class Phone implements IDAO {
             data: this.saveData(entity),
          });
 
+         if (!phone) {
+            throw new Error("Telefone não encontrado");
+         }
          return this.mapToDomain(phone);
       } catch (error: any) {
          throw new Error(`Erro ao salvar telefone: ${error.message}`);
@@ -68,6 +71,24 @@ export default class Phone implements IDAO {
          return this.mapToDomain(phone);
       } catch (error: any) {
          throw new Error(`Erro ao selecionar telefone: ${error.message}`);
+      }
+   }
+
+   async getByCustomer(entity: PhoneModel): Promise<PhoneModel> {
+      try {
+         const phone = await prisma.phone.findUnique({
+            where: { customerId: entity.CustomerId },
+         });
+
+         if (!phone) {
+            throw new Error("Telefone não encontrado");
+         }
+
+         return this.mapToDomain(phone);
+      } catch (error: any) {
+         throw new Error(
+            `Erro ao consultar cidades por estado: ${error.message}`
+         );
       }
    }
 

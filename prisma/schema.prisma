@@ -102,5 +102,5 @@ model Phone {
   phoneType String
 
   customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  customerId Int
+  customerId Int @unique
 }
