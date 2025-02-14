@@ -6,7 +6,6 @@ enum CardBrand {
    DINERS_CLUB = "DINERS_CLUB",
    JCB = "JCB",
    OUTRA = "OUTRA",
-   UNDEFINED = "UNDEFINED",
 }
 
 export default CardBrand;

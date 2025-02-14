@@ -1,5 +1,3 @@
-import DomainEntity from "../models/DomainEntity";
-
-export default interface IStrategy {
-   execute(entity: DomainEntity): string;
+export default interface IStrategy<T> {
+   execute(entity: T): string;
 }

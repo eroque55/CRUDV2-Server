@@ -1,22 +1,22 @@
 import IFacade from "./IFacade";
 import IStrategy from "../strategies/IStrategy";
-import DomainEntity from "../models/DomainEntity";
 import IDAO from "../daos/IDAO";
 
-import * as Models from "../models";
+import { Prisma } from "@prisma/client";
+
 import * as DAOs from "../daos";
 import * as Strategies from "../strategies";
 
-export default class Facade implements IFacade {
-   private strategies: Map<string, IStrategy[]> = new Map();
-   private daos: Map<string, IDAO> = new Map();
+export default class Facade<T> implements IFacade<T> {
+   private strategies: Map<string, IStrategy<T>[]> = new Map();
+   private daos: Map<string, IDAO<T>> = new Map();
 
    constructor() {
       this.setStrategies();
       this.setDAOs();
    }
 
-   async create(entity: DomainEntity): Promise<DomainEntity> {
+   async create(entity: T): Promise<T> {
       const dao = this.getDAO(entity);
       const msg: string = this.execute(entity);
 
@@ -25,12 +25,12 @@ export default class Facade implements IFacade {
       }
 
       const logDAO: DAOs.LogDao = new DAOs.LogDao();
-      logDAO.create(`${entity.constructor.name}.create`, "admin");
+      logDAO.create(`${Prisma.ModelName[entity]}.create`, "admin");
 
       return await dao.create(entity);
    }
 
-   async update(entity: DomainEntity): Promise<DomainEntity> {
+   async update(entity: T): Promise<T> {
       const dao = this.getDAO(entity);
       const updatedEntity = await dao.update(entity);
 
@@ -42,52 +42,52 @@ export default class Facade implements IFacade {
       return updatedEntity;
    }
 
-   async delete(entity: DomainEntity): Promise<void> {
+   async delete(entity: T): Promise<void> {
       const dao = this.getDAO(entity);
       await dao.delete(entity);
       const logDAO: DAOs.LogDao = new DAOs.LogDao();
       logDAO.create(`${entity.constructor.name}.delete`, "admin");
    }
 
-   async read(entity: DomainEntity): Promise<DomainEntity[]> {
+   async read(entity: T): Promise<T[]> {
       const dao = this.getDAO(entity);
       return await dao.read(entity);
    }
 
-   async get(entity: DomainEntity): Promise<DomainEntity> {
+   async get(entity: T): Promise<T> {
       const dao = this.getDAO(entity);
       return await dao.get(entity);
    }
 
    private setStrategies(): void {
-      this.strategies.set(Models.CardModel.name, [
+      this.strategies.set(Prisma.ModelName.Card, [
          new Strategies.ValidateCard(),
       ]);
-      this.strategies.set(Models.CustomerModel.name, [
+      this.strategies.set(Prisma.ModelName.Customer, [
          new Strategies.ValidateCustomer(),
          new Strategies.ValidateCPF(),
       ]);
-      this.strategies.set(Models.AddressModel.name, [
+      this.strategies.set(Prisma.ModelName.Address, [
          new Strategies.ValidateAddress(),
       ]);
-      this.strategies.set(Models.PhoneModel.name, [
+      this.strategies.set(Prisma.ModelName.Phone, [
          new Strategies.ValidatePhone(),
       ]);
    }
 
    private setDAOs(): void {
-      this.daos.set(Models.CardModel.name, new DAOs.CardDao());
-      this.daos.set(Models.CustomerModel.name, new DAOs.CustomerDao());
-      this.daos.set(Models.PhoneModel.name, new DAOs.PhoneDao());
-      this.daos.set(Models.AddressModel.name, new DAOs.AddressDao());
-      this.daos.set(Models.CountryModel.name, new DAOs.CountryDAO());
-      this.daos.set(Models.StateModel.name, new DAOs.StateDao());
-      this.daos.set(Models.CityModel.name, new DAOs.CityDao());
+      this.daos.set(Prisma.ModelName.Card, new DAOs.CardDao());
+      this.daos.set(Prisma.ModelName.Customer, new DAOs.CustomerDao());
+      this.daos.set(Prisma.ModelName.Phone, new DAOs.PhoneDao());
+      this.daos.set(Prisma.ModelName.Address, new DAOs.AddressDao());
+      this.daos.set(Prisma.ModelName.Country, new DAOs.CountryDAO());
+      this.daos.set(Prisma.ModelName.State, new DAOs.StateDao());
+      this.daos.set(Prisma.ModelName.State, new DAOs.CityDao());
    }
 
-   private execute(entity: DomainEntity): string {
+   private execute(entity: T): string {
       const className: string = entity.constructor.name;
-      const entityStrategies: IStrategy[] =
+      const entityStrategies: IStrategy<T>[] =
          this.strategies.get(className) || [];
       let msg: string = "";
 
@@ -96,7 +96,7 @@ export default class Facade implements IFacade {
       return msg;
    }
 
-   private getDAO(entity: DomainEntity): IDAO {
+   private getDAO(entity: T): IDAO<T> {
       const className = entity.constructor.name;
       const dao = this.daos.get(className);
 

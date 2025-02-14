@@ -9,7 +9,7 @@ import ResidenceType from "../enums/ResidenceType";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export default class Address implements IDAO {
+export default class Address implements IDAO<> {
    async create(entity: AddressModel): Promise<AddressModel> {
       try {
          const address = await prisma.address.create({

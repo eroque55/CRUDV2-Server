@@ -4,6 +4,48 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+enum AddressType {
+   RESIDENCIAL
+   COBRANCA
+   ENTREGA
+}
+
+enum CardBrand {
+   VISA
+   MASTERCARDCARD
+   AMERICAN_EXPRESS
+   DISCOVERER
+   DINERS_CLUB_CLUB
+   JCB
+}
+
+enum Gender {
+   FEMININO
+   MASCULINO
+   OUTRO
+}
+
+enum PhoneType {
+   CELULAR
+   RESIDENCIAL
+   COMERCIAL
+}
+
+enum ResidenceType {
+   CASA
+   APARTAMENTO
+   OUTRO
+}
+
+enum StreetType {
+   RUA
+   AVENIDA
+   TRAVESSA
+   ALAMEDA
+   ESTRADA
+   OUTRO
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -20,10 +62,10 @@ model Card {
   cvv String
   preferential Boolean @default(false)
   expirationDate String
-  cardBrand String
+  cardBrand CardBrand
 
   customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  customerId Int @map("clienteId")
+  customerId Int
 }
 
 model City {
@@ -41,7 +83,7 @@ model Customer {
   name String
   birthDate DateTime @db.Date
   cpf String @unique
-  gender String
+  gender Gender
   email String @unique
   password String
   status Boolean
@@ -59,10 +101,10 @@ model Address {
   number Int
   neighborhood String
   cep String
-  complement String? @default("")
-  addressType String
-  streetType String
-  residenceType String
+  complement String?
+  addressType AddressType
+  streetType StreetType
+  residenceType ResidenceType
 
   customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
   customerId Int
@@ -92,14 +134,14 @@ model Log {
   id Int @id @default(autoincrement())
   entity String
   user String
-  createdAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 }
 
 model Phone {
   id Int @id @default(autoincrement())
   ddd String
   number String @unique
-  phoneType String
+  phoneType PhoneType
 
   customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
   customerId Int @unique

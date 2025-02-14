@@ -1,9 +1,7 @@
-import DomainEntity from "../models/DomainEntity";
-
-export default interface IFacade {
-   create(entidade: DomainEntity): Promise<DomainEntity>;
-   update(entidade: DomainEntity): Promise<DomainEntity>;
-   delete(entidade: DomainEntity): Promise<void>;
-   read(entidade: DomainEntity): Promise<DomainEntity[]>;
-   get(entidade: DomainEntity): Promise<DomainEntity>;
+export default interface IFacade<T> {
+   create(entidade: T): Promise<T>;
+   update(entidade: T): Promise<T>;
+   delete(entidade: T): Promise<void>;
+   read(entidade: T): Promise<T[]>;
+   get(entidade: T): Promise<T>;
 }

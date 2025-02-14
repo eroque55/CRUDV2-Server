@@ -4,10 +4,10 @@ CREATE TABLE "Card" (
     "number" TEXT NOT NULL,
     "cardholder" TEXT NOT NULL,
     "cvv" TEXT NOT NULL,
-    "preferential" BOOLEAN NOT NULL,
+    "preferential" BOOLEAN NOT NULL DEFAULT false,
     "expirationDate" TEXT NOT NULL,
     "cardBrand" TEXT NOT NULL,
-    "clienteId" INTEGER NOT NULL,
+    "customerId" INTEGER NOT NULL,
 
     CONSTRAINT "Card_pkey" PRIMARY KEY ("id")
 );
@@ -41,10 +41,10 @@ CREATE TABLE "Address" (
     "id" SERIAL NOT NULL,
     "nickname" TEXT NOT NULL,
     "street" TEXT NOT NULL,
-    "number" TEXT NOT NULL,
+    "number" INTEGER NOT NULL,
     "neighborhood" TEXT NOT NULL,
-    "zipCode" TEXT NOT NULL,
-    "complement" TEXT NOT NULL,
+    "cep" TEXT NOT NULL,
+    "complement" TEXT DEFAULT '',
     "addressType" TEXT NOT NULL,
     "streetType" TEXT NOT NULL,
     "residenceType" TEXT NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE "Log" (
     "id" SERIAL NOT NULL,
     "entity" TEXT NOT NULL,
     "user" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Log_pkey" PRIMARY KEY ("id")
 );
@@ -113,14 +113,17 @@ CREATE UNIQUE INDEX "Country_name_key" ON "Country"("name");
 -- CreateIndex
 CREATE UNIQUE INDEX "Phone_number_key" ON "Phone"("number");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Phone_customerId_key" ON "Phone"("customerId");
+
 -- AddForeignKey
-ALTER TABLE "Card" ADD CONSTRAINT "Card_clienteId_fkey" FOREIGN KEY ("clienteId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Card" ADD CONSTRAINT "Card_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "City" ADD CONSTRAINT "City_stateId_fkey" FOREIGN KEY ("stateId") REFERENCES "State"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Address" ADD CONSTRAINT "Address_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Address" ADD CONSTRAINT "Address_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Address" ADD CONSTRAINT "Address_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "City"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -129,4 +132,4 @@ ALTER TABLE "Address" ADD CONSTRAINT "Address_cityId_fkey" FOREIGN KEY ("cityId"
 ALTER TABLE "State" ADD CONSTRAINT "State_countryId_fkey" FOREIGN KEY ("countryId") REFERENCES "Country"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Phone" ADD CONSTRAINT "Phone_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Phone" ADD CONSTRAINT "Phone_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
