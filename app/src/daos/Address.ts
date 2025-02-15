@@ -1,16 +1,11 @@
-import { Prisma, PrismaClient, Address as PrismaAddress } from "@prisma/client";
+import { Prisma, PrismaClient, Address } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import IDAO from "./IDAO";
 
-import AddressModel from "../models/Address";
-import AddressType from "../enums/AddressType";
-import StreetType from "../enums/StreetType";
-import ResidenceType from "../enums/ResidenceType";
-
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export default class Address implements IDAO<> {
-   async create(entity: AddressModel): Promise<AddressModel> {
+export default class AddressDao implements IDAO {
+   async create(entity: PrismaClient): Promise<PrismaClient> {
       try {
          const address = await prisma.address.create({
             data: this.saveData(entity),
@@ -22,7 +17,7 @@ export default class Address implements IDAO<> {
       }
    }
 
-   async update(entity: AddressModel): Promise<AddressModel> {
+   async update(entity: PrismaClient): Promise<PrismaClient> {
       try {
          const address = await prisma.address.update({
             where: { id: entity.Id },
@@ -35,7 +30,7 @@ export default class Address implements IDAO<> {
       }
    }
 
-   async delete(entity: AddressModel): Promise<void> {
+   async delete(entity: PrismaClient): Promise<void> {
       try {
          await prisma.address.delete({
             where: { id: entity.Id },
@@ -45,7 +40,7 @@ export default class Address implements IDAO<> {
       }
    }
 
-   async read(): Promise<AddressModel[]> {
+   async read(): Promise<PrismaClient[]> {
       try {
          const addresses = await prisma.address.findMany({
             orderBy: { id: "asc" },
@@ -56,7 +51,7 @@ export default class Address implements IDAO<> {
       }
    }
 
-   async get(entity: AddressModel): Promise<AddressModel> {
+   async get(entity: PrismaClient): Promise<PrismaClient> {
       try {
          const address = await prisma.address.findUnique({
             where: { id: entity.Id },
@@ -72,7 +67,7 @@ export default class Address implements IDAO<> {
       }
    }
 
-   async getByCustomer(entity: AddressModel): Promise<AddressModel[]> {
+   async getByCustomer(entity: PrismaClient): Promise<PrismaClient[]> {
       try {
          const addresses = await prisma.address.findMany({
             orderBy: { id: "asc" },
@@ -117,14 +112,14 @@ export default class Address implements IDAO<> {
       };
    }
 
-   private mapToDomain(address: PrismaAddress): AddressModel {
+   private mapToDomain(address: PrismaClient): Address {
       if (!address) {
          throw new Error("Endereco inválido para mapeamento.");
       }
 
-      const returnAddress = new AddressModel();
+      const returnAddress = new Address();
 
-      returnAddress.Id = address.id;
+      returnAddress.Id = address.address;
       returnAddress.CustomerId = address.customerId;
       returnAddress.Nickname = address.nickname;
       returnAddress.Street = address.street;

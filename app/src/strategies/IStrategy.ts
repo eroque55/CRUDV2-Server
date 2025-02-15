@@ -1,3 +1,5 @@
-export default interface IStrategy<T> {
-   execute(entity: T): string;
+import { PrismaClient } from "@prisma/client/scripts/default-index";
+
+export default interface IStrategy {
+   execute(entity: PrismaClient): string;
 }

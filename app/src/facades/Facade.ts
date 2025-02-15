@@ -2,21 +2,21 @@ import IFacade from "./IFacade";
 import IStrategy from "../strategies/IStrategy";
 import IDAO from "../daos/IDAO";
 
-import { Prisma } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 import * as DAOs from "../daos";
 import * as Strategies from "../strategies";
 
-export default class Facade<T> implements IFacade<T> {
-   private strategies: Map<string, IStrategy<T>[]> = new Map();
-   private daos: Map<string, IDAO<T>> = new Map();
+export default class Facade implements IFacade {
+   private strategies: Map<string, IStrategy[]> = new Map();
+   private daos: Map<string, IDAO> = new Map();
 
    constructor() {
       this.setStrategies();
       this.setDAOs();
    }
 
-   async create(entity: T): Promise<T> {
+   async create(entity: PrismaClient): Promise<PrismaClient> {
       const dao = this.getDAO(entity);
       const msg: string = this.execute(entity);
 
@@ -25,12 +25,12 @@ export default class Facade<T> implements IFacade<T> {
       }
 
       const logDAO: DAOs.LogDao = new DAOs.LogDao();
-      logDAO.create(`${Prisma.ModelName[entity]}.create`, "admin");
+      logDAO.create(`${PrismaClient.name}.create`, "admin");
 
       return await dao.create(entity);
    }
 
-   async update(entity: T): Promise<T> {
+   async update(entity: PrismaClient): Promise<PrismaClient> {
       const dao = this.getDAO(entity);
       const updatedEntity = await dao.update(entity);
 
@@ -42,19 +42,19 @@ export default class Facade<T> implements IFacade<T> {
       return updatedEntity;
    }
 
-   async delete(entity: T): Promise<void> {
+   async delete(entity: PrismaClient): Promise<void> {
       const dao = this.getDAO(entity);
       await dao.delete(entity);
       const logDAO: DAOs.LogDao = new DAOs.LogDao();
       logDAO.create(`${entity.constructor.name}.delete`, "admin");
    }
 
-   async read(entity: T): Promise<T[]> {
+   async read(entity: PrismaClient): Promise<PrismaClient[]> {
       const dao = this.getDAO(entity);
       return await dao.read(entity);
    }
 
-   async get(entity: T): Promise<T> {
+   async get(entity: PrismaClient): Promise<PrismaClient> {
       const dao = this.getDAO(entity);
       return await dao.get(entity);
    }
@@ -85,9 +85,9 @@ export default class Facade<T> implements IFacade<T> {
       this.daos.set(Prisma.ModelName.State, new DAOs.CityDao());
    }
 
-   private execute(entity: T): string {
+   private execute(entity: PrismaClient): string {
       const className: string = entity.constructor.name;
-      const entityStrategies: IStrategy<T>[] =
+      const entityStrategies: IStrategy[] =
          this.strategies.get(className) || [];
       let msg: string = "";
 
@@ -96,7 +96,7 @@ export default class Facade<T> implements IFacade<T> {
       return msg;
    }
 
-   private getDAO(entity: T): IDAO<T> {
+   private getDAO(entity: PrismaClient): IDAO {
       const className = entity.constructor.name;
       const dao = this.daos.get(className);
 

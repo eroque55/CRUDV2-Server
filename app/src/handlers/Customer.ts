@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import CustomerController from "../controllers/Customer";
-
-import Customer from "../models/Customer";
 import Gender from "../enums/Gender";
 
 const customerController = new CustomerController();

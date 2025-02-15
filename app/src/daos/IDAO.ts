@@ -1,7 +1,9 @@
-export default interface IDAO<T> {
-   create(entity: T): Promise<T>;
-   read(entity: T): Promise<T[]>;
-   update(entity: T): Promise<T>;
-   delete(entity: T): Promise<void>;
-   get(entity: T): Promise<T>;
+import { PrismaClient } from "@prisma/client";
+
+export default interface IDAO {
+   create(entity: PrismaClient): Promise<PrismaClient>;
+   read(entity: PrismaClient): Promise<PrismaClient[]>;
+   update(entity: PrismaClient): Promise<PrismaClient>;
+   delete(entity: PrismaClient): Promise<void>;
+   get(entity: PrismaClient): Promise<PrismaClient>;
 }
