@@ -74,7 +74,7 @@ export default class State implements IDAO {
       try {
          const states = await prisma.state.findMany({
             orderBy: { id: "asc" },
-            where: { countryId: entity.CountryId },
+            where: { countryId: entity.Country.Id },
          });
 
          return states.map(this.mapToDomain);
@@ -88,7 +88,7 @@ export default class State implements IDAO {
    private saveData(entity: StateModel): Prisma.StateCreateInput {
       return {
          name: entity.Name,
-         country: { connect: { id: entity.CountryId } },
+         country: { connect: { id: entity.Country.Id } },
       };
    }
 
@@ -101,7 +101,7 @@ export default class State implements IDAO {
 
       returnState.Id = state.id;
       returnState.Name = state.name;
-      returnState.CountryId = state.countryId;
+      returnState.Country.Id = state.countryId;
 
       return returnState;
    }

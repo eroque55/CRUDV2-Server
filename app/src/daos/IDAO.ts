@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import DomainEntity from "../models/DomainEntity";
 
 export default interface IDAO {
-   create(entity: PrismaClient): Promise<PrismaClient>;
-   read(entity: PrismaClient): Promise<PrismaClient[]>;
-   update(entity: PrismaClient): Promise<PrismaClient>;
-   delete(entity: PrismaClient): Promise<void>;
-   get(entity: PrismaClient): Promise<PrismaClient>;
+   create(entity: DomainEntity): Promise<DomainEntity>;
+   read(entity: DomainEntity): Promise<DomainEntity[]>;
+   update(entity: DomainEntity): Promise<DomainEntity>;
+   delete(entity: DomainEntity): Promise<void>;
+   get(entity: DomainEntity): Promise<DomainEntity>;
 }

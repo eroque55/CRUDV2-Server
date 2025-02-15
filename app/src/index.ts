@@ -1,6 +1,10 @@
 import express from "express";
 import cors from "cors";
 
+import { Card, City, Customer, PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
 import * as Routes from "./routes";
 
 const app = express();
@@ -24,3 +28,41 @@ app.use("/states", Routes.StateRoutes);
 app.use("/countries", Routes.CountryRoutes);
 
 app.use("/phones", Routes.PhoneRoutes);
+
+async function teste(): Promise<Customer[]> {
+   return await prisma.customer.findMany({
+      include: {
+         Address: {
+            include: {
+               city: {
+                  include: {
+                     state: {
+                        include: {
+                           country: true,
+                        },
+                     },
+                  },
+               },
+            },
+         },
+         Phone: true,
+         Card: true,
+      },
+   });
+}
+
+app.get("/teste1", async (req, res) => {
+   res.json(await teste());
+});
+
+async function teste2(): Promise<Card[]> {
+   return await prisma.card.findMany({
+      include: {
+         customer: true,
+      },
+   });
+}
+
+app.get("/teste2", async (req, res) => {
+   res.json(await teste2());
+});

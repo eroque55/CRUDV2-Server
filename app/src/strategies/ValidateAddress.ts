@@ -2,9 +2,6 @@ import IStrategy from "./IStrategy";
 import DomainEntity from "../models/DomainEntity";
 
 import Address from "../models/Address";
-import AddressType from "../enums/AddressType";
-import StreetType from "../enums/StreetType";
-import ResidenceType from "../enums/ResidenceType";
 
 export default class ValidateAddress implements IStrategy {
    execute(entity: DomainEntity): string {
@@ -36,19 +33,19 @@ export default class ValidateAddress implements IStrategy {
                message += "CEP inválido. ";
             }
 
-            if (address.CityId === 0) {
+            if (address.City.Id === 0) {
                message += "Cidade é obrigatório. ";
             }
 
-            if (address.AddressType === AddressType.UNDEFINED) {
+            if (!address.AddressType) {
                message += "Tipo de endereço é obrigatório. ";
             }
 
-            if (address.StreetType === StreetType.UNDEFINED) {
+            if (!address.StreetType) {
                message += "Tipo de logradouro é obrigatório. ";
             }
 
-            if (address.ResidenceType === ResidenceType.UNDEFINED) {
+            if (!address.ResidenceType) {
                message += "Tipo de residência é obrigatória. ";
             }
          }

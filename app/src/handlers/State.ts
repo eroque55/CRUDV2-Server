@@ -21,7 +21,7 @@ export async function getStatesByContry(req: Request, res: Response) {
    try {
       const state = new State();
 
-      state.CountryId = parseInt(req.params.countryId);
+      state.Country.Id = parseInt(req.params.countryId);
 
       const statesResponse = await stateDao.getByContry(state);
       res.json(statesResponse);
@@ -48,7 +48,7 @@ export async function postState(req: Request, res: Response) {
       const state = new State();
 
       state.Name = req.body._name;
-      state.CountryId = req.body._contryId;
+      state.Country.Id = req.body.contryId;
 
       const stateResponse = await customerController.create(state);
       res.json(stateResponse);
@@ -62,8 +62,8 @@ export async function putState(req: Request, res: Response) {
       const state = new State();
 
       state.Id = parseInt(req.params.id);
-      state.Name = req.body._name;
-      state.CountryId = req.body._contryId;
+      state.Name = req.body.name;
+      state.Country.Id = req.body.contryId;
 
       const stateResponse = await customerController.update(state);
       res.json(stateResponse);

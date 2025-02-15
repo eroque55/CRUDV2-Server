@@ -50,20 +50,20 @@ export async function postAddress(req: Request, res: Response) {
    try {
       const address = new Address();
 
-      address.CustomerId = req.body._customerId;
-      address.Nickname = req.body._nickname;
-      address.Street = req.body._street;
-      address.Number = req.body._number;
-      address.Neighborhood = req.body._neighborhood;
-      address.Cep = req.body._cep;
-      address.Complement = req.body._complement;
-      address.CityId = req.body._cityId;
+      address.CustomerId = req.body.customerId;
+      address.Nickname = req.body.nickname;
+      address.Street = req.body.street;
+      address.Number = req.body.number;
+      address.Neighborhood = req.body.neighborhood;
+      address.Cep = req.body.cep;
+      address.Complement = req.body.complement;
+      address.City = req.body.city;
       address.AddressType =
-         AddressType[req.body._addressType as keyof typeof AddressType];
+         AddressType[req.body.addressType as keyof typeof AddressType];
       address.StreetType =
-         StreetType[req.body._streetType as keyof typeof StreetType];
+         StreetType[req.body.streetType as keyof typeof StreetType];
       address.ResidenceType =
-         ResidenceType[req.body._residenceType as keyof typeof ResidenceType];
+         ResidenceType[req.body.residenceType as keyof typeof ResidenceType];
 
       const addressResponse = await customerController.create(address);
       res.json(addressResponse);
@@ -74,20 +74,24 @@ export async function postAddress(req: Request, res: Response) {
 
 export async function putAddress(req: Request, res: Response) {
    try {
+      console.log(req.body);
+
       const address = new Address();
 
       address.Id = parseInt(req.params.id);
-      address.Nickname = req.body._nickname;
-      address.Street = req.body._street;
-      address.Number = req.body._number;
-      address.Neighborhood = req.body._neighborhood;
-      address.Cep = req.body._cep;
-      address.Complement = req.body._complement;
-      address.CityId = req.body._cityId;
+      address.Nickname = req.body.nickname;
+      address.Street = req.body.street;
+      address.Number = req.body.number;
+      address.Neighborhood = req.body.neighborhood;
+      address.Cep = req.body.cep;
+      address.Complement = req.body.complement;
+      address.City = req.body.cityId;
       address.StreetType =
-         StreetType[req.body._streetType as keyof typeof StreetType];
+         StreetType[req.body.streetType as keyof typeof StreetType];
       address.ResidenceType =
-         ResidenceType[req.body._residenceType as keyof typeof ResidenceType];
+         ResidenceType[req.body.residenceType as keyof typeof ResidenceType];
+
+      console.log(address);
 
       const addressResponse = await customerController.update(address);
       res.json(addressResponse);

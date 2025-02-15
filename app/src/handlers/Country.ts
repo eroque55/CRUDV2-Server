@@ -32,7 +32,7 @@ export async function postCountry(req: Request, res: Response) {
    try {
       const country = new Country();
 
-      country.Name = req.body._name;
+      country.Name = req.body.name;
 
       const countryResponse = await customerController.create(country);
       res.json(countryResponse);
@@ -46,7 +46,7 @@ export async function putCountry(req: Request, res: Response) {
       const country = new Country();
 
       country.Id = parseInt(req.params.id);
-      country.Name = req.body._name;
+      country.Name = req.body.name;
 
       const countryResponse = await customerController.update(country);
       res.json(countryResponse);

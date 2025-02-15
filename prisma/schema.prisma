@@ -12,11 +12,12 @@ enum AddressType {
 
 enum CardBrand {
    VISA
-   MASTERCARDCARD
+   MASTERCARD
    AMERICAN_EXPRESS
-   DISCOVERER
-   DINERS_CLUB_CLUB
+   DISCOVER
+   DINERS_CLUB
    JCB
+   OUTRA
 }
 
 enum Gender {

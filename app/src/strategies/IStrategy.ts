@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client/scripts/default-index";
+import DomainEntity from "../models/DomainEntity";
 
 export default interface IStrategy {
-   execute(entity: PrismaClient): string;
+   execute(entity: DomainEntity): string;
 }

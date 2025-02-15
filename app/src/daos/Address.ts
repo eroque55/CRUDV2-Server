@@ -1,11 +1,17 @@
-import { Prisma, PrismaClient, Address } from "@prisma/client";
+import { Prisma, PrismaClient, Address as PrismaAddress } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import IDAO from "./IDAO";
 
+import AddressModel from "../models/Address";
+import AddressType from "../enums/AddressType";
+import StreetType from "../enums/StreetType";
+import ResidenceType from "../enums/ResidenceType";
+import { mapEnum } from "../utils/enumMapper";
+
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export default class AddressDao implements IDAO {
-   async create(entity: PrismaClient): Promise<PrismaClient> {
+export default class Address implements IDAO {
+   async create(entity: AddressModel): Promise<AddressModel> {
       try {
          const address = await prisma.address.create({
             data: this.saveData(entity),
@@ -17,7 +23,7 @@ export default class AddressDao implements IDAO {
       }
    }
 
-   async update(entity: PrismaClient): Promise<PrismaClient> {
+   async update(entity: AddressModel): Promise<AddressModel> {
       try {
          const address = await prisma.address.update({
             where: { id: entity.Id },
@@ -30,7 +36,7 @@ export default class AddressDao implements IDAO {
       }
    }
 
-   async delete(entity: PrismaClient): Promise<void> {
+   async delete(entity: AddressModel): Promise<void> {
       try {
          await prisma.address.delete({
             where: { id: entity.Id },
@@ -40,10 +46,21 @@ export default class AddressDao implements IDAO {
       }
    }
 
-   async read(): Promise<PrismaClient[]> {
+   async read(): Promise<AddressModel[]> {
       try {
          const addresses = await prisma.address.findMany({
             orderBy: { id: "asc" },
+            include: {
+               city: {
+                  include: {
+                     state: {
+                        include: {
+                           country: true,
+                        },
+                     },
+                  },
+               },
+            },
          });
          return addresses.map(this.mapToDomain);
       } catch (error: any) {
@@ -51,10 +68,21 @@ export default class AddressDao implements IDAO {
       }
    }
 
-   async get(entity: PrismaClient): Promise<PrismaClient> {
+   async get(entity: AddressModel): Promise<AddressModel> {
       try {
          const address = await prisma.address.findUnique({
             where: { id: entity.Id },
+            include: {
+               city: {
+                  include: {
+                     state: {
+                        include: {
+                           country: true,
+                        },
+                     },
+                  },
+               },
+            },
          });
 
          if (!address) {
@@ -67,17 +95,28 @@ export default class AddressDao implements IDAO {
       }
    }
 
-   async getByCustomer(entity: PrismaClient): Promise<PrismaClient[]> {
+   async getByCustomer(entity: AddressModel): Promise<AddressModel[]> {
       try {
          const addresses = await prisma.address.findMany({
             orderBy: { id: "asc" },
             where: { customerId: entity.CustomerId },
+            include: {
+               city: {
+                  include: {
+                     state: {
+                        include: {
+                           country: true,
+                        },
+                     },
+                  },
+               },
+            },
          });
 
          return addresses.map(this.mapToDomain);
       } catch (error: any) {
          throw new Error(
-            `Erro ao consultar cidades por estado: ${error.message}`
+            `Erro ao consultar endereços por cliente: ${error.message}`
          );
       }
    }
@@ -91,10 +130,16 @@ export default class AddressDao implements IDAO {
          neighborhood: entity.Neighborhood,
          cep: entity.Cep,
          complement: entity.Complement,
-         city: { connect: { id: entity.CityId } },
-         addressType: entity.AddressType.toString(),
-         streetType: entity.StreetType.toString(),
-         residenceType: entity.ResidenceType.toString(),
+         city: { connect: { id: entity.City["id"] } },
+         addressType: entity.AddressType
+            ? mapEnum(AddressType, entity.AddressType)
+            : "COBRANCA",
+         streetType: entity.StreetType
+            ? mapEnum(StreetType, entity.StreetType)
+            : "RUA",
+         residenceType: entity.ResidenceType
+            ? mapEnum(ResidenceType, entity.ResidenceType)
+            : "CASA",
       };
    }
 
@@ -106,20 +151,24 @@ export default class AddressDao implements IDAO {
          neighborhood: entity.Neighborhood,
          cep: entity.Cep,
          complement: entity.Complement,
-         city: { connect: { id: entity.CityId } },
-         streetType: entity.StreetType.toString(),
-         residenceType: entity.ResidenceType.toString(),
+         city: { connect: { id: entity.City.Id } },
+         streetType: entity.StreetType
+            ? mapEnum(StreetType, entity.StreetType)
+            : undefined,
+         residenceType: entity.ResidenceType
+            ? mapEnum(ResidenceType, entity.ResidenceType)
+            : undefined,
       };
    }
 
-   private mapToDomain(address: PrismaClient): Address {
+   private mapToDomain(address: PrismaAddress): AddressModel {
       if (!address) {
          throw new Error("Endereco inválido para mapeamento.");
       }
 
-      const returnAddress = new Address();
+      const returnAddress = new AddressModel();
 
-      returnAddress.Id = address.address;
+      returnAddress.Id = address.id;
       returnAddress.CustomerId = address.customerId;
       returnAddress.Nickname = address.nickname;
       returnAddress.Street = address.street;
@@ -127,13 +176,13 @@ export default class AddressDao implements IDAO {
       returnAddress.Neighborhood = address.neighborhood;
       returnAddress.Cep = address.cep;
       returnAddress.Complement = address.complement || "";
-      returnAddress.CityId = address.cityId;
-      returnAddress.AddressType =
-         AddressType[address.addressType as keyof typeof AddressType];
-      returnAddress.StreetType =
-         StreetType[address.streetType as keyof typeof StreetType];
-      returnAddress.ResidenceType =
-         ResidenceType[address.residenceType as keyof typeof ResidenceType];
+      returnAddress.City.Id = address.cityId;
+      returnAddress.AddressType = mapEnum(AddressType, address.addressType);
+      returnAddress.StreetType = mapEnum(StreetType, address.streetType);
+      returnAddress.ResidenceType = mapEnum(
+         ResidenceType,
+         address.residenceType
+      );
 
       return returnAddress;
    }

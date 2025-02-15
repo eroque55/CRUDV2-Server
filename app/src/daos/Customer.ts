@@ -11,6 +11,7 @@ import crypto from "crypto";
 
 import CustomerModel from "../models/Customer";
 import Gender from "../enums/Gender";
+import { mapEnum } from "../utils/enumMapper";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
@@ -97,7 +98,7 @@ export default class Customer implements IDAO {
          email: entity.Email,
          password: this.encryptPassword(entity.Password),
          status: entity.Status,
-         gender: Gender[entity.Gender as keyof typeof Gender],
+         gender: entity.Gender ? mapEnum(Gender, entity.Gender) : "MASCULINO",
          ranking: entity.Ranking,
       };
    }
@@ -127,7 +128,7 @@ export default class Customer implements IDAO {
       returnCustomer.Cpf = customer.cpf;
       returnCustomer.Email = customer.email;
       returnCustomer.Status = customer.status;
-      returnCustomer.Gender = Gender[customer.gender as keyof typeof Gender];
+      returnCustomer.Gender = mapEnum(Gender, customer.gender);
       returnCustomer.Ranking = customer.ranking;
       returnCustomer.Password = customer.password;
       returnCustomer.ConfPassword = customer.password;

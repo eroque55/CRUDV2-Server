@@ -26,7 +26,7 @@ export default class ValidatePhone implements IStrategy {
                message += "Número de telefone inválido. ";
             }
 
-            if (phone.PhoneType === PhoneType.UNDEFINED) {
+            if (!phone.PhoneType) {
                message += "Tipo de telefone é obrigatório. ";
             }
          }

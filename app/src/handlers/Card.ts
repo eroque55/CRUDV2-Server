@@ -48,12 +48,12 @@ export async function postCard(req: Request, res: Response) {
    try {
       const card = new Card();
 
-      card.CustomerId = req.body._customerId;
-      card.Number = req.body._number;
-      card.CardHolder = req.body._cardholder;
-      card.Cvv = req.body._cvv;
-      card.ExpirationDate = req.body._expirationDate;
-      card.CardBrand = CardBrand[req.body._cardBrand as keyof typeof CardBrand];
+      card.CustomerId = req.body.customerId;
+      card.Number = req.body.number;
+      card.CardHolder = req.body.cardholder;
+      card.Cvv = req.body.cvv;
+      card.ExpirationDate = req.body.expirationDate;
+      card.CardBrand = CardBrand[req.body.cardBrand as keyof typeof CardBrand];
 
       const cardResponse = await customerController.create(card);
       res.json(cardResponse);
@@ -67,7 +67,7 @@ export async function putCard(req: Request, res: Response) {
       const card = new Card();
 
       card.Id = parseInt(req.params.id);
-      card.Preferential = req.body._preferential;
+      card.Preferential = req.body.preferential;
 
       const cardResponse = await customerController.update(card);
       res.json(cardResponse);

@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import DomainEntity from "../models/DomainEntity";
 
 export default interface IFacade {
-   create(entidade: PrismaClient): Promise<PrismaClient>;
-   update(entidade: PrismaClient): Promise<PrismaClient>;
-   delete(entidade: PrismaClient): Promise<void>;
-   read(entidade: PrismaClient): Promise<PrismaClient[]>;
-   get(entidade: PrismaClient): Promise<PrismaClient>;
+   create(entity: DomainEntity): Promise<DomainEntity>;
+   update(entity: DomainEntity): Promise<DomainEntity>;
+   delete(entity: DomainEntity): Promise<void>;
+   read(entity: DomainEntity): Promise<DomainEntity[]>;
+   get(entity: DomainEntity): Promise<DomainEntity>;
 }

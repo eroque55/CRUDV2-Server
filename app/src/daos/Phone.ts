@@ -4,6 +4,7 @@ import IDAO from "./IDAO";
 
 import PhoneModel from "../models/Phone";
 import PhoneType from "../enums/PhoneType";
+import { mapEnum } from "../utils/enumMapper";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
@@ -96,7 +97,9 @@ export default class Phone implements IDAO {
       return {
          ddd: entity.Ddd,
          number: entity.Number,
-         phoneType: entity.PhoneType.toString(),
+         phoneType: entity.PhoneType
+            ? mapEnum(PhoneType, entity.PhoneType)
+            : "CELULAR",
          customer: { connect: { id: entity.CustomerId } },
       };
    }
@@ -105,7 +108,9 @@ export default class Phone implements IDAO {
       return {
          ddd: entity.Ddd,
          number: entity.Number,
-         phoneType: entity.PhoneType.toString(),
+         phoneType: entity.PhoneType
+            ? mapEnum(PhoneType, entity.PhoneType)
+            : "CELULAR",
       };
    }
 

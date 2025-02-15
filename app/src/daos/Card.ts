@@ -4,6 +4,7 @@ import IDAO from "./IDAO";
 
 import CardModel from "../models/Card";
 import CardBrand from "../enums/CardBrand";
+import { mapEnum } from "../utils/enumMapper";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
@@ -106,7 +107,9 @@ export default class Card implements IDAO {
          cvv: this.maskCvv(entity.Cvv),
          expirationDate: entity.ExpirationDate,
          preferential: entity.Preferential,
-         cardBrand: entity.CardBrand.toString(),
+         cardBrand: entity.CardBrand
+            ? mapEnum(CardBrand, entity.CardBrand)
+            : "VISA",
       };
    }
 
@@ -130,8 +133,7 @@ export default class Card implements IDAO {
       returnCard.Cvv = card.cvv;
       returnCard.ExpirationDate = card.expirationDate;
       returnCard.Preferential = card.preferential;
-      returnCard.CardBrand =
-         CardBrand[card.cardBrand as keyof typeof CardBrand];
+      returnCard.CardBrand = mapEnum(CardBrand, card.cardBrand);
 
       return returnCard;
    }

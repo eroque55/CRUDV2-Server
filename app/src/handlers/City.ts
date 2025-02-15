@@ -21,7 +21,7 @@ export async function getCitiesByState(req: Request, res: Response) {
    try {
       const city = new City();
 
-      city.StateId = parseInt(req.params.stateId);
+      city.State.Id = parseInt(req.params.stateId);
 
       const citiesResponse = await cityDao.getByState(city);
       res.json(citiesResponse);
@@ -47,8 +47,8 @@ export async function postCity(req: Request, res: Response) {
    try {
       const city = new City();
 
-      city.Name = req.body._name;
-      city.StateId = req.body._stateId;
+      city.Name = req.body.name;
+      city.State.Id = req.body.stateId;
 
       const cityResponse = await customerController.create(city);
       res.json(cityResponse);
@@ -62,8 +62,8 @@ export async function putCity(req: Request, res: Response) {
       const city = new City();
 
       city.Id = parseInt(req.params.id);
-      city.Name = req.body._name;
-      city.StateId = req.body._stateId;
+      city.Name = req.body.name;
+      city.State.Id = req.body.stateId;
 
       const cityResponse = await customerController.update(city);
       res.json(cityResponse);

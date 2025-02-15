@@ -1,9 +1,9 @@
 import IFacade from "./IFacade";
 import IStrategy from "../strategies/IStrategy";
+import DomainEntity from "../models/DomainEntity";
 import IDAO from "../daos/IDAO";
 
-import { PrismaClient, Prisma } from "@prisma/client";
-
+import * as Models from "../models";
 import * as DAOs from "../daos";
 import * as Strategies from "../strategies";
 
@@ -16,7 +16,7 @@ export default class Facade implements IFacade {
       this.setDAOs();
    }
 
-   async create(entity: PrismaClient): Promise<PrismaClient> {
+   async create(entity: DomainEntity): Promise<DomainEntity> {
       const dao = this.getDAO(entity);
       const msg: string = this.execute(entity);
 
@@ -25,12 +25,12 @@ export default class Facade implements IFacade {
       }
 
       const logDAO: DAOs.LogDao = new DAOs.LogDao();
-      logDAO.create(`${PrismaClient.name}.create`, "admin");
+      logDAO.create(`${entity.constructor.name}.create`, "admin");
 
       return await dao.create(entity);
    }
 
-   async update(entity: PrismaClient): Promise<PrismaClient> {
+   async update(entity: DomainEntity): Promise<DomainEntity> {
       const dao = this.getDAO(entity);
       const updatedEntity = await dao.update(entity);
 
@@ -42,50 +42,50 @@ export default class Facade implements IFacade {
       return updatedEntity;
    }
 
-   async delete(entity: PrismaClient): Promise<void> {
+   async delete(entity: DomainEntity): Promise<void> {
       const dao = this.getDAO(entity);
       await dao.delete(entity);
       const logDAO: DAOs.LogDao = new DAOs.LogDao();
       logDAO.create(`${entity.constructor.name}.delete`, "admin");
    }
 
-   async read(entity: PrismaClient): Promise<PrismaClient[]> {
+   async read(entity: DomainEntity): Promise<DomainEntity[]> {
       const dao = this.getDAO(entity);
       return await dao.read(entity);
    }
 
-   async get(entity: PrismaClient): Promise<PrismaClient> {
+   async get(entity: DomainEntity): Promise<DomainEntity> {
       const dao = this.getDAO(entity);
       return await dao.get(entity);
    }
 
    private setStrategies(): void {
-      this.strategies.set(Prisma.ModelName.Card, [
+      this.strategies.set(Models.CardModel.name, [
          new Strategies.ValidateCard(),
       ]);
-      this.strategies.set(Prisma.ModelName.Customer, [
+      this.strategies.set(Models.CustomerModel.name, [
          new Strategies.ValidateCustomer(),
          new Strategies.ValidateCPF(),
       ]);
-      this.strategies.set(Prisma.ModelName.Address, [
+      this.strategies.set(Models.AddressModel.name, [
          new Strategies.ValidateAddress(),
       ]);
-      this.strategies.set(Prisma.ModelName.Phone, [
+      this.strategies.set(Models.PhoneModel.name, [
          new Strategies.ValidatePhone(),
       ]);
    }
 
    private setDAOs(): void {
-      this.daos.set(Prisma.ModelName.Card, new DAOs.CardDao());
-      this.daos.set(Prisma.ModelName.Customer, new DAOs.CustomerDao());
-      this.daos.set(Prisma.ModelName.Phone, new DAOs.PhoneDao());
-      this.daos.set(Prisma.ModelName.Address, new DAOs.AddressDao());
-      this.daos.set(Prisma.ModelName.Country, new DAOs.CountryDAO());
-      this.daos.set(Prisma.ModelName.State, new DAOs.StateDao());
-      this.daos.set(Prisma.ModelName.State, new DAOs.CityDao());
+      this.daos.set(Models.CardModel.name, new DAOs.CardDao());
+      this.daos.set(Models.CustomerModel.name, new DAOs.CustomerDao());
+      this.daos.set(Models.PhoneModel.name, new DAOs.PhoneDao());
+      this.daos.set(Models.AddressModel.name, new DAOs.AddressDao());
+      this.daos.set(Models.CountryModel.name, new DAOs.CountryDAO());
+      this.daos.set(Models.StateModel.name, new DAOs.StateDao());
+      this.daos.set(Models.CityModel.name, new DAOs.CityDao());
    }
 
-   private execute(entity: PrismaClient): string {
+   private execute(entity: DomainEntity): string {
       const className: string = entity.constructor.name;
       const entityStrategies: IStrategy[] =
          this.strategies.get(className) || [];
@@ -96,7 +96,7 @@ export default class Facade implements IFacade {
       return msg;
    }
 
-   private getDAO(entity: PrismaClient): IDAO {
+   private getDAO(entity: DomainEntity): IDAO {
       const className = entity.constructor.name;
       const dao = this.daos.get(className);
 

@@ -34,7 +34,7 @@ export default class ValidateCard implements IStrategy {
                message += "Data de validade é obrigatória. ";
             }
 
-            if (card.CardBrand === CardBrand.UNDEFINED) {
+            if (!card.CardBrand) {
                message += "Bandeira do cartão é obrigatória. ";
             }
          }

@@ -46,6 +46,13 @@ export default class City implements IDAO {
       try {
          const cities = await prisma.city.findMany({
             orderBy: { id: "asc" },
+            include: {
+               state: {
+                  include: {
+                     country: true,
+                  },
+               },
+            },
          });
          return cities.map(this.mapToDomain);
       } catch (error: any) {
@@ -57,6 +64,13 @@ export default class City implements IDAO {
       try {
          const city = await prisma.city.findUnique({
             where: { id: entity.Id },
+            include: {
+               state: {
+                  include: {
+                     country: true,
+                  },
+               },
+            },
          });
 
          if (!city) {
@@ -73,7 +87,14 @@ export default class City implements IDAO {
       try {
          const cities = await prisma.city.findMany({
             orderBy: { id: "asc" },
-            where: { stateId: entity.StateId },
+            where: { stateId: entity.State.Id },
+            include: {
+               state: {
+                  include: {
+                     country: true,
+                  },
+               },
+            },
          });
 
          return cities.map(this.mapToDomain);
@@ -87,7 +108,7 @@ export default class City implements IDAO {
    private saveData(entity: CityModel): Prisma.CityCreateInput {
       return {
          name: entity.Name,
-         state: { connect: { id: entity.StateId } },
+         state: { connect: { id: entity.State.Id } },
       };
    }
 
@@ -100,7 +121,7 @@ export default class City implements IDAO {
 
       returnCity.Id = city.id;
       returnCity.Name = city.name;
-      returnCity.StateId = city.stateId;
+      returnCity.State.Id = city.stateId;
 
       return returnCity;
    }
