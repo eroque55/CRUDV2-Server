@@ -33,12 +33,12 @@ export async function postCard(req: Request, res: Response) {
    try {
       const card = new Card();
 
-      card.Customer.Id = req.body.customerId;
+      card.Customer.Id = req.body.customer.id;
       card.Number = req.body.number;
       card.Cardholder = req.body.cardholder;
       card.Cvv = req.body.cvv;
       card.ExpirationDate = req.body.expirationDate;
-      card.CardBrand = CardBrand[req.body.cardBrand as keyof typeof CardBrand];
+      card.CardBrand = req.body.cardBrand as CardBrand;
 
       const cardResponse = await customerController.create(card);
       res.json(cardResponse);

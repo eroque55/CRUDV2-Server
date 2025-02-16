@@ -33,7 +33,7 @@ export async function postAddress(req: Request, res: Response) {
    try {
       const address = new Address();
 
-      address.Customer.Id = req.body.customerId;
+      address.Customer.Id = req.body.customer.id;
       address.Nickname = req.body.nickname;
       address.Street = req.body.street;
       address.Number = req.body.number;
@@ -41,12 +41,9 @@ export async function postAddress(req: Request, res: Response) {
       address.Cep = req.body.cep;
       address.Complement = req.body.complement;
       address.City = req.body.city;
-      address.AddressType =
-         AddressType[req.body.addressType as keyof typeof AddressType];
-      address.StreetType =
-         StreetType[req.body.streetType as keyof typeof StreetType];
-      address.ResidenceType =
-         ResidenceType[req.body.residenceType as keyof typeof ResidenceType];
+      address.AddressType = req.body.addressType as AddressType;
+      address.StreetType = req.body.streetType as StreetType;
+      address.ResidenceType = req.body.residenceType as ResidenceType;
 
       const addressResponse = await customerController.create(address);
       res.json(addressResponse);
@@ -69,10 +66,8 @@ export async function putAddress(req: Request, res: Response) {
       address.Cep = req.body.cep;
       address.Complement = req.body.complement;
       address.City = req.body.cityId;
-      address.StreetType =
-         StreetType[req.body.streetType as keyof typeof StreetType];
-      address.ResidenceType =
-         ResidenceType[req.body.residenceType as keyof typeof ResidenceType];
+      address.StreetType = req.body.streetType as StreetType;
+      address.ResidenceType = req.body.residenceType as ResidenceType;
 
       console.log(address);
 
