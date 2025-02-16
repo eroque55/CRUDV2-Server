@@ -8,7 +8,7 @@ import CustomerModel from "../models/Customer";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export default class Customer implements IDAO {
+export default class CustomerDao implements IDAO {
    async create(entity: CustomerModel): Promise<CustomerModel> {
       try {
          const customer = await prisma.customer.create({

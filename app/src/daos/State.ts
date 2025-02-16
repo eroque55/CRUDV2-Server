@@ -6,7 +6,7 @@ import StateModel from "../models/State";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export default class State implements IDAO {
+export default class StateDao implements IDAO {
    async create(entity: StateModel): Promise<StateModel> {
       try {
          const state = await prisma.state.create({

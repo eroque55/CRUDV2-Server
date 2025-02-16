@@ -6,7 +6,7 @@ import PhoneModel from "../models/Phone";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export default class Phone implements IDAO {
+export default class PhoneDao implements IDAO {
    async create(entity: PhoneModel): Promise<PhoneModel> {
       try {
          const phone = await prisma.phone.create({

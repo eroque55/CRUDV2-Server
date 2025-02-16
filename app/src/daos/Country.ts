@@ -7,7 +7,7 @@ import CountryModel from "../models/Country";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export default class Country implements IDAO {
+export default class CountryDao implements IDAO {
    async create(entity: CountryModel): Promise<CountryModel> {
       try {
          const country = await prisma.country.create({

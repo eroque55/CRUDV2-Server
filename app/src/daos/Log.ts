@@ -3,7 +3,7 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export default class Log {
+export default class LogDao {
    async create(entity: string, user: string): Promise<boolean> {
       try {
          await prisma.log.create({

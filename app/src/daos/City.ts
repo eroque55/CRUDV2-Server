@@ -7,7 +7,7 @@ import CityModel from "../models/City";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export default class City implements IDAO {
+export default class CityDao implements IDAO {
    async create(entity: CityModel): Promise<CityModel> {
       try {
          const city = await prisma.city.create({
