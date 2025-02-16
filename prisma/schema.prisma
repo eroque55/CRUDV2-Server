@@ -76,23 +76,24 @@ model City {
   state State @relation(fields: [stateId], references: [id])
   stateId Int
 
-  Address Address[]
+  addresses Address[]
 }
 
 model Customer {
   id Int @id @default(autoincrement())
   name String
-  birthDate DateTime @db.Date
+  birthDate DateTime
   cpf String @unique
   gender Gender
   email String @unique
   password String
+  confPassword String
   status Boolean
   ranking Int
 
-  Card Card[]
-  Address Address[]
-  Phone Phone[]
+  cards Card[]
+  addresses Address[]
+  phones Phone[]
 }
 
 model Address {
@@ -121,14 +122,14 @@ model State {
   country Country @relation(fields: [countryId], references: [id])
   countryId Int
 
-  City City[]
+  cities City[]
 }
 
 model Country {
   id Int @id @default(autoincrement())
   name String @unique
 
-  State State[]
+  states State[]
 }
 
 model Log {

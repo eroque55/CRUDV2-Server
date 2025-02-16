@@ -11,7 +11,7 @@ export default class ValidateAddress implements IStrategy {
          const address = entity as Address;
 
          if (address.Id === 0) {
-            if (address.CustomerId === 0) {
+            if (address.Customer.Id === 0) {
                message += "Cliente é obrigatório. ";
             }
 

@@ -1,12 +1,14 @@
-import { Prisma, PrismaClient, Address as PrismaAddress } from "@prisma/client";
+import {
+   Prisma,
+   PrismaClient,
+   AddressType,
+   ResidenceType,
+   StreetType,
+} from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import IDAO from "./IDAO";
 
 import AddressModel from "../models/Address";
-import AddressType from "../enums/AddressType";
-import StreetType from "../enums/StreetType";
-import ResidenceType from "../enums/ResidenceType";
-import { mapEnum } from "../utils/enumMapper";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
@@ -95,35 +97,9 @@ export default class Address implements IDAO {
       }
    }
 
-   async getByCustomer(entity: AddressModel): Promise<AddressModel[]> {
-      try {
-         const addresses = await prisma.address.findMany({
-            orderBy: { id: "asc" },
-            where: { customerId: entity.CustomerId },
-            include: {
-               city: {
-                  include: {
-                     state: {
-                        include: {
-                           country: true,
-                        },
-                     },
-                  },
-               },
-            },
-         });
-
-         return addresses.map(this.mapToDomain);
-      } catch (error: any) {
-         throw new Error(
-            `Erro ao consultar endereços por cliente: ${error.message}`
-         );
-      }
-   }
-
    private saveData(entity: AddressModel): Prisma.AddressCreateInput {
       return {
-         customer: { connect: { id: entity.CustomerId } },
+         customer: { connect: { id: entity.Customer.Id } },
          nickname: entity.Nickname,
          street: entity.Street,
          number: entity.Number,
@@ -131,15 +107,9 @@ export default class Address implements IDAO {
          cep: entity.Cep,
          complement: entity.Complement,
          city: { connect: { id: entity.City["id"] } },
-         addressType: entity.AddressType
-            ? mapEnum(AddressType, entity.AddressType)
-            : "COBRANCA",
-         streetType: entity.StreetType
-            ? mapEnum(StreetType, entity.StreetType)
-            : "RUA",
-         residenceType: entity.ResidenceType
-            ? mapEnum(ResidenceType, entity.ResidenceType)
-            : "CASA",
+         addressType: entity.AddressType,
+         streetType: entity.StreetType,
+         residenceType: entity.ResidenceType,
       };
    }
 
@@ -152,38 +122,16 @@ export default class Address implements IDAO {
          cep: entity.Cep,
          complement: entity.Complement,
          city: { connect: { id: entity.City.Id } },
-         streetType: entity.StreetType
-            ? mapEnum(StreetType, entity.StreetType)
-            : undefined,
-         residenceType: entity.ResidenceType
-            ? mapEnum(ResidenceType, entity.ResidenceType)
-            : undefined,
+         streetType: entity.StreetType,
+         residenceType: entity.ResidenceType,
       };
    }
 
-   private mapToDomain(address: PrismaAddress): AddressModel {
+   private mapToDomain(address: any): AddressModel {
       if (!address) {
          throw new Error("Endereco inválido para mapeamento.");
       }
 
-      const returnAddress = new AddressModel();
-
-      returnAddress.Id = address.id;
-      returnAddress.CustomerId = address.customerId;
-      returnAddress.Nickname = address.nickname;
-      returnAddress.Street = address.street;
-      returnAddress.Number = address.number;
-      returnAddress.Neighborhood = address.neighborhood;
-      returnAddress.Cep = address.cep;
-      returnAddress.Complement = address.complement || "";
-      returnAddress.City.Id = address.cityId;
-      returnAddress.AddressType = mapEnum(AddressType, address.addressType);
-      returnAddress.StreetType = mapEnum(StreetType, address.streetType);
-      returnAddress.ResidenceType = mapEnum(
-         ResidenceType,
-         address.residenceType
-      );
-
-      return returnAddress;
+      return { ...address };
    }
 }

@@ -2,7 +2,6 @@ import IStrategy from "./IStrategy";
 import DomainEntity from "../models/DomainEntity";
 
 import Phone from "../models/Phone";
-import PhoneType from "../enums/PhoneType";
 
 export default class ValidatePhone implements IStrategy {
    execute(entity: DomainEntity): string {
@@ -12,7 +11,7 @@ export default class ValidatePhone implements IStrategy {
          const phone = entity as Phone;
 
          if (phone.Id === 0) {
-            if (phone.CustomerId === 0) {
+            if (phone.Customer.Id === 0) {
                message += "Cliente é obrigatório. ";
             }
 

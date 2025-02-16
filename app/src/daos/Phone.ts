@@ -1,10 +1,8 @@
-import { Prisma, PrismaClient, Phone as PrismaPhone } from "@prisma/client";
+import { Prisma, PrismaClient, PhoneType } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import IDAO from "./IDAO";
 
 import PhoneModel from "../models/Phone";
-import PhoneType from "../enums/PhoneType";
-import { mapEnum } from "../utils/enumMapper";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
@@ -75,32 +73,12 @@ export default class Phone implements IDAO {
       }
    }
 
-   async getByCustomer(entity: PhoneModel): Promise<PhoneModel> {
-      try {
-         const phone = await prisma.phone.findUnique({
-            where: { customerId: entity.CustomerId },
-         });
-
-         if (!phone) {
-            throw new Error("Telefone não encontrado");
-         }
-
-         return this.mapToDomain(phone);
-      } catch (error: any) {
-         throw new Error(
-            `Erro ao consultar cidades por estado: ${error.message}`
-         );
-      }
-   }
-
    private saveData(entity: PhoneModel): Prisma.PhoneCreateInput {
       return {
          ddd: entity.Ddd,
          number: entity.Number,
-         phoneType: entity.PhoneType
-            ? mapEnum(PhoneType, entity.PhoneType)
-            : "CELULAR",
-         customer: { connect: { id: entity.CustomerId } },
+         phoneType: entity.PhoneType,
+         customer: { connect: { id: entity.Customer.Id } },
       };
    }
 
@@ -108,26 +86,15 @@ export default class Phone implements IDAO {
       return {
          ddd: entity.Ddd,
          number: entity.Number,
-         phoneType: entity.PhoneType
-            ? mapEnum(PhoneType, entity.PhoneType)
-            : "CELULAR",
+         phoneType: entity.PhoneType,
       };
    }
 
-   private mapToDomain(phone: PrismaPhone): PhoneModel {
+   private mapToDomain(phone: any): PhoneModel {
       if (!phone) {
          throw new Error("Telefone invalido para mapeamento.");
       }
 
-      const returnPhone = new PhoneModel();
-
-      returnPhone.Id = phone.id;
-      returnPhone.CustomerId = phone.customerId;
-      returnPhone.Ddd = phone.ddd;
-      returnPhone.Number = phone.number;
-      returnPhone.PhoneType =
-         PhoneType[phone.phoneType as keyof typeof PhoneType];
-
-      return returnPhone;
+      return { ...phone };
    }
 }

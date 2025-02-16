@@ -1,7 +1,6 @@
 import { Router } from "express";
 import {
    getCities,
-   getCitiesByState,
    getCity,
    postCity,
    putCity,
@@ -13,8 +12,6 @@ const router = Router();
 router.get("/", getCities);
 
 router.get("/:id", getCity);
-
-router.get("/state/:stateId", getCitiesByState);
 
 router.post("/", postCity);
 

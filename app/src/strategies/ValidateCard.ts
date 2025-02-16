@@ -2,7 +2,6 @@ import IStrategy from "./IStrategy";
 import DomainEntity from "../models/DomainEntity";
 
 import Card from "../models/Card";
-import CardBrand from "../enums/CardBrand";
 
 export default class ValidateCard implements IStrategy {
    execute(entity: DomainEntity): string {
@@ -12,7 +11,7 @@ export default class ValidateCard implements IStrategy {
          const card = entity as Card;
 
          if (card.Id === 0) {
-            if (card.CustomerId === 0) {
+            if (card.Customer.Id === 0) {
                message += "Cliente é obrigatório. ";
             }
 
@@ -20,7 +19,7 @@ export default class ValidateCard implements IStrategy {
                message += "Número do cartão é obrigatório. ";
             }
 
-            if (!card.CardHolder) {
+            if (!card.Cardholder) {
                message += "Nome impresso no cartão é obrigatório. ";
             }
 

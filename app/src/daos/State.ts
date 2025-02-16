@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, State as PrismaState } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import IDAO from "./IDAO";
 
@@ -45,7 +45,8 @@ export default class State implements IDAO {
    async read(): Promise<StateModel[]> {
       try {
          const states = await prisma.state.findMany({
-            orderBy: { id: "asc" },
+            orderBy: { name: "asc" },
+            include: { cities: true },
          });
 
          return states.map(this.mapToDomain);
@@ -58,6 +59,7 @@ export default class State implements IDAO {
       try {
          const state = await prisma.state.findUnique({
             where: { id: entity.Id },
+            include: { cities: true },
          });
 
          if (!state) {
@@ -70,21 +72,6 @@ export default class State implements IDAO {
       }
    }
 
-   async getByContry(entity: StateModel): Promise<StateModel[]> {
-      try {
-         const states = await prisma.state.findMany({
-            orderBy: { id: "asc" },
-            where: { countryId: entity.Country.Id },
-         });
-
-         return states.map(this.mapToDomain);
-      } catch (error: any) {
-         throw new Error(
-            `Erro ao consultar estados por pais: ${error.message}`
-         );
-      }
-   }
-
    private saveData(entity: StateModel): Prisma.StateCreateInput {
       return {
          name: entity.Name,
@@ -92,17 +79,11 @@ export default class State implements IDAO {
       };
    }
 
-   private mapToDomain(state: PrismaState): StateModel {
+   private mapToDomain(state: any): StateModel {
       if (!state) {
          throw new Error("Estado inválido para mapeamento");
       }
-
-      const returnState = new StateModel();
-
-      returnState.Id = state.id;
-      returnState.Name = state.name;
-      returnState.Country.Id = state.countryId;
-
-      return returnState;
+      3;
+      return { ...state };
    }
 }

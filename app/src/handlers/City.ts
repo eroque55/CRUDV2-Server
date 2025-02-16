@@ -2,28 +2,13 @@ import { Request, Response } from "express";
 import CustomerController from "../controllers/Customer";
 
 import City from "../models/City";
-import { CityDao } from "../daos";
 
 const customerController = new CustomerController();
-const cityDao = new CityDao();
 
 export async function getCities(req: Request, res: Response) {
    try {
       const citiesResponse = await customerController.read(new City());
 
-      res.json(citiesResponse);
-   } catch (error: any) {
-      res.status(500).send(error.message);
-   }
-}
-
-export async function getCitiesByState(req: Request, res: Response) {
-   try {
-      const city = new City();
-
-      city.State.Id = parseInt(req.params.stateId);
-
-      const citiesResponse = await cityDao.getByState(city);
       res.json(citiesResponse);
    } catch (error: any) {
       res.status(500).send(error.message);

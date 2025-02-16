@@ -2,13 +2,9 @@ import { Request, Response } from "express";
 import CustomerController from "../controllers/Customer";
 
 import Address from "../models/Address";
-import AddressType from "../enums/AddressType";
-import StreetType from "../enums/StreetType";
-import ResidenceType from "../enums/ResidenceType";
-import { AddressDao } from "../daos";
+import { AddressType, ResidenceType, StreetType } from "@prisma/client";
 
 const customerController = new CustomerController();
-const addressDao = new AddressDao();
 
 export async function getAddresses(req: Request, res: Response) {
    try {
@@ -33,24 +29,11 @@ export async function getAddress(req: Request, res: Response) {
    }
 }
 
-export async function getAddressesByCustomer(req: Request, res: Response) {
-   try {
-      const address = new Address();
-
-      address.CustomerId = parseInt(req.params.customerId);
-
-      const addressesResponse = await addressDao.getByCustomer(address);
-      res.json(addressesResponse);
-   } catch (error: any) {
-      res.status(500).send(error.message);
-   }
-}
-
 export async function postAddress(req: Request, res: Response) {
    try {
       const address = new Address();
 
-      address.CustomerId = req.body.customerId;
+      address.Customer.Id = req.body.customerId;
       address.Nickname = req.body.nickname;
       address.Street = req.body.street;
       address.Number = req.body.number;

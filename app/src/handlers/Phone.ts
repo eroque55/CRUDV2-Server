@@ -2,11 +2,9 @@ import { Request, Response } from "express";
 import CustomerController from "../controllers/Customer";
 
 import Phone from "../models/Phone";
-import PhoneType from "../enums/PhoneType";
-import { PhoneDao } from "../daos";
+import { PhoneType } from "@prisma/client";
 
 const customerController = new CustomerController();
-const phoneDao = new PhoneDao();
 
 export async function getPhones(req: Request, res: Response) {
    try {
@@ -31,24 +29,11 @@ export async function getPhone(req: Request, res: Response) {
    }
 }
 
-export async function getPhoneByCustomer(req: Request, res: Response) {
-   try {
-      const phone = new Phone();
-
-      phone.CustomerId = parseInt(req.params.customerId);
-
-      const phoneResponse = await phoneDao.getByCustomer(phone);
-      res.json(phoneResponse);
-   } catch (error: any) {
-      res.status(500).send(error.message);
-   }
-}
-
 export async function postPhone(req: Request, res: Response) {
    try {
       const phone = new Phone();
 
-      phone.CustomerId = req.body.customerId;
+      phone.Customer.Id = req.body.customerId;
       phone.Ddd = req.body.ddd;
       phone.Number = req.body.number;
       phone.PhoneType = PhoneType[req.body.phoneType as keyof typeof PhoneType];

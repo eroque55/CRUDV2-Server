@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, City as PrismaCity } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
 import IDAO from "./IDAO";
@@ -83,28 +83,6 @@ export default class City implements IDAO {
       }
    }
 
-   async getByState(entity: CityModel): Promise<CityModel[]> {
-      try {
-         const cities = await prisma.city.findMany({
-            orderBy: { id: "asc" },
-            where: { stateId: entity.State.Id },
-            include: {
-               state: {
-                  include: {
-                     country: true,
-                  },
-               },
-            },
-         });
-
-         return cities.map(this.mapToDomain);
-      } catch (error: any) {
-         throw new Error(
-            `Erro ao consultar cidades por estado: ${error.message}`
-         );
-      }
-   }
-
    private saveData(entity: CityModel): Prisma.CityCreateInput {
       return {
          name: entity.Name,
@@ -112,17 +90,11 @@ export default class City implements IDAO {
       };
    }
 
-   private mapToDomain(city: PrismaCity): CityModel {
+   private mapToDomain(city: any): CityModel {
       if (!city) {
          throw new Error("Cidade inválida para mapeamento.");
       }
 
-      const returnCity = new CityModel();
-
-      returnCity.Id = city.id;
-      returnCity.Name = city.name;
-      returnCity.State.Id = city.stateId;
-
-      return returnCity;
+      return { ...city };
    }
 }

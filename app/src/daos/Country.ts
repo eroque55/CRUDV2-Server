@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, Country as PrismaCountry } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
 import IDAO from "./IDAO";
@@ -46,7 +46,12 @@ export default class Country implements IDAO {
    async read(): Promise<CountryModel[]> {
       try {
          const countries = await prisma.country.findMany({
-            orderBy: { id: "asc" },
+            orderBy: { name: "asc" },
+            include: {
+               states: {
+                  include: { cities: true },
+               },
+            },
          });
 
          return countries.map(this.mapToDomain);
@@ -59,6 +64,11 @@ export default class Country implements IDAO {
       try {
          const country = await prisma.country.findUnique({
             where: { id: entity.Id },
+            include: {
+               states: {
+                  include: { cities: true },
+               },
+            },
          });
 
          if (!country) {
@@ -77,16 +87,11 @@ export default class Country implements IDAO {
       };
    }
 
-   private mapToDomain(country: PrismaCountry): CountryModel {
+   private mapToDomain(country: any): CountryModel {
       if (!country) {
          throw new Error("Pais inválido para mapeamento");
       }
 
-      const returnCountry = new CountryModel();
-
-      returnCountry.Id = country.id;
-      returnCountry.Name = country.name;
-
-      return returnCountry;
+      return { ...country };
    }
 }

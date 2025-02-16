@@ -1,7 +1,6 @@
 import { Router } from "express";
 import {
    getStates,
-   getStatesByContry,
    getState,
    postState,
    putState,
@@ -13,8 +12,6 @@ const router = Router();
 router.get("/", getStates);
 
 router.get("/:id", getState);
-
-router.get("/country/:countryId", getStatesByContry);
 
 router.post("/", postState);
 

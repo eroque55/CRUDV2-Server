@@ -1,17 +1,10 @@
-import {
-   Prisma,
-   PrismaClient,
-   Customer as PrismaCustomer,
-} from "@prisma/client";
+import { Prisma, PrismaClient, Gender } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
 import IDAO from "./IDAO";
 
-import crypto from "crypto";
-
+import encryptPassword from "../utils/passwordEncryptor";
 import CustomerModel from "../models/Customer";
-import Gender from "../enums/Gender";
-import { mapEnum } from "../utils/enumMapper";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
@@ -55,6 +48,7 @@ export default class Customer implements IDAO {
       try {
          const customers = await prisma.customer.findMany({
             orderBy: { id: "asc" },
+            omit: { password: true, confPassword: true },
          });
          return customers.map(this.mapToDomain);
       } catch (error: any) {
@@ -66,6 +60,18 @@ export default class Customer implements IDAO {
       try {
          const customer = await prisma.customer.findUnique({
             where: { id: entity.Id },
+            include: {
+               addresses: {
+                  include: {
+                     city: {
+                        include: { state: { include: { country: true } } },
+                     },
+                  },
+               },
+               phones: true,
+               cards: true,
+            },
+            omit: { password: true, confPassword: true },
          });
 
          if (!customer) {
@@ -78,28 +84,54 @@ export default class Customer implements IDAO {
       }
    }
 
-   private encryptPassword(password: string): string {
-      try {
-         const hash = crypto
-            .createHash("sha256")
-            .update(password)
-            .digest("hex");
-         return hash;
-      } catch (error) {
-         return "";
-      }
-   }
-
    private saveData(entity: CustomerModel): Prisma.CustomerCreateInput {
       return {
          name: entity.Name,
          birthDate: entity.BirthDate,
          cpf: entity.Cpf,
          email: entity.Email,
-         password: this.encryptPassword(entity.Password),
+         password: encryptPassword(entity.Password),
+         confPassword: encryptPassword(entity.ConfPassword),
          status: entity.Status,
-         gender: entity.Gender ? mapEnum(Gender, entity.Gender) : "MASCULINO",
+         gender: entity.Gender,
          ranking: entity.Ranking,
+         phones: {
+            create: [
+               {
+                  ddd: entity.Phones[0].Ddd,
+                  number: entity.Phones[0].Number,
+                  phoneType: entity.Phones[0].PhoneType,
+               },
+            ],
+         },
+         addresses: {
+            create: [
+               {
+                  addressType: "COBRANCA",
+                  neighborhood: entity.Addresses[0].Neighborhood,
+                  number: entity.Addresses[0].Number,
+                  street: entity.Addresses[0].Street,
+                  complement: entity.Addresses[0].Complement,
+                  cep: entity.Addresses[0].Cep,
+                  cityId: entity.Addresses[0].City.Id,
+                  nickname: entity.Addresses[0].Nickname,
+                  residenceType: entity.Addresses[0].ResidenceType,
+                  streetType: entity.Addresses[0].StreetType,
+               },
+               {
+                  addressType: "ENTREGA",
+                  neighborhood: entity.Addresses[1].Neighborhood,
+                  number: entity.Addresses[1].Number,
+                  street: entity.Addresses[1].Street,
+                  complement: entity.Addresses[1].Complement,
+                  cep: entity.Addresses[1].Cep,
+                  cityId: entity.Addresses[1].City.Id,
+                  nickname: entity.Addresses[1].Nickname,
+                  residenceType: entity.Addresses[1].ResidenceType,
+                  streetType: entity.Addresses[1].StreetType,
+               },
+            ],
+         },
       };
    }
 
@@ -110,29 +142,16 @@ export default class Customer implements IDAO {
          cpf: entity.Cpf,
          email: entity.Email,
          status: entity.Status,
-         gender: Gender[entity.Gender as keyof typeof Gender],
+         gender: entity.Gender,
          ranking: entity.Ranking,
       };
    }
 
-   private mapToDomain(customer: PrismaCustomer): CustomerModel {
+   private mapToDomain(customer: any): CustomerModel {
       if (!customer) {
          throw new Error("Cliente inválido para mapeamento.");
       }
 
-      const returnCustomer = new CustomerModel();
-
-      returnCustomer.Id = customer.id;
-      returnCustomer.Name = customer.name;
-      returnCustomer.BirthDate = customer.birthDate;
-      returnCustomer.Cpf = customer.cpf;
-      returnCustomer.Email = customer.email;
-      returnCustomer.Status = customer.status;
-      returnCustomer.Gender = mapEnum(Gender, customer.gender);
-      returnCustomer.Ranking = customer.ranking;
-      returnCustomer.Password = customer.password;
-      returnCustomer.ConfPassword = customer.password;
-
-      return returnCustomer;
+      return { ...customer };
    }
 }

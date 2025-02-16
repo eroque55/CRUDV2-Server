@@ -1,10 +1,8 @@
-import { Prisma, PrismaClient, Card as PrismaCard } from "@prisma/client";
+import { Prisma, PrismaClient, CardBrand } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import IDAO from "./IDAO";
 
 import CardModel from "../models/Card";
-import CardBrand from "../enums/CardBrand";
-import { mapEnum } from "../utils/enumMapper";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
@@ -71,21 +69,6 @@ export default class Card implements IDAO {
       }
    }
 
-   async getByCustomer(entity: CardModel): Promise<CardModel[]> {
-      try {
-         const cards = await prisma.card.findMany({
-            orderBy: { id: "asc" },
-            where: { customerId: entity.CustomerId },
-         });
-
-         return cards.map(this.mapToDomain);
-      } catch (error: any) {
-         throw new Error(
-            `Erro ao consultar cartões por cliente: ${error.message}`
-         );
-      }
-   }
-
    private maskCardNumber(number: string): string {
       const length = number.length;
       const lastFourDigits = number.substring(length - 4, length);
@@ -101,15 +84,13 @@ export default class Card implements IDAO {
 
    private saveData(entity: CardModel): Prisma.CardCreateInput {
       return {
-         customer: { connect: { id: entity.CustomerId } },
+         customer: { connect: { id: entity.Customer.Id } },
          number: this.maskCardNumber(entity.Number),
-         cardholder: entity.CardHolder,
+         cardholder: entity.Cardholder,
          cvv: this.maskCvv(entity.Cvv),
          expirationDate: entity.ExpirationDate,
          preferential: entity.Preferential,
-         cardBrand: entity.CardBrand
-            ? mapEnum(CardBrand, entity.CardBrand)
-            : "VISA",
+         cardBrand: entity.CardBrand,
       };
    }
 
@@ -119,22 +100,11 @@ export default class Card implements IDAO {
       };
    }
 
-   private mapToDomain(card: PrismaCard): CardModel {
+   private mapToDomain(card: any): CardModel {
       if (!card) {
          throw new Error("Cartão inválido para mapeamento.");
       }
 
-      const returnCard = new CardModel();
-
-      returnCard.Id = card.id;
-      returnCard.CustomerId = card.customerId;
-      returnCard.Number = card.number;
-      returnCard.CardHolder = card.cardholder;
-      returnCard.Cvv = card.cvv;
-      returnCard.ExpirationDate = card.expirationDate;
-      returnCard.Preferential = card.preferential;
-      returnCard.CardBrand = mapEnum(CardBrand, card.cardBrand);
-
-      return returnCard;
+      return { ...card };
    }
 }

@@ -1,16 +1,22 @@
 import DomainEntity from "./DomainEntity";
-import Gender from "../enums/Gender";
+import { Gender } from "@prisma/client";
+import Address from "./Address";
+import Card from "./Card";
+import Phone from "./Phone";
 
 export default class Customer extends DomainEntity {
    private name: string = "";
    private birthDate: Date = new Date(0);
    private cpf: string = "";
-   private gender: Gender | null = null;
+   private gender: Gender = "OUTRO";
    private email: string = "";
    private password: string = "";
    private confPassword: string = "";
    private status: boolean = true;
    private ranking: number = 0;
+   private cards: Card[] = [];
+   private addresses: Address[] = [];
+   private phones: Phone[] = [];
 
    get Name(): string {
       return this.name;
@@ -68,7 +74,7 @@ export default class Customer extends DomainEntity {
       this.status = status;
    }
 
-   get Gender(): Gender | null {
+   get Gender(): Gender {
       return this.gender;
    }
 
@@ -82,5 +88,29 @@ export default class Customer extends DomainEntity {
 
    set Ranking(ranking: number) {
       this.ranking = ranking;
+   }
+
+   get Cards(): Card[] {
+      return this.cards;
+   }
+
+   set Cards(cards: Card[]) {
+      this.cards = cards;
+   }
+
+   get Addresses(): Address[] {
+      return this.addresses;
+   }
+
+   set Addresses(addresses: Address[]) {
+      this.addresses = addresses;
+   }
+
+   get Phones(): Phone[] {
+      return this.phones;
+   }
+
+   set Phones(phones: Phone[]) {
+      this.phones = phones;
    }
 }

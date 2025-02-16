@@ -1,21 +1,22 @@
-import CardBrand from "../enums/CardBrand";
+import Customer from "./Customer";
 import DomainEntity from "./DomainEntity";
+import { CardBrand } from "@prisma/client";
 
 export default class Card extends DomainEntity {
-   private customerId: number = 0;
+   private customer: Customer = new Customer();
    private number: string = "";
    private cardholder: string = "";
    private cvv: string = "";
    private expirationDate: string = "";
    private preferential: boolean = false;
-   private cardBrand: CardBrand | null = null;
+   private cardBrand: CardBrand = "OUTRA";
 
-   get CustomerId(): number {
-      return this.customerId;
+   get Customer(): Customer {
+      return this.customer;
    }
 
-   set CustomerId(customerId: number) {
-      this.customerId = customerId;
+   set Customer(customer: Customer) {
+      this.customer = customer;
    }
 
    get Number(): string {
@@ -26,11 +27,11 @@ export default class Card extends DomainEntity {
       this.number = number;
    }
 
-   get CardHolder(): string {
+   get Cardholder(): string {
       return this.cardholder;
    }
 
-   set CardHolder(cardHolder: string) {
+   set Cardholder(cardHolder: string) {
       this.cardholder = cardHolder;
    }
 
@@ -58,7 +59,7 @@ export default class Card extends DomainEntity {
       this.preferential = preferential;
    }
 
-   get CardBrand(): CardBrand | null {
+   get CardBrand(): CardBrand {
       return this.cardBrand;
    }
 

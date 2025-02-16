@@ -1,18 +1,19 @@
 import DomainEntity from "./DomainEntity";
-import PhoneType from "../enums/PhoneType";
+import Customer from "./Customer";
+import { PhoneType } from "@prisma/client";
 
 export default class Phone extends DomainEntity {
-   private customerId: number = 0;
+   private customer: Customer = new Customer();
    private ddd: string = "";
    private number: string = "";
-   private phoneType: PhoneType | null = null;
+   private phoneType: PhoneType = "CELULAR";
 
-   get CustomerId(): number {
-      return this.customerId;
+   get Customer(): Customer {
+      return this.customer;
    }
 
-   set CustomerId(customerId: number) {
-      this.customerId = customerId;
+   set Customer(customer: Customer) {
+      this.customer = customer;
    }
 
    get Ddd(): string {
@@ -31,7 +32,7 @@ export default class Phone extends DomainEntity {
       this.number = numero;
    }
 
-   get PhoneType(): PhoneType | null {
+   get PhoneType(): PhoneType {
       return this.phoneType;
    }
 

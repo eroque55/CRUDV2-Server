@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import CustomerController from "../controllers/Customer";
 
 import Customer from "../models/Customer";
-import Gender from "../enums/Gender";
+import { Gender } from "@prisma/client";
 
 const customerController = new CustomerController();
 

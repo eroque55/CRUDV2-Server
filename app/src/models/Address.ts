@@ -1,11 +1,10 @@
 import DomainEntity from "./DomainEntity";
-import AddressType from "../enums/AddressType";
-import StreetType from "../enums/StreetType";
-import ResidenceType from "../enums/ResidenceType";
+import { $Enums } from "@prisma/client";
 import City from "./City";
+import Customer from "./Customer";
 
 export default class Address extends DomainEntity {
-   private customerId: number = 0;
+   private customer: Customer = new Customer();
    private nickname: string = "";
    private street: string = "";
    private number: number = 0;
@@ -13,16 +12,16 @@ export default class Address extends DomainEntity {
    private cep: string = "";
    private complement: string = "";
    private city: City = new City();
-   private addressType: AddressType | null = null;
-   private streetType: StreetType | null = null;
-   private residenceType: ResidenceType | null = null;
+   private addressType: $Enums.AddressType = "COBRANCA";
+   private streetType: $Enums.StreetType = "OUTRO";
+   private residenceType: $Enums.ResidenceType = "OUTRO";
 
-   get CustomerId(): number {
-      return this.customerId;
+   get Customer(): Customer {
+      return this.customer;
    }
 
-   set CustomerId(customerId: number) {
-      this.customerId = customerId;
+   set Customer(customer: Customer) {
+      this.customer = customer;
    }
 
    get Nickname(): string {
@@ -81,27 +80,27 @@ export default class Address extends DomainEntity {
       this.city = city;
    }
 
-   get AddressType(): AddressType | null {
+   get AddressType(): $Enums.AddressType {
       return this.addressType;
    }
 
-   set AddressType(addressType: AddressType) {
+   set AddressType(addressType: $Enums.AddressType) {
       this.addressType = addressType;
    }
 
-   get StreetType(): StreetType | null {
+   get StreetType(): $Enums.StreetType {
       return this.streetType;
    }
 
-   set StreetType(streetType: StreetType) {
+   set StreetType(streetType: $Enums.StreetType) {
       this.streetType = streetType;
    }
 
-   get ResidenceType(): ResidenceType | null {
+   get ResidenceType(): $Enums.ResidenceType {
       return this.residenceType;
    }
 
-   set ResidenceType(residenceType: ResidenceType) {
+   set ResidenceType(residenceType: $Enums.ResidenceType) {
       this.residenceType = residenceType;
    }
 }

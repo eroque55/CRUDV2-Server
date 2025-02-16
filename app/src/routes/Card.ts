@@ -5,7 +5,6 @@ import {
    postCard,
    putCard,
    deleteCard,
-   getCardsByCustomer,
 } from "../handlers/Card";
 
 const router = Router();
@@ -13,8 +12,6 @@ const router = Router();
 router.get("/", getCards);
 
 router.get("/:id", getCard);
-
-router.get("/customer/:customerId", getCardsByCustomer);
 
 router.post("/", postCard);
 
