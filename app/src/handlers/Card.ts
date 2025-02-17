@@ -52,7 +52,6 @@ export async function putCard(req: Request, res: Response) {
       const card = new Card();
 
       card.Id = parseInt(req.params.id);
-      card.Preferential = req.body.preferential;
 
       const cardResponse = await customerController.update(card);
       res.json(cardResponse);

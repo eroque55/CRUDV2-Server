@@ -23,7 +23,12 @@ export default class CardDao implements IDAO {
       try {
          const card = await prisma.card.update({
             where: { id: entity.Id },
-            data: this.updateData(entity),
+            data: { preferential: true },
+         });
+
+         await prisma.card.updateMany({
+            where: { id: { not: entity.Id }, customerId: card.customerId },
+            data: { preferential: false },
          });
 
          return this.mapToDomain(card);
