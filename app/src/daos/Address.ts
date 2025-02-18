@@ -21,6 +21,8 @@ export default class AddressDao implements IDAO {
 
    async update(entity: AddressModel): Promise<AddressModel> {
       try {
+         console.log(entity);
+         console.log(this.updateData(entity));
          const address = await prisma.address.update({
             where: { id: entity.Id },
             data: this.updateData(entity),
@@ -28,7 +30,7 @@ export default class AddressDao implements IDAO {
 
          return this.mapToDomain(address);
       } catch (error: any) {
-         throw new Error(`Erro ao alterar endereço: ${error.message}`);
+         throw new Error(`Erro ao alterar endereço: ${error}`);
       }
    }
 
@@ -115,7 +117,7 @@ export default class AddressDao implements IDAO {
          neighborhood: entity.Neighborhood,
          cep: entity.Cep,
          complement: entity.Complement,
-         city: { connect: { id: entity.City.Id } },
+         city: { connect: { id: entity.City["id"] } },
          streetType: entity.StreetType,
          residenceType: entity.ResidenceType,
       };

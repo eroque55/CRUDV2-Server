@@ -54,8 +54,6 @@ export async function postAddress(req: Request, res: Response) {
 
 export async function putAddress(req: Request, res: Response) {
    try {
-      console.log(req.body);
-
       const address = new Address();
 
       address.Id = parseInt(req.params.id);
@@ -65,11 +63,9 @@ export async function putAddress(req: Request, res: Response) {
       address.Neighborhood = req.body.neighborhood;
       address.Cep = req.body.cep;
       address.Complement = req.body.complement;
-      address.City = req.body.cityId;
+      address.City = req.body.city;
       address.StreetType = req.body.streetType as StreetType;
       address.ResidenceType = req.body.residenceType as ResidenceType;
-
-      console.log(address);
 
       const addressResponse = await customerController.update(address);
       res.json(addressResponse);
