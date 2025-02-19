@@ -5,20 +5,25 @@ import Card from "./Card";
 import Phone from "./Phone";
 
 export default class Customer extends DomainEntity {
-   private name: string = "";
-   private birthDate: Date = new Date(0);
-   private cpf: string = "";
-   private gender: Gender = "OUTRO";
-   private email: string = "";
-   private password: string = "";
-   private confPassword: string = "";
-   private status: boolean = true;
-   private ranking: number = 0;
-   private cards: Card[] = [];
-   private addresses: Address[] = [];
-   private phones: Phone[] = [];
+   private name?: string;
+   private birthDate?: Date;
+   private cpf?: string;
+   private gender?: Gender;
+   private email?: string;
+   private password?: string;
+   private confPassword?: string;
+   private status?: boolean;
+   private ranking?: number;
+   private cards?: Card[];
+   private addresses?: Address[];
+   private phones?: Phone[];
 
-   get Name(): string {
+   constructor(data?: Partial<Customer>) {
+      super();
+      Object.assign(this, data);
+   }
+
+   get Name(): string | undefined {
       return this.name;
    }
 
@@ -26,7 +31,7 @@ export default class Customer extends DomainEntity {
       this.name = name;
    }
 
-   get BirthDate(): Date {
+   get BirthDate(): Date | undefined {
       return this.birthDate;
    }
 
@@ -34,7 +39,7 @@ export default class Customer extends DomainEntity {
       this.birthDate = birthDate;
    }
 
-   get Cpf(): string {
+   get Cpf(): string | undefined {
       return this.cpf;
    }
 
@@ -42,7 +47,7 @@ export default class Customer extends DomainEntity {
       this.cpf = cpf;
    }
 
-   get Email(): string {
+   get Email(): string | undefined {
       return this.email;
    }
 
@@ -50,7 +55,7 @@ export default class Customer extends DomainEntity {
       this.email = email;
    }
 
-   get Password(): string {
+   get Password(): string | undefined {
       return this.password;
    }
 
@@ -58,7 +63,7 @@ export default class Customer extends DomainEntity {
       this.password = password;
    }
 
-   get ConfPassword(): string {
+   get ConfPassword(): string | undefined {
       return this.confPassword;
    }
 
@@ -66,7 +71,7 @@ export default class Customer extends DomainEntity {
       this.confPassword = confPassword;
    }
 
-   get Status(): boolean {
+   get Status(): boolean | undefined {
       return this.status;
    }
 
@@ -74,7 +79,7 @@ export default class Customer extends DomainEntity {
       this.status = status;
    }
 
-   get Gender(): Gender {
+   get Gender(): Gender | undefined {
       return this.gender;
    }
 
@@ -82,7 +87,7 @@ export default class Customer extends DomainEntity {
       this.gender = gender;
    }
 
-   get Ranking(): number {
+   get Ranking(): number | undefined {
       return this.ranking;
    }
 
@@ -90,7 +95,7 @@ export default class Customer extends DomainEntity {
       this.ranking = ranking;
    }
 
-   get Cards(): Card[] {
+   get Cards(): Card[] | undefined {
       return this.cards;
    }
 
@@ -98,7 +103,7 @@ export default class Customer extends DomainEntity {
       this.cards = cards;
    }
 
-   get Addresses(): Address[] {
+   get Addresses(): Address[] | undefined {
       return this.addresses;
    }
 
@@ -106,7 +111,7 @@ export default class Customer extends DomainEntity {
       this.addresses = addresses;
    }
 
-   get Phones(): Phone[] {
+   get Phones(): Phone[] | undefined {
       return this.phones;
    }
 

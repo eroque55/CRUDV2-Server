@@ -10,7 +10,17 @@ const customerController = new CustomerController();
 
 export async function getCustomers(req: Request, res: Response) {
    try {
-      const customerResponse = await customerController.read(new Customer());
+      const customer = new Customer();
+
+      customer.Name = req.body.name;
+      customer.Status = req.body.status;
+      customer.Ranking = req.body.ranking;
+      customer.Cpf = req.body.cpf;
+      customer.Email = req.body.email;
+      customer.BirthDate = req.body.birthDate;
+      customer.Gender = req.body.gender;
+
+      const customerResponse = await customerController.read(customer);
 
       res.json(customerResponse);
    } catch (error: any) {

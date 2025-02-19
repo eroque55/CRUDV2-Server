@@ -44,10 +44,19 @@ export default class CustomerDao implements IDAO {
       }
    }
 
-   async read(): Promise<CustomerModel[]> {
+   async read(entity: CustomerModel): Promise<CustomerModel[]> {
       try {
          const customers = await prisma.customer.findMany({
             orderBy: { id: "asc" },
+            where: {
+               name: { contains: entity.Name },
+               status: entity.Status,
+               ranking: entity.Ranking,
+               cpf: { contains: entity.Cpf },
+               email: { contains: entity.Email },
+               birthDate: entity.BirthDate,
+               gender: entity.Gender,
+            },
             omit: { password: true, confPassword: true },
          });
          return customers.map(this.mapToDomain);
