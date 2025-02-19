@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import CustomerController from "../controllers/Customer";
 
 import Address from "../models/Address";
-import { AddressType, ResidenceType, StreetType } from "@prisma/client";
 
 const customerController = new CustomerController();
 
@@ -31,19 +30,7 @@ export async function getAddress(req: Request, res: Response) {
 
 export async function postAddress(req: Request, res: Response) {
    try {
-      const address = new Address();
-
-      address.Customer.Id = req.body.customer.id;
-      address.Nickname = req.body.nickname;
-      address.Street = req.body.street;
-      address.Number = req.body.number;
-      address.Neighborhood = req.body.neighborhood;
-      address.Cep = req.body.cep;
-      address.Complement = req.body.complement;
-      address.City = req.body.city;
-      address.AddressType = req.body.addressType as AddressType;
-      address.StreetType = req.body.streetType as StreetType;
-      address.ResidenceType = req.body.residenceType as ResidenceType;
+      const address = new Address({ ...req.body });
 
       const addressResponse = await customerController.create(address);
       res.json(addressResponse);
@@ -54,18 +41,9 @@ export async function postAddress(req: Request, res: Response) {
 
 export async function putAddress(req: Request, res: Response) {
    try {
-      const address = new Address();
+      const address = new Address({ ...req.body });
 
       address.Id = parseInt(req.params.id);
-      address.Nickname = req.body.nickname;
-      address.Street = req.body.street;
-      address.Number = req.body.number;
-      address.Neighborhood = req.body.neighborhood;
-      address.Cep = req.body.cep;
-      address.Complement = req.body.complement;
-      address.City = req.body.city;
-      address.StreetType = req.body.streetType as StreetType;
-      address.ResidenceType = req.body.residenceType as ResidenceType;
 
       const addressResponse = await customerController.update(address);
       res.json(addressResponse);

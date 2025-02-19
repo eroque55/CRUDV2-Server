@@ -75,10 +75,10 @@ export default class PhoneDao implements IDAO {
 
    private saveData(entity: PhoneModel): Prisma.PhoneCreateInput {
       return {
-         ddd: entity.Ddd,
-         number: entity.Number,
-         phoneType: entity.PhoneType,
-         customer: { connect: { id: entity.Customer.Id } },
+         ddd: entity.Ddd || "",
+         number: entity.Number || "",
+         phoneType: entity.PhoneType || PhoneType.CELULAR,
+         customer: { connect: { id: entity?.Customer?.Id } },
       };
    }
 

@@ -3,11 +3,16 @@ import Country from "./Country";
 import DomainEntity from "./DomainEntity";
 
 export default class State extends DomainEntity {
-   private name: string = "";
-   private country: Country = new Country();
+   private name?: string;
+   private country?: Country;
    private cities: City[] = [];
 
-   get Name(): string {
+   constructor(data?: Partial<State>) {
+      super();
+      Object.assign(this, data);
+   }
+
+   get Name(): string | undefined {
       return this.name;
    }
 
@@ -15,7 +20,7 @@ export default class State extends DomainEntity {
       this.name = nome;
    }
 
-   get Country(): Country {
+   get Country(): Country | undefined {
       return this.country;
    }
 

@@ -89,14 +89,15 @@ export default class CardDao implements IDAO {
 
    private saveData(entity: CardModel): Prisma.CardCreateInput {
       return {
-         customer: { connect: { id: entity.Customer.Id } },
-         number: this.maskCardNumber(entity.Number),
-         cardholder: entity.Cardholder,
-         cvv: this.maskCvv(entity.Cvv),
-         expirationDate: entity.ExpirationDate,
+         customer: { connect: { id: entity.Customer?.["id"] } },
+         number: this.maskCardNumber(entity.Number || ""),
+         cardholder: entity.Cardholder || "",
+         cvv: this.maskCvv(entity.Cvv || ""),
+         expirationDate: entity.ExpirationDate || "",
          preferential: entity.Preferential,
-         cardBrand: entity.CardBrand,
+         cardBrand: entity.CardBrand || CardBrand.VISA,
       };
+      5;
    }
 
    private updateData(entity: CardModel): Prisma.CardUpdateInput {

@@ -5,20 +5,13 @@ import Customer from "../models/Customer";
 import { Gender } from "@prisma/client";
 import Phone from "../models/Phone";
 import Address from "../models/Address";
+import { CityModel } from "../models";
 
 const customerController = new CustomerController();
 
 export async function getCustomers(req: Request, res: Response) {
    try {
-      const customer = new Customer();
-
-      customer.Name = req.body.name;
-      customer.Status = req.body.status;
-      customer.Ranking = req.body.ranking;
-      customer.Cpf = req.body.cpf;
-      customer.Email = req.body.email;
-      customer.BirthDate = req.body.birthDate;
-      customer.Gender = req.body.gender;
+      const customer = new Customer({ ...req.body });
 
       const customerResponse = await customerController.read(customer);
 
@@ -61,7 +54,8 @@ export async function postCustomer(req: Request, res: Response) {
       address1.AddressType = req.body.addresses[0].addressType;
       address1.StreetType = req.body.addresses[0].streetType;
       address1.ResidenceType = req.body.addresses[0].residenceType;
-      address1.City.Id = req.body.addresses[0].city.id;
+      const city1 = new CityModel({ Id: req.body.addresses[0].city.id });
+      address1.City = city1;
 
       address2.Nickname = req.body.addresses[1].nickname;
       address2.Street = req.body.addresses[1].street;
@@ -72,7 +66,8 @@ export async function postCustomer(req: Request, res: Response) {
       address2.AddressType = req.body.addresses[1].addressType;
       address2.StreetType = req.body.addresses[1].streetType;
       address2.ResidenceType = req.body.addresses[1].residenceType;
-      address2.City.Id = req.body.addresses[1].city.id;
+      const city2 = new CityModel({ Id: req.body.addresses[1].city.id });
+      address2.City = city2;
 
       customer.Name = req.body.name;
       customer.BirthDate = req.body.birthDate;
@@ -82,10 +77,13 @@ export async function postCustomer(req: Request, res: Response) {
       customer.Password = req.body.password;
       customer.ConfPassword = req.body.confPassword;
       customer.Ranking = req.body.ranking;
+      customer.Status = true;
 
       customer.Phones.push(phone);
       customer.Addresses.push(address1);
       customer.Addresses.push(address2);
+
+      console.log(customer.Addresses);
 
       const customerResponse = await customerController.create(customer);
       res.json(customerResponse);
@@ -96,16 +94,9 @@ export async function postCustomer(req: Request, res: Response) {
 
 export async function putCustomer(req: Request, res: Response) {
    try {
-      const customer = new Customer();
+      const customer = new Customer({ ...req.body });
 
       customer.Id = parseInt(req.params.id);
-      customer.Name = req.body.name;
-      customer.BirthDate = req.body.birthDate;
-      customer.Cpf = req.body.cpf;
-      customer.Email = req.body.email;
-      customer.Gender = Gender[req.body.gender as keyof typeof Gender];
-      customer.Status = req.body.status;
-      customer.Ranking = req.body.ranking;
 
       const customerResponse = await customerController.update(customer);
       res.json(customerResponse);

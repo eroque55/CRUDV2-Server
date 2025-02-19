@@ -11,7 +11,7 @@ export default class ValidateAddress implements IStrategy {
          const address = entity as Address;
 
          if (address.Id === 0) {
-            if (address.Customer.Id === 0) {
+            if (!address.Customer?.Id) {
                message += "Cliente é obrigatório. ";
             }
 
@@ -33,7 +33,7 @@ export default class ValidateAddress implements IStrategy {
                message += "CEP inválido. ";
             }
 
-            if (address.City.Id === 0) {
+            if (address.City?.Id === 0) {
                message += "Cidade é obrigatório. ";
             }
 

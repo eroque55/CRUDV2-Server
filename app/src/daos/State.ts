@@ -74,8 +74,8 @@ export default class StateDao implements IDAO {
 
    private saveData(entity: StateModel): Prisma.StateCreateInput {
       return {
-         name: entity.Name,
-         country: { connect: { id: entity.Country.Id } },
+         name: entity.Name || "",
+         country: { connect: { id: entity.Country?.Id } },
       };
    }
 

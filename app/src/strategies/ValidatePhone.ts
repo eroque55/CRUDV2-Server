@@ -11,7 +11,7 @@ export default class ValidatePhone implements IStrategy {
          const phone = entity as Phone;
 
          if (phone.Id === 0) {
-            if (phone.Customer.Id === 0) {
+            if (!phone.Customer?.Id) {
                message += "Cliente é obrigatório. ";
             }
 

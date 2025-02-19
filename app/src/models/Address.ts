@@ -1,22 +1,27 @@
 import DomainEntity from "./DomainEntity";
-import { $Enums } from "@prisma/client";
+import { AddressType, StreetType, ResidenceType } from "@prisma/client";
 import City from "./City";
 import Customer from "./Customer";
 
 export default class Address extends DomainEntity {
-   private customer: Customer = new Customer();
-   private nickname: string = "";
-   private street: string = "";
-   private number: number = 0;
-   private neighborhood: string = "";
-   private cep: string = "";
-   private complement: string = "";
-   private city: City = new City();
-   private addressType: $Enums.AddressType = "COBRANCA";
-   private streetType: $Enums.StreetType = "OUTRO";
-   private residenceType: $Enums.ResidenceType = "OUTRO";
+   private customer?: Customer;
+   private nickname?: string;
+   private street?: string;
+   private number?: number;
+   private neighborhood?: string;
+   private cep?: string;
+   private complement?: string;
+   private city?: City;
+   private addressType?: AddressType;
+   private streetType?: StreetType;
+   private residenceType?: ResidenceType;
 
-   get Customer(): Customer {
+   constructor(data?: Partial<Address>) {
+      super();
+      Object.assign(this, data);
+   }
+
+   get Customer(): Customer | undefined {
       return this.customer;
    }
 
@@ -24,7 +29,7 @@ export default class Address extends DomainEntity {
       this.customer = customer;
    }
 
-   get Nickname(): string {
+   get Nickname(): string | undefined {
       return this.nickname;
    }
 
@@ -32,7 +37,7 @@ export default class Address extends DomainEntity {
       this.nickname = nickname;
    }
 
-   get Street(): string {
+   get Street(): string | undefined {
       return this.street;
    }
 
@@ -40,7 +45,7 @@ export default class Address extends DomainEntity {
       this.street = street;
    }
 
-   get Number(): number {
+   get Number(): number | undefined {
       return this.number;
    }
 
@@ -48,7 +53,7 @@ export default class Address extends DomainEntity {
       this.number = number;
    }
 
-   get Neighborhood(): string {
+   get Neighborhood(): string | undefined {
       return this.neighborhood;
    }
 
@@ -56,7 +61,7 @@ export default class Address extends DomainEntity {
       this.neighborhood = neighborhood;
    }
 
-   get Cep(): string {
+   get Cep(): string | undefined {
       return this.cep;
    }
 
@@ -64,7 +69,7 @@ export default class Address extends DomainEntity {
       this.cep = cep;
    }
 
-   get Complement(): string {
+   get Complement(): string | undefined {
       return this.complement;
    }
 
@@ -72,7 +77,7 @@ export default class Address extends DomainEntity {
       this.complement = complement;
    }
 
-   get City(): City {
+   get City(): City | undefined {
       return this.city;
    }
 
@@ -80,27 +85,27 @@ export default class Address extends DomainEntity {
       this.city = city;
    }
 
-   get AddressType(): $Enums.AddressType {
+   get AddressType(): AddressType | undefined {
       return this.addressType;
    }
 
-   set AddressType(addressType: $Enums.AddressType) {
+   set AddressType(addressType: AddressType) {
       this.addressType = addressType;
    }
 
-   get StreetType(): $Enums.StreetType {
+   get StreetType(): StreetType | undefined {
       return this.streetType;
    }
 
-   set StreetType(streetType: $Enums.StreetType) {
+   set StreetType(streetType: StreetType) {
       this.streetType = streetType;
    }
 
-   get ResidenceType(): $Enums.ResidenceType {
+   get ResidenceType(): ResidenceType | undefined {
       return this.residenceType;
    }
 
-   set ResidenceType(residenceType: $Enums.ResidenceType) {
+   set ResidenceType(residenceType: ResidenceType) {
       this.residenceType = residenceType;
    }
 }

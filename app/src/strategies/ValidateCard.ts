@@ -11,7 +11,7 @@ export default class ValidateCard implements IStrategy {
          const card = entity as Card;
 
          if (card.Id === 0) {
-            if (card.Customer.Id === 0) {
+            if (!card.Customer?.Id) {
                message += "Cliente é obrigatório. ";
             }
 

@@ -3,12 +3,17 @@ import Customer from "./Customer";
 import { PhoneType } from "@prisma/client";
 
 export default class Phone extends DomainEntity {
-   private customer: Customer = new Customer();
-   private ddd: string = "";
-   private number: string = "";
-   private phoneType: PhoneType = "CELULAR";
+   private customer?: Customer;
+   private ddd?: string;
+   private number?: string;
+   private phoneType?: PhoneType;
 
-   get Customer(): Customer {
+   constructor(data?: Partial<Phone>) {
+      super();
+      Object.assign(this, data);
+   }
+
+   get Customer(): Customer | undefined {
       return this.customer;
    }
 
@@ -16,7 +21,7 @@ export default class Phone extends DomainEntity {
       this.customer = customer;
    }
 
-   get Ddd(): string {
+   get Ddd(): string | undefined {
       return this.ddd;
    }
 
@@ -24,7 +29,7 @@ export default class Phone extends DomainEntity {
       this.ddd = ddd;
    }
 
-   get Number(): string {
+   get Number(): string | undefined {
       return this.number;
    }
 
@@ -32,7 +37,7 @@ export default class Phone extends DomainEntity {
       this.number = numero;
    }
 
-   get PhoneType(): PhoneType {
+   get PhoneType(): PhoneType | undefined {
       return this.phoneType;
    }
 

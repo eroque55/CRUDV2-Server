@@ -31,12 +31,7 @@ export async function getPhone(req: Request, res: Response) {
 
 export async function postPhone(req: Request, res: Response) {
    try {
-      const phone = new Phone();
-
-      phone.Customer.Id = req.body.customerId;
-      phone.Ddd = req.body.ddd;
-      phone.Number = req.body.number;
-      phone.PhoneType = req.body.phoneType as PhoneType;
+      const phone = new Phone({ ...req.body });
 
       const phoneResponse = await customerController.create(phone);
       res.json(phoneResponse);
@@ -47,12 +42,9 @@ export async function postPhone(req: Request, res: Response) {
 
 export async function putPhone(req: Request, res: Response) {
    try {
-      const phone = new Phone();
+      const phone = new Phone({ ...req.body });
 
       phone.Id = parseInt(req.params.id);
-      phone.Ddd = req.body.ddd;
-      phone.Number = req.body.number;
-      phone.PhoneType = req.body.phoneType as PhoneType;
 
       const phoneResponse = await customerController.update(phone);
       res.json(phoneResponse);

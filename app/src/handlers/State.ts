@@ -30,10 +30,7 @@ export async function getState(req: Request, res: Response) {
 
 export async function postState(req: Request, res: Response) {
    try {
-      const state = new State();
-
-      state.Name = req.body._name;
-      state.Country.Id = req.body.contryId;
+      const state = new State({ ...req.body });
 
       const stateResponse = await customerController.create(state);
       res.json(stateResponse);
@@ -44,11 +41,9 @@ export async function postState(req: Request, res: Response) {
 
 export async function putState(req: Request, res: Response) {
    try {
-      const state = new State();
+      const state = new State({ ...req.body });
 
       state.Id = parseInt(req.params.id);
-      state.Name = req.body.name;
-      state.Country.Id = req.body.contryId;
 
       const stateResponse = await customerController.update(state);
       res.json(stateResponse);

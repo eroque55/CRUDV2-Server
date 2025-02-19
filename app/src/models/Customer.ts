@@ -14,9 +14,9 @@ export default class Customer extends DomainEntity {
    private confPassword?: string;
    private status?: boolean;
    private ranking?: number;
-   private cards?: Card[];
-   private addresses?: Address[];
-   private phones?: Phone[];
+   private cards: Card[] = [];
+   private addresses: Address[] = [];
+   private phones: Phone[] = [];
 
    constructor(data?: Partial<Customer>) {
       super();
@@ -95,7 +95,7 @@ export default class Customer extends DomainEntity {
       this.ranking = ranking;
    }
 
-   get Cards(): Card[] | undefined {
+   get Cards(): Card[] {
       return this.cards;
    }
 
@@ -103,7 +103,7 @@ export default class Customer extends DomainEntity {
       this.cards = cards;
    }
 
-   get Addresses(): Address[] | undefined {
+   get Addresses(): Address[] {
       return this.addresses;
    }
 
@@ -111,7 +111,7 @@ export default class Customer extends DomainEntity {
       this.addresses = addresses;
    }
 
-   get Phones(): Phone[] | undefined {
+   get Phones(): Phone[] {
       return this.phones;
    }
 

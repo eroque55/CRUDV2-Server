@@ -47,6 +47,15 @@ export default class ValidateCustomer implements IStrategy {
             } else if (customer.Password !== customer.ConfPassword) {
                message += "Senhas não conferem. ";
             }
+
+            if (customer.Phones.length === 0) {
+               message += "Telefone é obrigatório. ";
+            }
+
+            if (customer.Addresses.length > 2) {
+               message +=
+                  "É obrigatório um endereço de cobrança e um de entrega. ";
+            }
          }
       }
       return message;

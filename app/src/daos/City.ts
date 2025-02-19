@@ -85,8 +85,8 @@ export default class CityDao implements IDAO {
 
    private saveData(entity: CityModel): Prisma.CityCreateInput {
       return {
-         name: entity.Name,
-         state: { connect: { id: entity.State.Id } },
+         name: entity.Name || "",
+         state: { connect: { id: entity?.State?.Id } },
       };
    }
 

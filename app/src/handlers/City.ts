@@ -30,10 +30,7 @@ export async function getCity(req: Request, res: Response) {
 
 export async function postCity(req: Request, res: Response) {
    try {
-      const city = new City();
-
-      city.Name = req.body.name;
-      city.State.Id = req.body.stateId;
+      const city = new City({ ...req.body });
 
       const cityResponse = await customerController.create(city);
       res.json(cityResponse);
@@ -44,11 +41,9 @@ export async function postCity(req: Request, res: Response) {
 
 export async function putCity(req: Request, res: Response) {
    try {
-      const city = new City();
+      const city = new City({ ...req.body });
 
       city.Id = parseInt(req.params.id);
-      city.Name = req.body.name;
-      city.State.Id = req.body.stateId;
 
       const cityResponse = await customerController.update(city);
       res.json(cityResponse);

@@ -21,8 +21,6 @@ export default class AddressDao implements IDAO {
 
    async update(entity: AddressModel): Promise<AddressModel> {
       try {
-         console.log(entity);
-         console.log(this.updateData(entity));
          const address = await prisma.address.update({
             where: { id: entity.Id },
             data: this.updateData(entity),
@@ -95,17 +93,17 @@ export default class AddressDao implements IDAO {
 
    private saveData(entity: AddressModel): Prisma.AddressCreateInput {
       return {
-         customer: { connect: { id: entity.Customer.Id } },
-         nickname: entity.Nickname,
-         street: entity.Street,
-         number: entity.Number,
-         neighborhood: entity.Neighborhood,
-         cep: entity.Cep,
-         complement: entity.Complement,
-         city: { connect: { id: entity.City["id"] } },
-         addressType: entity.AddressType,
-         streetType: entity.StreetType,
-         residenceType: entity.ResidenceType,
+         customer: { connect: { id: entity.Customer?.["id"] } },
+         nickname: entity.Nickname || "",
+         street: entity.Street || "",
+         number: entity.Number || 0,
+         neighborhood: entity.Neighborhood || "",
+         cep: entity.Cep || "",
+         complement: entity.Complement || "",
+         city: { connect: { id: entity?.City?.["id"] } },
+         addressType: entity.AddressType || "COBRANCA",
+         streetType: entity.StreetType || "RUA",
+         residenceType: entity.ResidenceType || "CASA",
       };
    }
 
@@ -117,7 +115,7 @@ export default class AddressDao implements IDAO {
          neighborhood: entity.Neighborhood,
          cep: entity.Cep,
          complement: entity.Complement,
-         city: { connect: { id: entity.City["id"] } },
+         city: { connect: { id: entity?.City?.["id"] } },
          streetType: entity.StreetType,
          residenceType: entity.ResidenceType,
       };

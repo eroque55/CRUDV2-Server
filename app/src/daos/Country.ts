@@ -83,7 +83,7 @@ export default class CountryDao implements IDAO {
 
    private saveData(entity: CountryModel): Prisma.CountryCreateInput {
       return {
-         name: entity.Name,
+         name: entity.Name || "",
       };
    }
 

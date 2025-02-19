@@ -1,7 +1,11 @@
 export default class DomainEntity {
-   private id: number = 0;
+   private id?: number;
 
-   get Id(): number {
+   constructor(data?: Partial<DomainEntity>) {
+      Object.assign(this, data);
+   }
+
+   get Id(): number | undefined {
       return this.id;
    }
 

@@ -3,15 +3,20 @@ import DomainEntity from "./DomainEntity";
 import { CardBrand } from "@prisma/client";
 
 export default class Card extends DomainEntity {
-   private customer: Customer = new Customer();
-   private number: string = "";
-   private cardholder: string = "";
-   private cvv: string = "";
-   private expirationDate: string = "";
-   private preferential: boolean = false;
-   private cardBrand: CardBrand = "OUTRA";
+   private customer?: Customer;
+   private number?: string;
+   private cardholder?: string;
+   private cvv?: string;
+   private expirationDate?: string;
+   private preferential?: boolean;
+   private cardBrand?: CardBrand;
 
-   get Customer(): Customer {
+   constructor(data?: Partial<Card>) {
+      super();
+      Object.assign(this, data);
+   }
+
+   get Customer(): Customer | undefined {
       return this.customer;
    }
 
@@ -19,7 +24,7 @@ export default class Card extends DomainEntity {
       this.customer = customer;
    }
 
-   get Number(): string {
+   get Number(): string | undefined {
       return this.number;
    }
 
@@ -27,7 +32,7 @@ export default class Card extends DomainEntity {
       this.number = number;
    }
 
-   get Cardholder(): string {
+   get Cardholder(): string | undefined {
       return this.cardholder;
    }
 
@@ -35,7 +40,7 @@ export default class Card extends DomainEntity {
       this.cardholder = cardHolder;
    }
 
-   get Cvv(): string {
+   get Cvv(): string | undefined {
       return this.cvv;
    }
 
@@ -43,7 +48,7 @@ export default class Card extends DomainEntity {
       this.cvv = cvv;
    }
 
-   get ExpirationDate(): string {
+   get ExpirationDate(): string | undefined {
       return this.expirationDate;
    }
 
@@ -51,7 +56,7 @@ export default class Card extends DomainEntity {
       this.expirationDate = expirationDate;
    }
 
-   get Preferential(): boolean {
+   get Preferential(): boolean | undefined {
       return this.preferential;
    }
 
@@ -59,7 +64,7 @@ export default class Card extends DomainEntity {
       this.preferential = preferential;
    }
 
-   get CardBrand(): CardBrand {
+   get CardBrand(): CardBrand | undefined {
       return this.cardBrand;
    }
 
