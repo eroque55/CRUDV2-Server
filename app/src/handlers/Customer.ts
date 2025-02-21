@@ -5,12 +5,23 @@ import Customer from "../models/Customer";
 import Phone from "../models/Phone";
 import Address from "../models/Address";
 import { CityModel } from "../models";
+import { Gender } from "@prisma/client";
 
 const customerController = new CustomerController();
 
 export async function getCustomers(req: Request, res: Response) {
    try {
-      const customer = new Customer({ ...req.body });
+      const customer = new Customer();
+
+      if (req.query.name) customer.Name = req.query.name as string;
+      if (req.query.cpf) customer.Cpf = req.query.cpf as string;
+      if (req.query.email) customer.Email = req.query.email as string;
+      if (req.query.ranking)
+         customer.Ranking = parseInt(req.query.ranking as string);
+      if (req.query.status) customer.Status = req.query.status === "true";
+      if (req.query.gender) customer.Gender = req.query.gender as Gender;
+      if (req.query.birthDate)
+         customer.BirthDate = new Date(req.query.birthDate as string);
 
       const customerResponse = await customerController.read(customer);
 
@@ -81,8 +92,6 @@ export async function postCustomer(req: Request, res: Response) {
       customer.Phones.push(phone);
       customer.Addresses.push(address1);
       customer.Addresses.push(address2);
-
-      console.log(customer.Addresses);
 
       const customerResponse = await customerController.create(customer);
       res.json(customerResponse);

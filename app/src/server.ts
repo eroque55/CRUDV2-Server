@@ -1,17 +1,13 @@
 import express from "express";
 import cors from "cors";
 
-// import CustomerController from "./controllers/Customer";
-
 import * as Routes from "./routes";
 
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: "*" }));
 
-app.listen(8000, () =>
-   console.log("Servidor rodando em: http://localhost:8000")
-);
+app.listen(8000, () => console.log("Started at: http://localhost:8000"));
 
 app.use("/cards", Routes.CardRoutes);
 
@@ -26,6 +22,3 @@ app.use("/states", Routes.StateRoutes);
 app.use("/countries", Routes.CountryRoutes);
 
 app.use("/phones", Routes.PhoneRoutes);
-
-// const customerController = new CustomerController();
-// customerController.update(card);

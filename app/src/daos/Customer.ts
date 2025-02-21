@@ -1,10 +1,9 @@
 import { Prisma, PrismaClient, Gender } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
-
 import IDAO from "./IDAO";
-
 import encryptPassword from "../utils/passwordEncryptor";
 import CustomerModel from "../models/Customer";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
@@ -17,7 +16,12 @@ export default class CustomerDao implements IDAO {
 
          return this.mapToDomain(customer);
       } catch (error: any) {
-         throw new Error(`Erro ao salvar cliente: ${error.message}`);
+         if (error instanceof PrismaClientKnownRequestError) {
+            throw new Error(
+               `Já existe um cliente com esse ${error?.meta?.target}`
+            );
+         }
+         throw new Error(`Erro ao salvar cliente`);
       }
    }
 
@@ -30,6 +34,11 @@ export default class CustomerDao implements IDAO {
 
          return this.mapToDomain(customer);
       } catch (error: any) {
+         if (error instanceof PrismaClientKnownRequestError) {
+            throw new Error(
+               `Já existe um cliente com esse ${error?.meta?.target}`
+            );
+         }
          throw new Error(`Erro ao alterar cliente: ${error.message}`);
       }
    }
@@ -54,7 +63,7 @@ export default class CustomerDao implements IDAO {
                ranking: entity.Ranking,
                cpf: { contains: entity.Cpf },
                email: { contains: entity.Email },
-               birthDate: entity.BirthDate,
+               birthDate: { gt: entity.BirthDate },
                gender: entity.Gender,
             },
             omit: { password: true, confPassword: true },

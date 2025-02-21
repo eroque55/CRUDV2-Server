@@ -1,7 +1,6 @@
 import { Prisma, PrismaClient, CardBrand } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import IDAO from "./IDAO";
-
 import CardModel from "../models/Card";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
@@ -15,7 +14,7 @@ export default class CardDao implements IDAO {
 
          return this.mapToDomain(card);
       } catch (error: any) {
-         throw new Error(`Erro ao salvar cartão: ${error.message}`);
+         throw new Error(`Erro ao salvar cartão`);
       }
    }
 
@@ -96,13 +95,6 @@ export default class CardDao implements IDAO {
          expirationDate: entity.ExpirationDate || "",
          preferential: entity.Preferential,
          cardBrand: entity.CardBrand || CardBrand.VISA,
-      };
-      5;
-   }
-
-   private updateData(entity: CardModel): Prisma.CardUpdateInput {
-      return {
-         preferential: entity.Preferential,
       };
    }
 

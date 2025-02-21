@@ -3,6 +3,7 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import IDAO from "./IDAO";
 
 import PhoneModel from "../models/Phone";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
@@ -18,6 +19,11 @@ export default class PhoneDao implements IDAO {
          }
          return this.mapToDomain(phone);
       } catch (error: any) {
+         if (error instanceof PrismaClientKnownRequestError) {
+            throw new Error(
+               `Já existe um telefone com esse ${error?.meta?.target}`
+            );
+         }
          throw new Error(`Erro ao salvar telefone: ${error.message}`);
       }
    }
@@ -31,6 +37,11 @@ export default class PhoneDao implements IDAO {
 
          return this.mapToDomain(phone);
       } catch (error: any) {
+         if (error instanceof PrismaClientKnownRequestError) {
+            throw new Error(
+               `Já existe um telefone com esse ${error?.meta?.target}`
+            );
+         }
          throw new Error(`Erro ao alterar telefone: ${error.message}`);
       }
    }
