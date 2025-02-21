@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import CustomerController from "../controllers/Customer";
 
 import Customer from "../models/Customer";
-import { Gender } from "@prisma/client";
 import Phone from "../models/Phone";
 import Address from "../models/Address";
 import { CityModel } from "../models";
