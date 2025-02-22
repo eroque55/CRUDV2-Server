@@ -27,6 +27,15 @@ export default class CustomerDao implements IDAO {
 
    async update(entity: CustomerModel): Promise<CustomerModel> {
       try {
+         if (entity.Password || entity.ConfPassword) {
+            const confPassword = encryptPassword(entity.ConfPassword || "");
+            const dbCustomer = await prisma.customer.findUnique({
+               where: { id: entity.Id },
+            });
+            if (confPassword !== dbCustomer?.password) {
+               throw new Error("Senha incorreta");
+            }
+         }
          const customer = await prisma.customer.update({
             where: { id: entity.Id },
             data: this.updateData(entity),
@@ -109,7 +118,7 @@ export default class CustomerDao implements IDAO {
          cpf: entity.Cpf || "",
          email: entity.Email || "",
          password: encryptPassword(entity.Password || ""),
-         confPassword: encryptPassword(entity.ConfPassword || ""),
+         confPassword: encryptPassword(entity.Password || ""),
          status: entity.Status || false,
          gender: entity.Gender || "OUTRO",
          ranking: entity.Ranking || 0,
@@ -156,6 +165,9 @@ export default class CustomerDao implements IDAO {
    }
 
    private updateData(entity: CustomerModel): Prisma.CustomerUpdateInput {
+      const password = entity.Password
+         ? encryptPassword(entity.Password)
+         : undefined;
       return {
          name: entity.Name,
          birthDate: entity.BirthDate,
@@ -164,6 +176,8 @@ export default class CustomerDao implements IDAO {
          email: entity.Email,
          ranking: entity.Ranking,
          status: entity.Status,
+         password: password,
+         confPassword: password,
       };
    }
 
