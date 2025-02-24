@@ -24,7 +24,7 @@ export default class PhoneDao implements IDAO {
                `Já existe um telefone com esse ${error?.meta?.target}`
             );
          }
-         throw new Error(`Erro ao salvar telefone: ${error.message}`);
+         throw new Error(`${error.message}`);
       }
    }
 
@@ -42,7 +42,7 @@ export default class PhoneDao implements IDAO {
                `Já existe um telefone com esse ${error?.meta?.target}`
             );
          }
-         throw new Error(`Erro ao alterar telefone: ${error.message}`);
+         throw new Error(`${error.message}`);
       }
    }
 

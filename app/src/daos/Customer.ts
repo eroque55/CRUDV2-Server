@@ -12,6 +12,7 @@ export default class CustomerDao implements IDAO {
       try {
          const customer = await prisma.customer.create({
             data: this.saveData(entity),
+            omit: { password: true, confPassword: true },
          });
 
          return this.mapToDomain(customer);
@@ -39,6 +40,7 @@ export default class CustomerDao implements IDAO {
          const customer = await prisma.customer.update({
             where: { id: entity.Id },
             data: this.updateData(entity),
+            omit: { password: true, confPassword: true },
          });
 
          return this.mapToDomain(customer);
@@ -48,7 +50,7 @@ export default class CustomerDao implements IDAO {
                `Já existe um cliente com esse ${error?.meta?.target}`
             );
          }
-         throw new Error(`Erro ao alterar cliente: ${error.message}`);
+         throw new Error(`${error.message}`);
       }
    }
 
