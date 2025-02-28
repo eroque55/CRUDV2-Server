@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import CustomerController from "../controllers/Customer";
+import CustomerController from "../controllers/Controller";
 
 import City from "../models/City";
 
-const customerController = new CustomerController();
+const controller = new CustomerController();
 
 export async function getCities(req: Request, res: Response) {
    try {
-      const citiesResponse = await customerController.read(new City());
+      const citiesResponse = await controller.read(new City());
 
       res.json(citiesResponse);
    } catch (error: any) {
@@ -21,7 +21,7 @@ export async function getCity(req: Request, res: Response) {
 
       city.Id = parseInt(req.params.id);
 
-      const cityResponse = await customerController.get(city);
+      const cityResponse = await controller.get(city);
       res.json(cityResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -32,7 +32,7 @@ export async function postCity(req: Request, res: Response) {
    try {
       const city = new City({ ...req.body });
 
-      const cityResponse = await customerController.create(city);
+      const cityResponse = await controller.create(city);
       res.json(cityResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -45,7 +45,7 @@ export async function putCity(req: Request, res: Response) {
 
       city.Id = parseInt(req.params.id);
 
-      const cityResponse = await customerController.update(city);
+      const cityResponse = await controller.update(city);
       res.json(cityResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -58,7 +58,7 @@ export async function deleteCity(req: Request, res: Response) {
 
       city.Id = parseInt(req.params.id);
 
-      const response = await customerController.delete(city);
+      const response = await controller.delete(city);
       res.json(response);
    } catch (error: any) {
       res.status(500).send(error.message);

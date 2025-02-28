@@ -12,12 +12,13 @@ export default class CustomerDao implements IDAO {
       try {
          const customer = await prisma.customer.create({
             data: this.saveData(entity),
-            omit: { password: true, confPassword: true },
+            omit: { password: true },
          });
 
          return this.mapToDomain(customer);
       } catch (error: any) {
          if (error instanceof PrismaClientKnownRequestError) {
+            console.log(error);
             throw new Error(
                `Já existe um cliente com esse ${error?.meta?.target}`
             );
@@ -40,7 +41,7 @@ export default class CustomerDao implements IDAO {
          const customer = await prisma.customer.update({
             where: { id: entity.Id },
             data: this.updateData(entity),
-            omit: { password: true, confPassword: true },
+            omit: { password: true },
          });
 
          return this.mapToDomain(customer);
@@ -77,7 +78,7 @@ export default class CustomerDao implements IDAO {
                birthDate: { gt: entity.BirthDate },
                gender: entity.Gender,
             },
-            omit: { password: true, confPassword: true },
+            omit: { password: true },
          });
          return customers.map(this.mapToDomain);
       } catch (error: any) {
@@ -97,10 +98,10 @@ export default class CustomerDao implements IDAO {
                      },
                   },
                },
-               phones: true,
+               phone: true,
                cards: true,
             },
-            omit: { password: true, confPassword: true },
+            omit: { password: true },
          });
 
          if (!customer) {
@@ -120,18 +121,15 @@ export default class CustomerDao implements IDAO {
          cpf: entity.Cpf || "",
          email: entity.Email || "",
          password: encryptPassword(entity.Password || ""),
-         confPassword: encryptPassword(entity.Password || ""),
          status: entity.Status || false,
          gender: entity.Gender || "OUTRO",
          ranking: entity.Ranking || 0,
-         phones: {
-            create: [
-               {
-                  ddd: entity?.Phones?.[0].Ddd || "",
-                  number: entity?.Phones?.[0].Number || "",
-                  phoneType: entity?.Phones?.[0].PhoneType || "CELULAR",
-               },
-            ],
+         phone: {
+            create: {
+               ddd: entity?.Phone?.Ddd || "",
+               number: entity?.Phone?.Number || "",
+               phoneType: entity?.Phone?.PhoneType || "CELULAR",
+            },
          },
          addresses: {
             create: [
@@ -179,7 +177,6 @@ export default class CustomerDao implements IDAO {
          ranking: entity.Ranking,
          status: entity.Status,
          password: password,
-         confPassword: password,
       };
    }
 

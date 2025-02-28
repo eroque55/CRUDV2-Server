@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import CustomerController from "../controllers/Customer";
+import CustomerController from "../controllers/Controller";
 
 import Customer from "../models/Customer";
 import Phone from "../models/Phone";
@@ -7,7 +7,7 @@ import Address from "../models/Address";
 import { CityModel } from "../models";
 import { Gender } from "@prisma/client";
 
-const customerController = new CustomerController();
+const controller = new CustomerController();
 
 export async function getCustomers(req: Request, res: Response) {
    try {
@@ -23,7 +23,7 @@ export async function getCustomers(req: Request, res: Response) {
       if (req.query.birthDate)
          customer.BirthDate = new Date(req.query.birthDate as string);
 
-      const customerResponse = await customerController.read(customer);
+      const customerResponse = await controller.read(customer);
 
       res.json(customerResponse);
    } catch (error: any) {
@@ -37,7 +37,7 @@ export async function getCustomer(req: Request, res: Response) {
 
       customer.Id = parseInt(req.params.id);
 
-      const customerResponse = await customerController.get(customer);
+      const customerResponse = await controller.get(customer);
       res.json(customerResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -88,12 +88,12 @@ export async function postCustomer(req: Request, res: Response) {
       customer.ConfPassword = req.body.confPassword;
       customer.Ranking = req.body.ranking;
       customer.Status = true;
+      customer.Phone = phone;
 
-      customer.Phones.push(phone);
       customer.Addresses.push(address1);
       customer.Addresses.push(address2);
 
-      const customerResponse = await customerController.create(customer);
+      const customerResponse = await controller.create(customer);
       res.json(customerResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -106,7 +106,7 @@ export async function putCustomer(req: Request, res: Response) {
 
       customer.Id = parseInt(req.params.id);
 
-      const customerResponse = await customerController.update(customer);
+      const customerResponse = await controller.update(customer);
       res.json(customerResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -119,7 +119,7 @@ export async function deleteCustomer(req: Request, res: Response) {
 
       customer.Id = parseInt(req.params.id);
 
-      const response = await customerController.delete(customer);
+      const response = await controller.delete(customer);
       res.json(response);
    } catch (error: any) {
       res.status(500).send(error.message);

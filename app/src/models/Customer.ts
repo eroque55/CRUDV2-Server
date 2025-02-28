@@ -3,6 +3,7 @@ import { Gender } from "@prisma/client";
 import Address from "./Address";
 import Card from "./Card";
 import Phone from "./Phone";
+import Cart from "./Cart";
 
 export default class Customer extends DomainEntity {
    private name?: string;
@@ -14,9 +15,11 @@ export default class Customer extends DomainEntity {
    private confPassword?: string;
    private status?: boolean;
    private ranking?: number;
+
+   private phone?: Phone;
    private cards: Card[] = [];
    private addresses: Address[] = [];
-   private phones: Phone[] = [];
+   private carts: Cart[] = [];
 
    constructor(data?: Partial<Customer>) {
       super();
@@ -111,11 +114,19 @@ export default class Customer extends DomainEntity {
       this.addresses = addresses;
    }
 
-   get Phones(): Phone[] {
-      return this.phones;
+   get Phone(): Phone | undefined {
+      return this.phone;
    }
 
-   set Phones(phones: Phone[]) {
-      this.phones = phones;
+   set Phone(phone: Phone) {
+      this.phone = phone;
+   }
+
+   get Carts(): Cart[] {
+      return this.carts;
+   }
+
+   set Carts(carts: Cart[]) {
+      this.carts = carts;
    }
 }

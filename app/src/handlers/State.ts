@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import CustomerController from "../controllers/Customer";
+import CustomerController from "../controllers/Controller";
 
 import State from "../models/State";
 
-const customerController = new CustomerController();
+const controller = new CustomerController();
 
 export async function getStates(req: Request, res: Response) {
    try {
-      const statesResponse = await customerController.read(new State());
+      const statesResponse = await controller.read(new State());
 
       res.json(statesResponse);
    } catch (error: any) {
@@ -21,7 +21,7 @@ export async function getState(req: Request, res: Response) {
 
       state.Id = parseInt(req.params.id);
 
-      const stateResponse = await customerController.get(state);
+      const stateResponse = await controller.get(state);
       res.json(stateResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -32,7 +32,7 @@ export async function postState(req: Request, res: Response) {
    try {
       const state = new State({ ...req.body });
 
-      const stateResponse = await customerController.create(state);
+      const stateResponse = await controller.create(state);
       res.json(stateResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -45,7 +45,7 @@ export async function putState(req: Request, res: Response) {
 
       state.Id = parseInt(req.params.id);
 
-      const stateResponse = await customerController.update(state);
+      const stateResponse = await controller.update(state);
       res.json(stateResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -58,7 +58,7 @@ export async function deleteState(req: Request, res: Response) {
 
       state.Id = parseInt(req.params.id);
 
-      const response = await customerController.delete(state);
+      const response = await controller.delete(state);
       res.json(response);
    } catch (error: any) {
       res.status(500).send(error.message);

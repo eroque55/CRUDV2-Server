@@ -48,11 +48,11 @@ export default class ValidateCustomer implements IStrategy {
                message += "Senhas não conferem. ";
             }
 
-            if (customer.Phones.length === 0) {
+            if (!customer.Phone) {
                message += "Telefone é obrigatório. ";
             }
 
-            if (customer.Addresses.length > 2) {
+            if (!customer.Addresses || customer.Addresses.length < 2) {
                message +=
                   "É obrigatório um endereço de cobrança e um de entrega. ";
             }

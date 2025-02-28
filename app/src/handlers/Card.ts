@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
-import CustomerController from "../controllers/Customer";
+import CustomerController from "../controllers/Controller";
 
 import Card from "../models/Card";
-import { CardBrand } from "@prisma/client";
 
-const customerController = new CustomerController();
+const controller = new CustomerController();
 
 export async function getCards(req: Request, res: Response) {
    try {
-      const cardsResponse = await customerController.read(new Card());
+      const cardsResponse = await controller.read(new Card());
 
       res.json(cardsResponse);
    } catch (error: any) {
@@ -22,7 +21,7 @@ export async function getCard(req: Request, res: Response) {
 
       card.Id = parseInt(req.params.id);
 
-      const cardResponse = await customerController.get(card);
+      const cardResponse = await controller.get(card);
       res.json(cardResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -33,7 +32,7 @@ export async function postCard(req: Request, res: Response) {
    try {
       const card = new Card({ ...req.body });
 
-      const cardResponse = await customerController.create(card);
+      const cardResponse = await controller.create(card);
       res.json(cardResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -46,7 +45,7 @@ export async function putCard(req: Request, res: Response) {
 
       card.Id = parseInt(req.params.id);
 
-      const cardResponse = await customerController.update(card);
+      const cardResponse = await controller.update(card);
       res.json(cardResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -59,7 +58,7 @@ export async function deleteCard(req: Request, res: Response) {
 
       card.Id = parseInt(req.params.id);
 
-      const response = await customerController.delete(card);
+      const response = await controller.delete(card);
       res.json(response);
    } catch (error: any) {
       res.status(500).send(error.message);

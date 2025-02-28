@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 enum AddressType {
    RESIDENCIAL
    COBRANCA
@@ -47,104 +41,324 @@ enum StreetType {
    OUTRO
 }
 
+enum SaleStatus {
+   EM_PROCESSAMENTO
+   APROVADA
+   TRANSPORTE_INICIADO
+   REPROVADA
+   ENTREGUE
+   TROCA_SOLICITADA
+}
+
+enum ExchangeStatus {
+   EM_ANALISE
+   APROVADA
+   REPROVADA
+   EM_TRANSPORTE
+   TROCADO
+}
+
+enum StockMovementType {
+   ENTRADA
+   SAIDA
+   REENTRADA
+}
+
 generator client {
-  provider = "prisma-client-js"
+   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = "postgresql://postgres:1234@localhost:5432/"
-}
-
-model Card {
-  id Int @id @default(autoincrement())
-  number String
-  cardholder String
-  cvv String
-  preferential Boolean @default(false)
-  expirationDate String
-  cardBrand CardBrand
-
-  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  customerId Int
-}
-
-model City {
-  id Int @id @default(autoincrement())
-  name String @unique
-
-  state State @relation(fields: [stateId], references: [id])
-  stateId Int
-
-  addresses Address[]
+   provider = "postgresql"
+   url      = "postgresql://postgres:1234@localhost:5432/"
 }
 
 model Customer {
-  id Int @id @default(autoincrement())
-  name String
-  birthDate DateTime
-  cpf String @unique
-  gender Gender
-  email String @unique
-  password String
-  confPassword String
-  status Boolean
-  ranking Int
+   id        Int      @id @default(autoincrement())
+   name      String   @db.VarChar(100)
+   birthDate DateTime
+   cpf       String   @unique @db.VarChar(11)
+   gender    Gender
+   email     String   @unique @db.VarChar(100)
+   password  String   @db.VarChar(100)
+   status    Boolean  @default(true)
+   ranking   Decimal  @default(0) @db.Decimal(5, 2)
 
-  cards Card[]
-  addresses Address[]
-  phones Phone[]
-}
-
-model Address {
-  id Int @id @default(autoincrement())
-  nickname String
-  street String
-  number Int
-  neighborhood String
-  cep String
-  complement String?
-  addressType AddressType
-  streetType StreetType
-  residenceType ResidenceType
-
-  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  customerId Int
-
-  city City @relation(fields: [cityId], references: [id])
-  cityId Int
-}
-
-model State {
-  id Int @id @default(autoincrement())
-  name String @unique
-
-  country Country @relation(fields: [countryId], references: [id])
-  countryId Int
-
-  cities City[]
-}
-
-model Country {
-  id Int @id @default(autoincrement())
-  name String @unique
-
-  states State[]
-}
-
-model Log {
-  id Int @id @default(autoincrement())
-  entity String
-  user String
-  createdAt DateTime @default(now())
+   phone     Phone?
+   cards     Card[]
+   addresses Address[]
+   cart      Cart[]
 }
 
 model Phone {
-  id Int @id @default(autoincrement())
-  ddd String
-  number String @unique
-  phoneType PhoneType
+   id        Int       @id @default(autoincrement())
+   ddd       String    @db.VarChar(2)
+   number    String    @unique @db.VarChar(9)
+   phoneType PhoneType
 
-  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  customerId Int @unique
+   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+   customerId Int      @unique
+}
+
+model Address {
+   id            Int           @id @default(autoincrement())
+   nickname      String        @db.VarChar(100)
+   street        String        @db.VarChar(100)
+   number        Int
+   neighborhood  String        @db.VarChar(100)
+   cep           String        @db.VarChar(8)
+   complement    String?       @db.VarChar(100)
+   addressType   AddressType
+   streetType    StreetType
+   residenceType ResidenceType
+
+   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+   customerId Int
+
+   city   City @relation(fields: [cityId], references: [id])
+   cityId Int
+
+   freights Freight[]
+}
+
+model Country {
+   id   Int    @id @default(autoincrement())
+   name String @unique @db.VarChar(100)
+
+   states State[]
+}
+
+model State {
+   id   Int    @id @default(autoincrement())
+   name String @unique @db.VarChar(100)
+
+   country   Country @relation(fields: [countryId], references: [id])
+   countryId Int
+
+   cities City[]
+}
+
+model City {
+   id   Int    @id @default(autoincrement())
+   name String @unique @db.VarChar(100)
+
+   state   State @relation(fields: [stateId], references: [id])
+   stateId Int
+
+   addresses Address[]
+}
+
+model Card {
+   id             Int       @id @default(autoincrement())
+   number         String    @db.VarChar(16)
+   cardholder     String    @db.VarChar(100)
+   cvv            String    @db.VarChar(3)
+   preferential   Boolean   @default(false)
+   expirationDate String    @db.VarChar(5)
+   cardBrand      CardBrand
+
+   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+   customerId Int
+
+   cardToSale CardToSale[]
+}
+
+model CardToSale {
+   card   Card @relation(fields: [cardId], references: [id])
+   cardId Int
+
+   sale   Sale @relation(fields: [saleId], references: [id])
+   saleId Int
+
+   @@id([cardId, saleId])
+}
+
+model Sale {
+   id            Int        @id @default(autoincrement())
+   totalValue    Decimal    @db.Money
+   status        SaleStatus
+   createdAt     DateTime   @default(now())
+   paymentMethod String     @db.VarChar(100)
+
+   coupon   Coupon? @relation(fields: [couponId], references: [id])
+   couponId Int?
+
+   cart   Cart @relation(fields: [cartId], references: [id])
+   cartId Int  @unique
+
+   freight Freight?
+
+   cardToSale CardToSale[]
+
+   exchanges Exchange[]
+}
+
+model Coupon {
+   id       Int    @id @default(autoincrement())
+   name     String @db.VarChar(100)
+   discount Int
+
+   sales Sale[]
+}
+
+model Freight {
+   id           Int @id @default(autoincrement())
+   deliveryTime Int
+
+   address   Address @relation(fields: [addressId], references: [id])
+   addressId Int
+
+   carrier   Carrier @relation(fields: [carrierId], references: [id])
+   carrierId Int
+
+   sale   Sale @relation(fields: [saleId], references: [id])
+   saleId Int  @unique
+}
+
+model Carrier {
+   id   Int     @id @default(autoincrement())
+   name String  @db.VarChar(100)
+   cost Decimal @db.Money
+
+   freight Freight[]
+}
+
+model Exchange {
+   id        Int            @id @default(autoincrement())
+   status    ExchangeStatus
+   createdAt DateTime       @default(now())
+   updatedAt DateTime       @updatedAt
+
+   sale   Sale @relation(fields: [saleId], references: [id])
+   saleId Int
+
+   book   Book @relation(fields: [bookId], references: [id])
+   bookId Int
+}
+
+model Book {
+   id                Int     @id @default(autoincrement())
+   title             String  @db.VarChar(100)
+   author            String  @db.VarChar(100)
+   status            Boolean @default(true)
+   year              Int
+   synopsis          String  @db.VarChar(1000)
+   numberPages       Int
+   publisher         String  @db.VarChar(100)
+   edition           Int?
+   isbn              String  @unique @db.VarChar(13)
+   barcode           String  @unique @db.VarChar(13)
+   inativationReason String? @db.VarChar(100)
+
+   bookDimension BookDimension?
+
+   priceGroup   PriceGroup @relation(fields: [priceGroupId], references: [id])
+   priceGroupId Int
+
+   reasonCategory   ReasonCategory @relation(fields: [reasonCategoryId], references: [id])
+   reasonCategoryId Int
+
+   bookToCategory BookToCategory[]
+   bookToCart     BookToCart[]
+
+   exchange Exchange[]
+   stock    Stock?
+}
+
+model ReasonCategory {
+   id           Int     @id @default(autoincrement())
+   description  String  @db.VarChar(100)
+   isActivation Boolean @default(false)
+
+   books Book[]
+}
+
+model BookDimension {
+   id        Int     @id @default(autoincrement())
+   height    Decimal @db.Decimal(5, 2)
+   width     Decimal @db.Decimal(5, 2)
+   weight    Decimal @db.Decimal(5, 2)
+   thickness Decimal @db.Decimal(5, 2)
+
+   book   Book @relation(fields: [bookId], references: [id])
+   bookId Int  @unique
+}
+
+model PriceGroup {
+   id   Int    @id @default(autoincrement())
+   name String @db.VarChar(100)
+   tax  Int
+
+   books Book[]
+}
+
+model BookToCategory {
+   book   Book @relation(fields: [bookId], references: [id])
+   bookId Int
+
+   category   Category @relation(fields: [categoryId], references: [id])
+   categoryId Int
+
+   @@id([bookId, categoryId])
+}
+
+model Category {
+   id   Int    @id @default(autoincrement())
+   name String @db.VarChar(100)
+
+   bookToCategory BookToCategory[]
+}
+
+model Cart {
+   id Int @id @default(autoincrement())
+
+   customer   Customer @relation(fields: [customerId], references: [id])
+   customerId Int
+
+   bookToCart BookToCart[]
+   sale       Sale?
+}
+
+model BookToCart {
+   cart   Cart @relation(fields: [cartId], references: [id])
+   cartId Int
+
+   book   Book @relation(fields: [bookId], references: [id])
+   bookId Int
+
+   amount    Int
+   updatedAt DateTime @updatedAt
+   status    Boolean  @default(true)
+
+   @@id([cartId, bookId])
+}
+
+model Stock {
+   id        Int      @id @default(autoincrement())
+   amount    Int
+   updatedAt DateTime @updatedAt
+
+   book   Book @relation(fields: [bookId], references: [id])
+   bookId Int  @unique
+
+   stockMovement StockMovement[]
+}
+
+model StockMovement {
+   id           Int               @id @default(autoincrement())
+   movementType StockMovementType
+   amount       Int
+   cost         Decimal           @db.Money
+   supplier     String            @db.VarChar(100)
+   createdAt    DateTime          @default(now())
+
+   stock   Stock @relation(fields: [stockId], references: [id])
+   stockId Int
+}
+
+model Log {
+   id        Int      @id @default(autoincrement())
+   entity    String   @db.VarChar(100)
+   user      String   @db.VarChar(100)
+   createdAt DateTime @default(now())
 }

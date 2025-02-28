@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Customer" ALTER COLUMN "birthDate" SET DATA TYPE TIMESTAMP(3);
