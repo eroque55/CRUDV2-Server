@@ -88,6 +88,19 @@ export default class CustomerDao implements IDAO {
 
    async get(entity: CustomerModel): Promise<CustomerModel> {
       try {
+         if (entity.Email || entity.Password) {
+            const password = encryptPassword(entity.Password || "");
+            const dbCustomer = await prisma.customer.findUnique({
+               where: { email: entity.Email },
+            });
+            if (!dbCustomer) {
+               throw new Error("E-mail não encontrado");
+            } else if (password !== dbCustomer?.password) {
+               throw new Error("Senha incorreta");
+            } else {
+               entity.Id = dbCustomer.id;
+            }
+         }
          const customer = await prisma.customer.findUnique({
             where: { id: entity.Id },
             include: {

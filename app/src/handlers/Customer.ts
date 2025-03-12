@@ -36,6 +36,8 @@ export async function getCustomer(req: Request, res: Response) {
       const customer = new Customer();
 
       customer.Id = parseInt(req.params.id);
+      if (req.query.email) customer.Email = req.query.email as string;
+      if (req.query.password) customer.Password = req.query.password as string;
 
       const customerResponse = await controller.get(customer);
       res.json(customerResponse);
