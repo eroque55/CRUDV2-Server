@@ -8,7 +8,7 @@
    "main": "app/src/server.ts",
    "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
-      "dev": "ts-node-dev app/src/server.ts"
+      "dev": "yarn ts-node-dev app/src/server.ts"
    },
    "devDependencies": {
       "@prisma/client": "^6.5.0",

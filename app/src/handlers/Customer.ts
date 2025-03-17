@@ -53,9 +53,9 @@ export async function postCustomer(req: Request, res: Response) {
       const address1 = new Address();
       const address2 = new Address();
 
-      phone.Ddd = req.body.phones[0].ddd;
-      phone.Number = req.body.phones[0].number;
-      phone.PhoneType = req.body.phones[0].phoneType;
+      phone.Ddd = req.body.phone.ddd;
+      phone.Number = req.body.phone.number;
+      phone.PhoneType = req.body.phone.phoneType;
 
       address1.Nickname = req.body.addresses[0].nickname;
       address1.Street = req.body.addresses[0].street;

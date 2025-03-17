@@ -18,11 +18,11 @@ export default class CustomerDao implements IDAO {
          return this.mapToDomain(customer);
       } catch (error: any) {
          if (error instanceof PrismaClientKnownRequestError) {
-            console.log(error);
             throw new Error(
                `Já existe um cliente com esse ${error?.meta?.target}`
             );
          }
+         console.log(error);
          throw new Error(`Erro ao salvar cliente`);
       }
    }
