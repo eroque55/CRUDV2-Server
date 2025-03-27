@@ -74,7 +74,7 @@ export default class CustomerDao implements IDAO {
                ranking: entity.Ranking,
                cpf: { contains: entity.Cpf },
                email: { contains: entity.Email },
-               birthDate: { gt: entity.BirthDate },
+               birthDate: { equals: entity.BirthDate },
                gender: entity.Gender,
             },
             omit: { password: true },
