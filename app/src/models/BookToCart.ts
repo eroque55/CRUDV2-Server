@@ -1,8 +1,7 @@
 import Book from "./Book";
 import Cart from "./Cart";
-import DomainEntity from "./DomainEntity";
 
-export default class BookToCart extends DomainEntity {
+class BookToCart {
    private ammount?: number;
    private updatedAt?: Date;
    private status?: boolean;
@@ -11,7 +10,6 @@ export default class BookToCart extends DomainEntity {
    private book?: Book;
 
    constructor(data?: Partial<BookToCart>) {
-      super();
       Object.assign(this, data);
    }
 
@@ -55,3 +53,5 @@ export default class BookToCart extends DomainEntity {
       this.book = book;
    }
 }
+
+export default BookToCart;

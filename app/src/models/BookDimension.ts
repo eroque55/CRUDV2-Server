@@ -1,16 +1,24 @@
 import Book from "./Book";
 import DomainEntity from "./DomainEntity";
 
-export default class BookDimension extends DomainEntity {
+class BookDimension extends DomainEntity {
+   private book?: Book;
    private height?: number;
    private width?: number;
    private weight?: number;
    private thickness?: number;
-   private book?: Book;
 
    constructor(data?: Partial<BookDimension>) {
       super();
       Object.assign(this, data);
+   }
+
+   get Book(): Book | undefined {
+      return this.book;
+   }
+
+   set Book(book: Book) {
+      this.book = book;
    }
 
    get Height(): number | undefined {
@@ -44,12 +52,6 @@ export default class BookDimension extends DomainEntity {
    set Thickness(thickness: number) {
       this.thickness = thickness;
    }
-
-   get Book(): Book | undefined {
-      return this.book;
-   }
-
-   set Book(book: Book) {
-      this.book = book;
-   }
 }
+
+export default BookDimension;

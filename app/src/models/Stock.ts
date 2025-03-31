@@ -5,9 +5,9 @@ import StockMovement from "./StockMovement";
 export default class Stock extends DomainEntity {
    private amount?: number;
    private updatedAt?: Date;
+   private stockMovement: StockMovement[] = [];
 
    private book?: Book;
-   private stockMovement?: StockMovement[];
 
    constructor(data?: Partial<Stock>) {
       super();
@@ -38,7 +38,7 @@ export default class Stock extends DomainEntity {
       this.book = book;
    }
 
-   get StockMovement(): StockMovement[] | undefined {
+   get StockMovement(): StockMovement[] {
       return this.stockMovement;
    }
 

@@ -1,11 +1,9 @@
-import { Prisma, PrismaClient, CardBrand } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { Prisma, CardBrand } from "@prisma/client";
+import prisma from "./prisma";
 import IDAO from "./IDAO";
 import CardModel from "../models/Card";
 
-const prisma = new PrismaClient().$extends(withAccelerate());
-
-export default class CardDao implements IDAO {
+class CardDao implements IDAO {
    async create(entity: CardModel): Promise<CardModel> {
       try {
          const card = await prisma.card.create({
@@ -106,3 +104,5 @@ export default class CardDao implements IDAO {
       return { ...card };
    }
 }
+
+export default CardDao;

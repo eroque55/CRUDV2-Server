@@ -1,4 +1,4 @@
-export default class DomainEntity {
+class DomainEntity {
    private id?: number;
 
    constructor(data?: Partial<DomainEntity>) {
@@ -13,3 +13,5 @@ export default class DomainEntity {
       this.id = id;
    }
 }
+
+export default DomainEntity;

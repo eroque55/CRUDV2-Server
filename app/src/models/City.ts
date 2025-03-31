@@ -1,9 +1,12 @@
+import Address from "./Address";
 import DomainEntity from "./DomainEntity";
 import State from "./State";
 
-export default class City extends DomainEntity {
+class City extends DomainEntity {
    private name?: string;
    private state?: State;
+
+   private addresses: Address[] = [];
 
    constructor(data?: Partial<City>) {
       super();
@@ -25,4 +28,14 @@ export default class City extends DomainEntity {
    set State(state: State) {
       this.state = state;
    }
+
+   get Addresses(): Address[] {
+      return this.addresses;
+   }
+
+   set Addresses(addresses: Address[]) {
+      this.addresses = addresses;
+   }
 }
+
+export default City;

@@ -1,7 +1,7 @@
 import State from "./State";
 import DomainEntity from "./DomainEntity";
 
-export default class Country extends DomainEntity {
+class Country extends DomainEntity {
    private name?: string;
    private states: State[] = [];
 
@@ -26,3 +26,5 @@ export default class Country extends DomainEntity {
       this.states = states;
    }
 }
+
+export default Country;

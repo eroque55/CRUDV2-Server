@@ -7,7 +7,7 @@ import * as Models from "../models";
 import * as DAOs from "../daos";
 import * as Strategies from "../strategies";
 
-export default class Facade implements IFacade {
+class Facade implements IFacade {
    private strategies: Map<string, IStrategy[]> = new Map();
    private daos: Map<string, IDAO> = new Map();
 
@@ -107,3 +107,5 @@ export default class Facade implements IFacade {
       return dao;
    }
 }
+
+export default Facade;

@@ -3,10 +3,10 @@ import Customer from "./Customer";
 import DomainEntity from "./DomainEntity";
 import Sale from "./Sale";
 
-export default class Cart extends DomainEntity {
+class Cart extends DomainEntity {
    private customer?: Customer;
-   private bookToCart: BookToCart[] = [];
    private sale?: Sale;
+   private bookToCart: BookToCart[] = [];
 
    constructor(data?: Partial<Cart>) {
       super();
@@ -37,3 +37,5 @@ export default class Cart extends DomainEntity {
       this.sale = sale;
    }
 }
+
+export default Cart;

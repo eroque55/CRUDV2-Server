@@ -2,7 +2,7 @@ import City from "./City";
 import Country from "./Country";
 import DomainEntity from "./DomainEntity";
 
-export default class State extends DomainEntity {
+class State extends DomainEntity {
    private name?: string;
    private country?: Country;
    private cities: City[] = [];
@@ -36,3 +36,5 @@ export default class State extends DomainEntity {
       this.cities = cities;
    }
 }
+
+export default State;

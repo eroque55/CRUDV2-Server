@@ -48,14 +48,10 @@ enum SaleStatus {
    REPROVADA
    ENTREGUE
    TROCA_SOLICITADA
-}
-
-enum ExchangeStatus {
-   EM_ANALISE
-   APROVADA
-   REPROVADA
-   EM_TRANSPORTE
-   TROCADO
+   TROCA_APROVADA
+   TROCA_REPROVADA
+   TROCA_EM_TRANSPORTE
+   TROCA_FINALIZADA
 }
 
 enum StockMovementType {
@@ -64,13 +60,18 @@ enum StockMovementType {
    REENTRADA
 }
 
+enum CouponType {
+   PROMOCIONAL
+   DEVOLUCAO
+}
+
 generator client {
    provider = "prisma-client-js"
 }
 
 datasource db {
    provider = "postgresql"
-   url      = "postgresql://postgres:1234@localhost:5432/"
+   url      = env("DATABASE_URL")
 }
 
 model Customer {
@@ -189,14 +190,13 @@ model Sale {
    freight Freight?
 
    cardToSale CardToSale[]
-
-   exchanges Exchange[]
 }
 
 model Coupon {
-   id       Int    @id @default(autoincrement())
-   name     String @db.VarChar(100)
-   discount Int
+   id         Int        @id @default(autoincrement())
+   name       String     @db.VarChar(100)
+   couponType CouponType
+   discount   Int
 
    sales Sale[]
 }
@@ -223,22 +223,10 @@ model Carrier {
    freight Freight[]
 }
 
-model Exchange {
-   id        Int            @id @default(autoincrement())
-   status    ExchangeStatus
-   createdAt DateTime       @default(now())
-   updatedAt DateTime       @updatedAt
-
-   sale   Sale @relation(fields: [saleId], references: [id])
-   saleId Int
-
-   book   Book @relation(fields: [bookId], references: [id])
-   bookId Int
-}
-
 model Book {
    id                Int     @id @default(autoincrement())
    title             String  @db.VarChar(100)
+   slug              String  @unique @db.VarChar(100)
    author            String  @db.VarChar(100)
    status            Boolean @default(true)
    year              Int
@@ -261,8 +249,7 @@ model Book {
    bookToCategory BookToCategory[]
    bookToCart     BookToCart[]
 
-   exchange Exchange[]
-   stock    Stock?
+   stock Stock?
 }
 
 model ReasonCategory {

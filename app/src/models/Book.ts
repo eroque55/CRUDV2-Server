@@ -5,8 +5,9 @@ import PriceGroup from "./PriceGroup";
 import ReasonCategory from "./ReasonCategory";
 import Stock from "./Stock";
 
-export default class Book extends DomainEntity {
+class Book extends DomainEntity {
    private title?: string;
+   private slug?: string;
    private author?: string;
    private status?: boolean;
    private year?: number;
@@ -35,6 +36,14 @@ export default class Book extends DomainEntity {
 
    set Title(title: string) {
       this.title = title;
+   }
+
+   get Slug(): string | undefined {
+      return this.slug;
+   }
+
+   set Slug(slug: string) {
+      this.slug = slug;
    }
 
    get Author(): string | undefined {
@@ -157,3 +166,5 @@ export default class Book extends DomainEntity {
       this.reasonCategory = reasonCategory;
    }
 }
+
+export default Book;

@@ -1,13 +1,11 @@
-import { Prisma, PrismaClient, Gender } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { Prisma } from "@prisma/client";
+import prisma from "./prisma";
 import IDAO from "./IDAO";
 import encryptPassword from "../utils/passwordEncryptor";
 import CustomerModel from "../models/Customer";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
-const prisma = new PrismaClient().$extends(withAccelerate());
-
-export default class CustomerDao implements IDAO {
+class CustomerDao implements IDAO {
    async create(entity: CustomerModel): Promise<CustomerModel> {
       try {
          const customer = await prisma.customer.create({
@@ -200,3 +198,5 @@ export default class CustomerDao implements IDAO {
       return { ...customer };
    }
 }
+
+export default CustomerDao;

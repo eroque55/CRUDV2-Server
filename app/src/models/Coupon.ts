@@ -1,7 +1,9 @@
+import { CouponType } from "@prisma/client";
 import DomainEntity from "./DomainEntity";
 
-export default class Coupon extends DomainEntity {
+class Coupon extends DomainEntity {
    private name?: string;
+   private couponType?: CouponType;
    private discount?: number;
 
    constructor(data?: Partial<Coupon>) {
@@ -17,6 +19,14 @@ export default class Coupon extends DomainEntity {
       this.name = name;
    }
 
+   get CouponType(): CouponType | undefined {
+      return this.couponType;
+   }
+
+   set CouponType(couponType: CouponType) {
+      this.couponType = couponType;
+   }
+
    get Discount(): number | undefined {
       return this.discount;
    }
@@ -25,3 +35,5 @@ export default class Coupon extends DomainEntity {
       this.discount = discount;
    }
 }
+
+export default Coupon;

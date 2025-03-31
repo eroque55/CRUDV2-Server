@@ -1,12 +1,9 @@
-import { Prisma, PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { Prisma } from "@prisma/client";
+import prisma from "./prisma";
 import IDAO from "./IDAO";
-
 import AddressModel from "../models/Address";
 
-const prisma = new PrismaClient().$extends(withAccelerate());
-
-export default class AddressDao implements IDAO {
+class AddressDao implements IDAO {
    async create(entity: AddressModel): Promise<AddressModel> {
       try {
          const address = await prisma.address.create({
@@ -129,3 +126,5 @@ export default class AddressDao implements IDAO {
       return { ...address };
    }
 }
+
+export default AddressDao;

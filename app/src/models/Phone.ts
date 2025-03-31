@@ -2,7 +2,7 @@ import DomainEntity from "./DomainEntity";
 import Customer from "./Customer";
 import { PhoneType } from "@prisma/client";
 
-export default class Phone extends DomainEntity {
+class Phone extends DomainEntity {
    private customer?: Customer;
    private ddd?: string;
    private number?: string;
@@ -45,3 +45,5 @@ export default class Phone extends DomainEntity {
       this.phoneType = phoneType;
    }
 }
+
+export default Phone;

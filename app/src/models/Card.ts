@@ -1,8 +1,9 @@
+import CardToSale from "./CardToSale";
 import Customer from "./Customer";
 import DomainEntity from "./DomainEntity";
 import { CardBrand } from "@prisma/client";
 
-export default class Card extends DomainEntity {
+class Card extends DomainEntity {
    private customer?: Customer;
    private number?: string;
    private cardholder?: string;
@@ -10,6 +11,8 @@ export default class Card extends DomainEntity {
    private expirationDate?: string;
    private preferential?: boolean;
    private cardBrand?: CardBrand;
+
+   private cardsToSales: CardToSale[] = [];
 
    constructor(data?: Partial<Card>) {
       super();
@@ -71,4 +74,14 @@ export default class Card extends DomainEntity {
    set CardBrand(cardBrand: CardBrand) {
       this.cardBrand = cardBrand;
    }
+
+   get CardsToSales(): CardToSale[] {
+      return this.cardsToSales;
+   }
+
+   set CardsToSales(cardsToSales: CardToSale[]) {
+      this.cardsToSales = cardsToSales;
+   }
 }
+
+export default Card;

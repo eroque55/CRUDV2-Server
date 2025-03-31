@@ -5,7 +5,7 @@ import Card from "./Card";
 import Phone from "./Phone";
 import Cart from "./Cart";
 
-export default class Customer extends DomainEntity {
+class Customer extends DomainEntity {
    private name?: string;
    private birthDate?: Date;
    private cpf?: string;
@@ -130,3 +130,5 @@ export default class Customer extends DomainEntity {
       this.carts = carts;
    }
 }
+
+export default Customer;

@@ -2,11 +2,10 @@ import { SaleStatus } from "@prisma/client";
 import DomainEntity from "./DomainEntity";
 import Coupon from "./Coupon";
 import Cart from "./Cart";
-import Card from "./Card";
 import Freight from "./Freight";
-import Exchange from "./Exchange";
+import CardToSale from "./CardToSale";
 
-export default class Sale extends DomainEntity {
+class Sale extends DomainEntity {
    private totalValue?: number;
    private status?: SaleStatus;
    private createdAt?: Date;
@@ -15,8 +14,7 @@ export default class Sale extends DomainEntity {
    private coupon?: Coupon;
    private cart?: Cart;
    private freight?: Freight;
-   private cards: Card[] = [];
-   private exanges: Exchange[] = [];
+   private cardsToSales: CardToSale[] = [];
 
    constructor(data?: Partial<Sale>) {
       super();
@@ -79,19 +77,13 @@ export default class Sale extends DomainEntity {
       this.freight = freight;
    }
 
-   get Cards(): Card[] {
-      return this.cards;
+   get CardsToSales(): CardToSale[] {
+      return this.cardsToSales;
    }
 
-   set Cards(cards: Card[]) {
-      this.cards = cards;
-   }
-
-   get Exanges(): Exchange[] {
-      return this.exanges;
-   }
-
-   set Exanges(exanges: Exchange[]) {
-      this.exanges = exanges;
+   set CardsToSales(cardsToSales: CardToSale[]) {
+      this.cardsToSales = cardsToSales;
    }
 }
+
+export default Sale;

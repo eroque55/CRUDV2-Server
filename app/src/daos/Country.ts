@@ -1,13 +1,9 @@
-import { Prisma, PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
-
+import { Prisma } from "@prisma/client";
+import prisma from "./prisma";
 import IDAO from "./IDAO";
-
 import CountryModel from "../models/Country";
 
-const prisma = new PrismaClient().$extends(withAccelerate());
-
-export default class CountryDao implements IDAO {
+class CountryDao implements IDAO {
    async create(entity: CountryModel): Promise<CountryModel> {
       try {
          const country = await prisma.country.create({
@@ -95,3 +91,5 @@ export default class CountryDao implements IDAO {
       return { ...country };
    }
 }
+
+export default CountryDao;

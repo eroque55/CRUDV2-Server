@@ -2,8 +2,9 @@ import DomainEntity from "./DomainEntity";
 import { AddressType, StreetType, ResidenceType } from "@prisma/client";
 import City from "./City";
 import Customer from "./Customer";
+import Freight from "./Freight";
 
-export default class Address extends DomainEntity {
+class Address extends DomainEntity {
    private customer?: Customer;
    private nickname?: string;
    private street?: string;
@@ -15,6 +16,7 @@ export default class Address extends DomainEntity {
    private addressType?: AddressType;
    private streetType?: StreetType;
    private residenceType?: ResidenceType;
+   private freights: Freight[] = [];
 
    constructor(data?: Partial<Address>) {
       super();
@@ -108,4 +110,14 @@ export default class Address extends DomainEntity {
    set ResidenceType(residenceType: ResidenceType) {
       this.residenceType = residenceType;
    }
+
+   get Freights(): Freight[] {
+      return this.freights;
+   }
+
+   set Freights(freights: Freight[]) {
+      this.freights = freights;
+   }
 }
+
+export default Address;

@@ -1,8 +1,10 @@
 import DomainEntity from "./DomainEntity";
+import Freight from "./Freight";
 
-export default class Carrier extends DomainEntity {
+class Carrier extends DomainEntity {
    private name?: string;
    private cost?: number;
+   private freights?: Freight[];
 
    constructor(data?: Partial<Carrier>) {
       super();
@@ -24,4 +26,14 @@ export default class Carrier extends DomainEntity {
    set Cost(cost: number) {
       this.cost = cost;
    }
+
+   get Freights(): Freight[] | undefined {
+      return this.freights;
+   }
+
+   set Freights(freights: Freight[]) {
+      this.freights = freights;
+   }
 }
+
+export default Carrier;

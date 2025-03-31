@@ -1,12 +1,9 @@
-import { Prisma, PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { Prisma } from "@prisma/client";
 import IDAO from "./IDAO";
-
+import prisma from "./prisma";
 import StateModel from "../models/State";
 
-const prisma = new PrismaClient().$extends(withAccelerate());
-
-export default class StateDao implements IDAO {
+class StateDao implements IDAO {
    async create(entity: StateModel): Promise<StateModel> {
       try {
          const state = await prisma.state.create({
@@ -87,3 +84,5 @@ export default class StateDao implements IDAO {
       return { ...state };
    }
 }
+
+export default StateDao;

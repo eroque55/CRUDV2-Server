@@ -1,12 +1,14 @@
 import Address from "./Address";
 import Carrier from "./Carrier";
 import DomainEntity from "./DomainEntity";
+import Sale from "./Sale";
 
-export default class Freight extends DomainEntity {
+class Freight extends DomainEntity {
    private deliveryTime?: number;
-
    private address?: Address;
    private carrier?: Carrier;
+
+   private sales: Sale[] = [];
 
    constructor(data?: Partial<Freight>) {
       super();
@@ -36,4 +38,14 @@ export default class Freight extends DomainEntity {
    set Carrier(carrier: Carrier) {
       this.carrier = carrier;
    }
+
+   get Sales(): Sale[] {
+      return this.sales;
+   }
+
+   set Sales(sales: Sale[]) {
+      this.sales = sales;
+   }
 }
+
+export default Freight;

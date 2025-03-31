@@ -1,9 +1,9 @@
-import Book from "./Book";
+import BookToCategory from "./BookToCategory";
 import DomainEntity from "./DomainEntity";
 
-export default class Category extends DomainEntity {
+class Category extends DomainEntity {
    private name?: string;
-   private books: Book[] = [];
+   private booksToCategory: BookToCategory[] = [];
 
    constructor(data?: Partial<Category>) {
       super();
@@ -18,11 +18,13 @@ export default class Category extends DomainEntity {
       this.name = name;
    }
 
-   get Books(): Book[] {
-      return this.books;
+   get BooksToCategory(): BookToCategory[] {
+      return this.booksToCategory;
    }
 
-   set Books(books: Book[]) {
-      this.books = books;
+   set BooksToCategory(booksToCategory: BookToCategory[]) {
+      this.booksToCategory = booksToCategory;
    }
 }
+
+export default Category;

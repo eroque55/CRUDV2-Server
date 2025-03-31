@@ -1,7 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
-
-const prisma = new PrismaClient().$extends(withAccelerate());
+import prisma from "./prisma";
 
 export default class LogDao {
    async create(entity: string, user: string): Promise<boolean> {

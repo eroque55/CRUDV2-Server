@@ -1,13 +1,10 @@
-import { Prisma, PrismaClient, PhoneType } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { Prisma, PhoneType } from "@prisma/client";
 import IDAO from "./IDAO";
-
+import prisma from "./prisma";
 import PhoneModel from "../models/Phone";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
-const prisma = new PrismaClient().$extends(withAccelerate());
-
-export default class PhoneDao implements IDAO {
+class PhoneDao implements IDAO {
    async create(entity: PhoneModel): Promise<PhoneModel> {
       try {
          const phone = await prisma.phone.create({
@@ -109,3 +106,5 @@ export default class PhoneDao implements IDAO {
       return { ...phone };
    }
 }
+
+export default PhoneDao;
