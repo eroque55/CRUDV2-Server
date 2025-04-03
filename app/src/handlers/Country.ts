@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import CustomerController from "../controllers/Controller";
+import Controller from "../controllers/Controller";
 
 import Country from "../models/Country";
 
-const controller = new CustomerController();
+const controller = new Controller();
 
 export async function getCountries(req: Request, res: Response) {
    try {

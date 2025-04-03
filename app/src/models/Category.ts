@@ -3,7 +3,8 @@ import DomainEntity from "./DomainEntity";
 
 class Category extends DomainEntity {
    private name?: string;
-   private booksToCategory: BookToCategory[] = [];
+   private slug?: string;
+   private bookToCategory: BookToCategory[] = [];
 
    constructor(data?: Partial<Category>) {
       super();
@@ -18,12 +19,20 @@ class Category extends DomainEntity {
       this.name = name;
    }
 
-   get BooksToCategory(): BookToCategory[] {
-      return this.booksToCategory;
+   get Slug(): string | undefined {
+      return this.slug;
    }
 
-   set BooksToCategory(booksToCategory: BookToCategory[]) {
-      this.booksToCategory = booksToCategory;
+   set Slug(slug: string) {
+      this.slug = slug;
+   }
+
+   get BookToCategory(): BookToCategory[] {
+      return this.bookToCategory;
+   }
+
+   set BookToCategory(bookToCategory: BookToCategory[]) {
+      this.bookToCategory = bookToCategory;
    }
 }
 

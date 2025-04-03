@@ -41,7 +41,7 @@ class SaleDao implements IDAO {
          cart: { connect: { id: entity.Cart?.Id } },
          paymentMethod: entity.PaymentMethod || "",
          totalValue: entity.TotalValue || 0,
-         coupon: { connect: { id: entity.Coupon?.Id } },
+         coupon: { connect: { id: entity.Coupons?.[0].Id } },
          freight: {
             create: {
                carrier: { connect: { id: entity.Freight?.Carrier?.Id } },

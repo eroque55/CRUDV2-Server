@@ -1,7 +1,7 @@
 import Abstract from "./Abstract";
 import DomainEntity from "../models/DomainEntity";
 
-export default class CustomerController extends Abstract {
+export default class Controller extends Abstract {
    create(entity: DomainEntity): Promise<DomainEntity> {
       return this.facade.create(entity);
    }

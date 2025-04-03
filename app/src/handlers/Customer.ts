@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import CustomerController from "../controllers/Controller";
+import Controller from "../controllers/Controller";
 
 import Customer from "../models/Customer";
 import Phone from "../models/Phone";
@@ -7,7 +7,7 @@ import Address from "../models/Address";
 import { CityModel } from "../models";
 import { Gender } from "@prisma/client";
 
-const controller = new CustomerController();
+const controller = new Controller();
 
 export async function getCustomers(req: Request, res: Response) {
    try {

@@ -243,8 +243,8 @@ model Book {
    priceGroup   PriceGroup @relation(fields: [priceGroupId], references: [id])
    priceGroupId Int
 
-   reasonCategory   ReasonCategory @relation(fields: [reasonCategoryId], references: [id])
-   reasonCategoryId Int
+   reasonCategory   ReasonCategory? @relation(fields: [reasonCategoryId], references: [id])
+   reasonCategoryId Int?
 
    bookToCategory BookToCategory[]
    bookToCart     BookToCart[]
@@ -267,7 +267,7 @@ model BookDimension {
    weight    Decimal @db.Decimal(5, 2)
    thickness Decimal @db.Decimal(5, 2)
 
-   book   Book @relation(fields: [bookId], references: [id])
+   book   Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
    bookId Int  @unique
 }
 
@@ -292,6 +292,7 @@ model BookToCategory {
 model Category {
    id   Int    @id @default(autoincrement())
    name String @db.VarChar(100)
+   slug String @unique @db.VarChar(100)
 
    bookToCategory BookToCategory[]
 }
@@ -325,7 +326,7 @@ model Stock {
    amount    Int
    updatedAt DateTime @updatedAt
 
-   book   Book @relation(fields: [bookId], references: [id])
+   book   Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
    bookId Int  @unique
 
    stockMovement StockMovement[]
@@ -339,7 +340,7 @@ model StockMovement {
    supplier     String            @db.VarChar(100)
    createdAt    DateTime          @default(now())
 
-   stock   Stock @relation(fields: [stockId], references: [id])
+   stock   Stock @relation(fields: [stockId], references: [id], onDelete: Cascade)
    stockId Int
 }
 

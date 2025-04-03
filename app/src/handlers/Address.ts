@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import CustomerController from "../controllers/Controller";
+import Controller from "../controllers/Controller";
 
 import Address from "../models/Address";
 
-const controller = new CustomerController();
+const controller = new Controller();
 
 export async function getAddresses(req: Request, res: Response) {
    try {

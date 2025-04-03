@@ -1,5 +1,5 @@
 import BookDimension from "./BookDimension";
-import Category from "./Category";
+import BookToCategory from "./BookToCategory";
 import DomainEntity from "./DomainEntity";
 import PriceGroup from "./PriceGroup";
 import ReasonCategory from "./ReasonCategory";
@@ -22,10 +22,10 @@ class Book extends DomainEntity {
    private bookDimension?: BookDimension;
    private stock?: Stock;
    private priceGroup?: PriceGroup;
-   private categories: Category[] = [];
+   private bookToCategory: BookToCategory[] = [];
    private reasonCategory?: ReasonCategory;
 
-   constructor(data?: Partial<Category>) {
+   constructor(data?: Partial<Book>) {
       super();
       Object.assign(this, data);
    }
@@ -150,12 +150,12 @@ class Book extends DomainEntity {
       this.priceGroup = priceGroup;
    }
 
-   get Categories(): Category[] {
-      return this.categories;
+   get BookToCategory(): BookToCategory[] {
+      return this.bookToCategory;
    }
 
-   set Categories(categories: Category[]) {
-      this.categories = categories;
+   set BookToCategory(bookTocategory: BookToCategory[]) {
+      this.bookToCategory = bookTocategory;
    }
 
    get ReasonCategory(): ReasonCategory | undefined {

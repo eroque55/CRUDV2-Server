@@ -76,13 +76,19 @@ class Facade implements IFacade {
    }
 
    private setDAOs(): void {
+      this.daos.set(Models.AddressModel.name, new DAOs.AddressDao());
+      this.daos.set(Models.BookModel.name, new DAOs.BookDao());
       this.daos.set(Models.CardModel.name, new DAOs.CardDao());
+      this.daos.set(Models.CarrierModel.name, new DAOs.CarrierDao());
+      this.daos.set(Models.CartModel.name, new DAOs.CartDao());
+      this.daos.set(Models.CategoryModel.name, new DAOs.CategoryDao());
+      this.daos.set(Models.CityModel.name, new DAOs.CityDao());
+      this.daos.set(Models.CountryModel.name, new DAOs.CountryDAO());
+      this.daos.set(Models.CouponModel.name, new DAOs.CouponDao());
       this.daos.set(Models.CustomerModel.name, new DAOs.CustomerDao());
       this.daos.set(Models.PhoneModel.name, new DAOs.PhoneDao());
-      this.daos.set(Models.AddressModel.name, new DAOs.AddressDao());
-      this.daos.set(Models.CountryModel.name, new DAOs.CountryDAO());
+      this.daos.set(Models.SaleModel.name, new DAOs.SaleDao());
       this.daos.set(Models.StateModel.name, new DAOs.StateDao());
-      this.daos.set(Models.CityModel.name, new DAOs.CityDao());
    }
 
    private execute(entity: DomainEntity): string {

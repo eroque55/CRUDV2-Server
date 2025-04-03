@@ -1,21 +1,36 @@
 import IDAO from "./IDAO";
-import { DomainEntityModel } from "../models";
+import { CategoryModel } from "../models";
+import prisma from "./prisma";
 
 class CategoryDao implements IDAO {
-   create(entity: DomainEntityModel): Promise<DomainEntityModel> {
+   create(entity: CategoryModel): Promise<CategoryModel> {
       throw new Error("TODO");
    }
-   read(entity: DomainEntityModel): Promise<DomainEntityModel[]> {
+
+   async read(entity: CategoryModel): Promise<CategoryModel[]> {
+      try {
+         const categories = await prisma.category.findMany({
+            orderBy: { name: "asc" },
+         });
+         return categories.map(this.mapToDomain);
+      } catch (error: any) {
+         throw new Error(`Erro ao consultar categorias: ${error.message}`);
+      }
+   }
+
+   update(entity: CategoryModel): Promise<CategoryModel> {
       throw new Error("TODO");
    }
-   update(entity: DomainEntityModel): Promise<DomainEntityModel> {
+   delete(entity: CategoryModel): Promise<void> {
       throw new Error("TODO");
    }
-   delete(entity: DomainEntityModel): Promise<void> {
+   get(entity: CategoryModel): Promise<CategoryModel> {
       throw new Error("TODO");
    }
-   get(entity: DomainEntityModel): Promise<DomainEntityModel> {
-      throw new Error("TODO");
+
+   private mapToDomain(category: any): CategoryModel {
+      if (!category) throw new Error(`Categoria inválida para mapeamento`);
+      return { ...category };
    }
 }
 

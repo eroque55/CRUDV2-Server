@@ -11,7 +11,7 @@ class Sale extends DomainEntity {
    private createdAt?: Date;
    private paymentMethod?: string;
 
-   private coupon?: Coupon;
+   private coupons: Coupon[] = [];
    private cart?: Cart;
    private freight?: Freight;
    private cardsToSales: CardToSale[] = [];
@@ -53,12 +53,12 @@ class Sale extends DomainEntity {
       this.paymentMethod = paymentMethod;
    }
 
-   get Coupon(): Coupon | undefined {
-      return this.coupon;
+   get Coupons(): Coupon[] {
+      return this.coupons;
    }
 
-   set Coupon(coupon: Coupon) {
-      this.coupon = coupon;
+   set Coupons(coupons: Coupon[]) {
+      this.coupons = coupons;
    }
 
    get Cart(): Cart | undefined {
