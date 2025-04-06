@@ -11,7 +11,7 @@ const router = Router();
 
 router.get("/", getBooks);
 
-router.get("/:id", getBook);
+router.get("/:slug", getBook);
 
 router.post("/", postBook);
 

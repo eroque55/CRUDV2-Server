@@ -32,8 +32,7 @@ export async function getBook(req: Request, res: Response) {
    try {
       const book = new Book();
 
-      book.Id = parseInt(req.params.id);
-
+      book.Slug = req.params.slug;
       const bookResponse = await controller.get(book);
       res.json(bookResponse);
    } catch (error: any) {

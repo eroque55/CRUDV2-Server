@@ -5,6 +5,7 @@ import Sale from "./Sale";
 
 class Cart extends DomainEntity {
    private customer?: Customer;
+   private status?: boolean;
    private sale?: Sale;
    private bookToCart: BookToCart[] = [];
 
@@ -19,6 +20,14 @@ class Cart extends DomainEntity {
 
    set Customer(customer: Customer) {
       this.customer = customer;
+   }
+
+   get Status(): boolean | undefined {
+      return this.status;
+   }
+
+   set Status(status: boolean) {
+      this.status = status;
    }
 
    get BookToCart(): BookToCart[] {

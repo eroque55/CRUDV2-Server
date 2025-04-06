@@ -13,6 +13,12 @@ class CustomerDao implements IDAO {
             omit: { password: true },
          });
 
+         await prisma.cart.create({
+            data: {
+               customerId: customer.id,
+            },
+         });
+
          return this.mapToDomain(customer);
       } catch (error: any) {
          if (error instanceof PrismaClientKnownRequestError) {

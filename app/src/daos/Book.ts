@@ -38,6 +38,7 @@ class BookDao implements IDAO {
                  }
                : {},
             include: {
+               priceGroup: true,
                stock: {
                   include: {
                      stockMovement: {
@@ -64,7 +65,6 @@ class BookDao implements IDAO {
                inativationReason: true,
                numberPages: true,
                isbn: true,
-               priceGroupId: true,
                publisher: true,
                reasonCategoryId: true,
                synopsis: true,
@@ -82,7 +82,7 @@ class BookDao implements IDAO {
    async get(entity: BookModel): Promise<BookModel> {
       try {
          const book = await prisma.book.findUnique({
-            where: { id: entity.Id },
+            where: { slug: entity.Slug },
             include: {
                bookDimension: true,
                priceGroup: true,

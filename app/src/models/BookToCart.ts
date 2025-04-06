@@ -2,7 +2,7 @@ import Book from "./Book";
 import Cart from "./Cart";
 
 class BookToCart {
-   private ammount?: number;
+   private amount?: number;
    private updatedAt?: Date;
    private status?: boolean;
 
@@ -13,12 +13,12 @@ class BookToCart {
       Object.assign(this, data);
    }
 
-   get Ammount(): number | undefined {
-      return this.ammount;
+   get Amount(): number | undefined {
+      return this.amount;
    }
 
-   set Ammount(ammount: number) {
-      this.ammount = ammount;
+   set Amount(ammount: number) {
+      this.amount = ammount;
    }
 
    get UpdatedAt(): Date | undefined {
