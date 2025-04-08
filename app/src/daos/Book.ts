@@ -26,17 +26,21 @@ class BookDao implements IDAO {
 
    async read(entity: BookModel): Promise<BookModel[]> {
       try {
-         const categorySlug = entity.BookToCategory?.[0]?.Category?.Slug;
+         const categorySlug = entity.BookToCategory[0]?.Category?.Slug;
 
          const books = await prisma.book.findMany({
             orderBy: { title: "asc" },
-            where: categorySlug
-               ? {
-                    bookToCategory: {
-                       some: { category: { slug: categorySlug } },
-                    },
-                 }
-               : {},
+            where: {
+               title: { contains: entity.Title },
+               ...(categorySlug
+                  ? {
+                       bookToCategory: {
+                          some: { category: { slug: categorySlug } },
+                       },
+                    }
+                  : {}),
+            },
+
             include: {
                priceGroup: true,
                stock: {

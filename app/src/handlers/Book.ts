@@ -11,14 +11,13 @@ export async function getBooks(req: Request, res: Response) {
    try {
       const book = new Book();
 
-      if (req.query.categorySlug) {
-         const categorySlug = req.query.categorySlug as string;
-         const category = new Category();
-         category.Slug = categorySlug;
-         const bookToCategory = new BookToCategory();
-         bookToCategory.Category = category;
-         book.BookToCategory = [bookToCategory];
-      }
+      const categorySlug = req.query.slug;
+      const category = new Category();
+      category.Slug = String(categorySlug);
+      const bookToCategory = new BookToCategory();
+      bookToCategory.Category = category;
+      book.BookToCategory = [bookToCategory];
+      book.Title = String(req.query.title);
 
       const booksResponse = await controller.read(book);
 
@@ -31,8 +30,8 @@ export async function getBooks(req: Request, res: Response) {
 export async function getBook(req: Request, res: Response) {
    try {
       const book = new Book();
-
       book.Slug = req.params.slug;
+
       const bookResponse = await controller.get(book);
       res.json(bookResponse);
    } catch (error: any) {

@@ -211,7 +211,7 @@ model Freight {
    carrier   Carrier @relation(fields: [carrierId], references: [id])
    carrierId Int
 
-   sale   Sale @relation(fields: [saleId], references: [id])
+   sale   Sale @relation(fields: [saleId], references: [id], onDelete: Cascade)
    saleId Int  @unique
 }
 

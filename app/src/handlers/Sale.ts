@@ -62,8 +62,6 @@ export async function postSale(req: Request, res: Response) {
       sale.CardsToSales = [cardToSale];
       sale.Cart = cart;
 
-      console.log(sale);
-
       const saleResponse = await controller.create(sale);
       res.json(saleResponse);
    } catch (error: any) {
