@@ -2,6 +2,12 @@ import { Request, Response } from "express";
 import Controller from "../controllers/Controller";
 
 import Sale from "../models/Sale";
+import Freight from "../models/Freight";
+import Carrier from "../models/Carrier";
+import Address from "../models/Address";
+import Card from "../models/Card";
+import CardToSale from "../models/CardToSale";
+import Cart from "../models/Cart";
 
 const controller = new Controller();
 
@@ -30,7 +36,33 @@ export async function getSale(req: Request, res: Response) {
 
 export async function postSale(req: Request, res: Response) {
    try {
-      const sale = new Sale({ ...req.body });
+      const carrier = new Carrier();
+      carrier.Id = req.body.freight?.carrier?.id;
+
+      const address = new Address();
+      address.Id = req.body.freight?.address?.id;
+
+      const freight = new Freight();
+      freight.Carrier = carrier;
+      freight.Address = address;
+
+      const card = new Card();
+      card.Id = req.body.cardToSales[0].card.id;
+
+      const cardToSale = new CardToSale();
+      cardToSale.Card = card;
+
+      const cart = new Cart();
+      cart.Id = req.body.cart.id;
+
+      const sale = new Sale();
+      sale.TotalValue = req.body.totalValue;
+      sale.PaymentMethod = req.body.paymentMethod;
+      sale.Freight = freight;
+      sale.CardsToSales = [cardToSale];
+      sale.Cart = cart;
+
+      console.log(sale);
 
       const saleResponse = await controller.create(sale);
       res.json(saleResponse);

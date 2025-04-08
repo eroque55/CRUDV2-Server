@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import prisma from "./prisma";
 
 class SaleDao implements IDAO {
-   async create(entity: DomainEntityModel): Promise<DomainEntityModel> {
+   async create(entity: SaleModel): Promise<DomainEntityModel> {
       try {
          const sale = await prisma.sale.create({
             data: this.saveData(entity as SaleModel),
@@ -36,9 +36,9 @@ class SaleDao implements IDAO {
       throw new Error("TODO");
    }
 
-   private saveData(entity: SaleModel): Prisma.SaleCreateInput {
+   private saveData(entity: any): Prisma.SaleCreateInput {
       return {
-         cart: { connect: { id: entity.Cart?.Id } },
+         cart: { connect: { id: entity.cart?.Id } },
          paymentMethod: entity.PaymentMethod || "",
          totalValue: entity.TotalValue || 0,
          coupon: { connect: { id: entity.Coupons?.[0].Id } },
@@ -46,7 +46,7 @@ class SaleDao implements IDAO {
             create: {
                carrier: { connect: { id: entity.Freight?.Carrier?.Id } },
                address: { connect: { id: entity.Freight?.Address?.Id } },
-               deliveryTime: entity.Freight?.DeliveryTime || 0,
+               deliveryTime: 0,
             },
          },
          status: "EM_PROCESSAMENTO",
