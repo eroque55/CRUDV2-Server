@@ -19,7 +19,7 @@ export async function getAddress(req: Request, res: Response) {
    try {
       const address = new Address();
 
-      address.Id = parseInt(req.params.id);
+      address.id = parseInt(req.params.id);
 
       const addressResponse = await controller.get(address);
       res.json(addressResponse);
@@ -43,7 +43,7 @@ export async function putAddress(req: Request, res: Response) {
    try {
       const address = new Address({ ...req.body });
 
-      address.Id = parseInt(req.params.id);
+      address.id = parseInt(req.params.id);
 
       const addressResponse = await controller.update(address);
       res.json(addressResponse);
@@ -56,7 +56,7 @@ export async function deleteAddress(req: Request, res: Response) {
    try {
       const address = new Address();
 
-      address.Id = parseInt(req.params.id);
+      address.id = parseInt(req.params.id);
 
       const addressResponse = await controller.delete(address);
       res.json(addressResponse);

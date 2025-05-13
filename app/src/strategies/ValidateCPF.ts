@@ -10,8 +10,8 @@ export default class ValidateCPF implements IStrategy {
       if (entity instanceof Customer) {
          const customer = entity as Customer;
 
-         if (customer.Id === 0) {
-            const cpf = customer.Cpf || "";
+         if (customer.id === 0) {
+            const cpf = customer.cpf || "";
 
             if (!this.checkLength(cpf) || this.checkRepeatedDigits(cpf)) {
                message += "CPF inválido";

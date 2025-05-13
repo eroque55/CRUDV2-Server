@@ -32,17 +32,17 @@ class CustomerDao implements IDAO {
 
    async update(entity: CustomerModel): Promise<CustomerModel> {
       try {
-         if (entity.Password || entity.ConfPassword) {
-            const confPassword = encryptPassword(entity.ConfPassword || "");
+         if (entity.password || entity.confPassword) {
+            const confPassword = encryptPassword(entity.confPassword || "");
             const dbCustomer = await prisma.customer.findUnique({
-               where: { id: entity.Id },
+               where: { id: entity.id },
             });
             if (confPassword !== dbCustomer?.password) {
                throw new Error("Senha incorreta");
             }
          }
          const customer = await prisma.customer.update({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             data: this.updateData(entity),
             omit: { password: true },
          });
@@ -61,7 +61,7 @@ class CustomerDao implements IDAO {
    async delete(entity: CustomerModel): Promise<void> {
       try {
          await prisma.customer.delete({
-            where: { id: entity.Id },
+            where: { id: entity.id },
          });
       } catch (error: any) {
          throw new Error(`Erro ao excluir cliente: ${error.message}`);
@@ -73,13 +73,13 @@ class CustomerDao implements IDAO {
          const customers = await prisma.customer.findMany({
             orderBy: { id: "asc" },
             where: {
-               name: { contains: entity.Name },
-               status: entity.Status,
-               ranking: entity.Ranking,
-               cpf: { contains: entity.Cpf },
-               email: { contains: entity.Email },
-               birthDate: { equals: entity.BirthDate },
-               gender: entity.Gender,
+               name: { contains: entity.name },
+               status: entity.status,
+               ranking: entity.ranking,
+               cpf: { contains: entity.cpf },
+               email: { contains: entity.email },
+               birthDate: { equals: entity.birthDate },
+               gender: entity.gender,
             },
             omit: { password: true },
          });
@@ -91,21 +91,21 @@ class CustomerDao implements IDAO {
 
    async get(entity: CustomerModel): Promise<CustomerModel> {
       try {
-         if (entity.Email || entity.Password) {
-            const password = encryptPassword(entity.Password || "");
+         if (entity.email || entity.password) {
+            const password = encryptPassword(entity.password || "");
             const dbCustomer = await prisma.customer.findUnique({
-               where: { email: entity.Email },
+               where: { email: entity.email },
             });
             if (!dbCustomer) {
                throw new Error("E-mail não encontrado");
             } else if (password !== dbCustomer?.password) {
                throw new Error("Senha incorreta");
             } else {
-               entity.Id = dbCustomer.id;
+               entity.id = dbCustomer.id;
             }
          }
          const customer = await prisma.customer.findUnique({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             include: {
                addresses: {
                   include: {
@@ -132,48 +132,48 @@ class CustomerDao implements IDAO {
 
    private saveData(entity: CustomerModel): Prisma.CustomerCreateInput {
       return {
-         name: entity.Name || "",
-         birthDate: entity.BirthDate || new Date(),
-         cpf: entity.Cpf || "",
-         email: entity.Email || "",
-         password: encryptPassword(entity.Password || ""),
-         status: entity.Status || false,
-         gender: entity.Gender || "OUTRO",
-         ranking: entity.Ranking || 0,
+         name: entity.name || "",
+         birthDate: entity.birthDate || new Date(),
+         cpf: entity.cpf || "",
+         email: entity.email || "",
+         password: encryptPassword(entity.password || ""),
+         status: entity.status || false,
+         gender: entity.gender || "OUTRO",
+         ranking: entity.ranking || 0,
          phone: {
             create: {
-               ddd: entity?.Phone?.Ddd || "",
-               number: entity?.Phone?.Number || "",
-               phoneType: entity?.Phone?.PhoneType || "CELULAR",
+               ddd: entity?.phone?.ddd || "",
+               number: entity?.phone?.number || "",
+               phoneType: entity?.phone?.phoneType || "CELULAR",
             },
          },
          addresses: {
             create: [
                {
                   addressType: "COBRANCA",
-                  neighborhood: entity?.Addresses?.[0].Neighborhood || "",
-                  number: entity?.Addresses?.[0].Number || 0,
-                  street: entity?.Addresses?.[0].Street || "",
-                  complement: entity?.Addresses?.[0].Complement || "",
-                  cep: entity?.Addresses?.[0].Cep || "",
-                  cityId: entity?.Addresses?.[0].City?.Id || 0,
-                  nickname: entity?.Addresses?.[0].Nickname || "",
+                  neighborhood: entity?.addresses?.[0].neighborhood || "",
+                  number: entity?.addresses?.[0].number || 0,
+                  street: entity?.addresses?.[0].street || "",
+                  complement: entity?.addresses?.[0].complement || "",
+                  cep: entity?.addresses?.[0].cep || "",
+                  cityId: entity?.addresses?.[0].city?.id || 0,
+                  nickname: entity?.addresses?.[0].nickname || "",
                   residenceType:
-                     entity?.Addresses?.[0].ResidenceType || "OUTRO",
-                  streetType: entity?.Addresses?.[0].StreetType || "OUTRO",
+                     entity?.addresses?.[0].residenceType || "OUTRO",
+                  streetType: entity?.addresses?.[0].streetType || "OUTRO",
                },
                {
                   addressType: "ENTREGA",
-                  neighborhood: entity?.Addresses?.[1].Neighborhood || "",
-                  number: entity?.Addresses?.[1].Number || 0,
-                  street: entity?.Addresses?.[1].Street || "",
-                  complement: entity?.Addresses?.[1].Complement || "",
-                  cep: entity?.Addresses?.[1].Cep || "",
-                  cityId: entity?.Addresses?.[1].City?.Id || 0,
-                  nickname: entity?.Addresses?.[1].Nickname || "",
+                  neighborhood: entity?.addresses?.[1].neighborhood || "",
+                  number: entity?.addresses?.[1].number || 0,
+                  street: entity?.addresses?.[1].street || "",
+                  complement: entity?.addresses?.[1].complement || "",
+                  cep: entity?.addresses?.[1].cep || "",
+                  cityId: entity?.addresses?.[1].city?.id || 0,
+                  nickname: entity?.addresses?.[1].nickname || "",
                   residenceType:
-                     entity?.Addresses?.[1].ResidenceType || "OUTRO",
-                  streetType: entity?.Addresses?.[1].StreetType || "OUTRO",
+                     entity?.addresses?.[1].residenceType || "OUTRO",
+                  streetType: entity?.addresses?.[1].streetType || "OUTRO",
                },
             ],
          },
@@ -181,17 +181,17 @@ class CustomerDao implements IDAO {
    }
 
    private updateData(entity: CustomerModel): Prisma.CustomerUpdateInput {
-      const password = entity.Password
-         ? encryptPassword(entity.Password)
+      const password = entity.password
+         ? encryptPassword(entity.password)
          : undefined;
       return {
-         name: entity.Name,
-         birthDate: entity.BirthDate,
-         cpf: entity.Cpf,
-         gender: entity.Gender,
-         email: entity.Email,
-         ranking: entity.Ranking,
-         status: entity.Status,
+         name: entity.name,
+         birthDate: entity.birthDate,
+         cpf: entity.cpf,
+         gender: entity.gender,
+         email: entity.email,
+         ranking: entity.ranking,
+         status: entity.status,
          password: password,
       };
    }

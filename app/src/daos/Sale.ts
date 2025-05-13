@@ -11,11 +11,11 @@ class SaleDao implements IDAO {
          });
 
          const cart = await prisma.cart.findUnique({
-            where: { id: entity.Cart?.Id },
+            where: { id: entity.cart?.id },
          });
 
          await prisma.cart.update({
-            where: { id: entity.Cart?.Id },
+            where: { id: entity.cart?.id },
             data: { status: false },
          });
 
@@ -34,8 +34,19 @@ class SaleDao implements IDAO {
    }
    async read(entity: SaleModel): Promise<DomainEntityModel[]> {
       try {
+         if (entity.cart?.customer?.id) {
+            const sales = await prisma.sale.findMany({
+               where: { cart: { customerId: entity.cart?.customer?.id } },
+               include: { freight: { include: { address: true } } },
+               orderBy: { id: "desc" },
+            });
+
+            return sales.map(this.mapToDomain);
+         }
+
          const sales = await prisma.sale.findMany({
-            orderBy: { id: "asc" },
+            include: { cart: { include: { customer: true } } },
+            orderBy: { id: "desc" },
          });
 
          return sales.map(this.mapToDomain);
@@ -43,8 +54,20 @@ class SaleDao implements IDAO {
          throw new Error(error.message);
       }
    }
-   update(entity: DomainEntityModel): Promise<DomainEntityModel> {
-      throw new Error("TODO");
+   async update(entity: SaleModel): Promise<DomainEntityModel> {
+      try {
+         if (entity.status) {
+            const sale = await prisma.sale.update({
+               where: { id: entity.id },
+               data: { status: entity.status },
+            });
+
+            return this.mapToDomain(sale);
+         }
+         throw new Error("Status não encontrado");
+      } catch (error: any) {
+         throw new Error(error.message);
+      }
    }
    delete(entity: DomainEntityModel): Promise<void> {
       throw new Error("TODO");
@@ -55,13 +78,13 @@ class SaleDao implements IDAO {
 
    private saveData(entity: SaleModel): Prisma.SaleCreateInput {
       return {
-         cart: { connect: { id: entity.Cart?.Id } },
-         paymentMethod: entity.PaymentMethod || "",
-         totalValue: entity.TotalValue || 0,
+         cart: { connect: { id: entity.cart?.id } },
+         paymentMethod: entity.paymentMethod || "",
+         totalValue: entity.totalValue || 0,
          freight: {
             create: {
-               carrier: { connect: { id: entity.Freight?.Carrier?.Id } },
-               address: { connect: { id: entity.Freight?.Address?.Id } },
+               carrier: { connect: { id: entity.freight?.carrier?.id } },
+               address: { connect: { id: entity.freight?.address?.id } },
                deliveryTime: 0,
             },
          },

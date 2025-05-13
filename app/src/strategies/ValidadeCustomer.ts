@@ -10,49 +10,49 @@ export default class ValidateCustomer implements IStrategy {
       if (entity instanceof Customer) {
          const customer = entity as Customer;
 
-         if (customer.Id === 0) {
-            if (!customer.Name) {
+         if (customer.id === 0) {
+            if (!customer.name) {
                message += "Nome é obrigatório. ";
             }
 
-            if (!customer.Cpf) {
+            if (!customer.cpf) {
                message += "CPF é obrigatório. ";
             }
 
-            if (!customer.Email) {
+            if (!customer.email) {
                message += "E-mail é obrigatório. ";
-            } else if (!customer.Email.includes("@")) {
+            } else if (!customer.email.includes("@")) {
                message += "E-mail inválido. ";
             }
 
-            if (!customer.Password) {
+            if (!customer.password) {
                message += "Senha é obrigatória. ";
             } else {
-               if (customer.Password.length < 8) {
+               if (customer.password.length < 8) {
                   message += "Senha deve ter no mínimo 8 caracteres. ";
                }
-               if (!/[a-z]/.test(customer.Password)) {
+               if (!/[a-z]/.test(customer.password)) {
                   message += "Senha deve ter no mínimo 1 letra minúscula. ";
                }
-               if (!/[A-Z]/.test(customer.Password)) {
+               if (!/[A-Z]/.test(customer.password)) {
                   message += "Senha deve ter no mínimo 1 letra maiúscula. ";
                }
-               if (!/[!@#$%^&*(),.?":{}|<>]/.test(customer.Password)) {
+               if (!/[!@#$%^&*(),.?":{}|<>]/.test(customer.password)) {
                   message += "Senha deve ter no mínimo 1 caractere especial. ";
                }
             }
 
-            if (!customer.ConfPassword) {
+            if (!customer.confPassword) {
                message += "Confirmação de senha é obrigatória. ";
-            } else if (customer.Password !== customer.ConfPassword) {
+            } else if (customer.password !== customer.confPassword) {
                message += "Senhas não conferem. ";
             }
 
-            if (!customer.Phone) {
+            if (!customer.phone) {
                message += "Telefone é obrigatório. ";
             }
 
-            if (!customer.Addresses || customer.Addresses.length < 2) {
+            if (!customer.addresses || customer.addresses.length < 2) {
                message +=
                   "É obrigatório um endereço de cobrança e um de entrega. ";
             }

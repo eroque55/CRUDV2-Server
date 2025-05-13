@@ -22,9 +22,9 @@ export async function getCart(req: Request, res: Response) {
    try {
       const cart = new Cart();
       const customer = new Customer();
-      customer.Id = parseInt(req.params.id);
+      customer.id = parseInt(req.params.id);
 
-      cart.Customer = customer;
+      cart.customer = customer;
 
       const cartResponse = await controller.get(cart);
       res.json(cartResponse);
@@ -40,12 +40,12 @@ export async function postCart(req: Request, res: Response) {
       const book = new Book();
       const bookToCart = new BookToCartModel();
 
-      customer.Id = Number(req.body.customer.id);
-      book.Id = Number(req.body.bookToCart[0].book.id);
-      bookToCart.Book = book;
+      customer.id = Number(req.body.customer.id);
+      book.id = Number(req.body.bookToCart[0].book.id);
+      bookToCart.book = book;
 
-      cart.Customer = customer;
-      cart.BookToCart.push(bookToCart);
+      cart.customer = customer;
+      cart.bookToCart.push(bookToCart);
 
       const cartResponse = await controller.create(cart);
       res.json(cartResponse);
@@ -60,16 +60,16 @@ export async function putCart(req: Request, res: Response) {
 
       req.body.bookToCart.map((item: any) => {
          const book = new Book({
-            Id: item.bookId,
+            id: item.bookId,
          });
          const bookToCart = new BookToCartModel({
-            Amount: item.amount,
-            Book: book,
+            amount: item.amount,
+            book: book,
          });
-         cart.BookToCart.push(bookToCart);
+         cart.bookToCart.push(bookToCart);
       });
 
-      cart.Id = parseInt(req.body.id);
+      cart.id = parseInt(req.body.id);
       const cartResponse = await controller.update(cart);
       res.json(cartResponse);
    } catch (error: any) {
@@ -81,7 +81,7 @@ export async function deleteCart(req: Request, res: Response) {
    try {
       const cart = new Cart();
 
-      cart.Id = parseInt(req.params.id);
+      cart.id = parseInt(req.params.id);
 
       const cartResponse = await controller.delete(cart);
       res.json(cartResponse);

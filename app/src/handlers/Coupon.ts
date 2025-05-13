@@ -19,7 +19,7 @@ export async function getCoupon(req: Request, res: Response) {
    try {
       const coupon = new Coupon();
 
-      coupon.Id = parseInt(req.params.id);
+      coupon.id = parseInt(req.params.id);
 
       const couponResponse = await controller.get(coupon);
       res.json(couponResponse);
@@ -43,7 +43,7 @@ export async function putCoupon(req: Request, res: Response) {
    try {
       const coupon = new Coupon({ ...req.body });
 
-      coupon.Id = parseInt(req.params.id);
+      coupon.id = parseInt(req.params.id);
 
       const couponResponse = await controller.update(coupon);
       res.json(couponResponse);
@@ -56,7 +56,7 @@ export async function deleteCoupon(req: Request, res: Response) {
    try {
       const coupon = new Coupon();
 
-      coupon.Id = parseInt(req.params.id);
+      coupon.id = parseInt(req.params.id);
 
       const couponResponse = await controller.delete(coupon);
       res.json(couponResponse);

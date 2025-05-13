@@ -4,46 +4,14 @@ import DomainEntity from "./DomainEntity";
 import Sale from "./Sale";
 
 class Cart extends DomainEntity {
-   private customer?: Customer;
-   private status?: boolean;
-   private sale?: Sale;
-   private bookToCart: BookToCart[] = [];
+   customer?: Customer;
+   status?: boolean;
+   sale?: Sale;
+   bookToCart: BookToCart[] = [];
 
    constructor(data?: Partial<Cart>) {
       super();
       Object.assign(this, data);
-   }
-
-   get Customer(): Customer | undefined {
-      return this.customer;
-   }
-
-   set Customer(customer: Customer) {
-      this.customer = customer;
-   }
-
-   get Status(): boolean | undefined {
-      return this.status;
-   }
-
-   set Status(status: boolean) {
-      this.status = status;
-   }
-
-   get BookToCart(): BookToCart[] {
-      return this.bookToCart;
-   }
-
-   set BookToCart(bookToCart: BookToCart[]) {
-      this.bookToCart = bookToCart;
-   }
-
-   get Sale(): Sale | undefined {
-      return this.sale;
-   }
-
-   set Sale(sale: Sale) {
-      this.sale = sale;
    }
 }
 

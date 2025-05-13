@@ -8,6 +8,7 @@ import Address from "../models/Address";
 import Card from "../models/Card";
 import CardToSale from "../models/CardToSale";
 import Cart from "../models/Cart";
+import Customer from "../models/Customer";
 
 const controller = new Controller();
 
@@ -25,9 +26,16 @@ export async function getSale(req: Request, res: Response) {
    try {
       const sale = new Sale();
 
-      sale.Id = parseInt(req.params.id);
+      if (req.params.id) {
+         const customerId = Number(req.params.id);
+         const customer = new Customer();
+         customer.id = customerId;
+         const cart = new Cart();
+         cart.customer = customer;
+         sale.cart = cart;
+      }
 
-      const saleResponse = await controller.get(sale);
+      const saleResponse = await controller.read(sale);
       res.json(saleResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
@@ -37,30 +45,30 @@ export async function getSale(req: Request, res: Response) {
 export async function postSale(req: Request, res: Response) {
    try {
       const carrier = new Carrier();
-      carrier.Id = req.body.freight?.carrier?.id;
+      carrier.id = req.body.freight?.carrier?.id;
 
       const address = new Address();
-      address.Id = req.body.freight?.address?.id;
+      address.id = req.body.freight?.address?.id;
 
       const freight = new Freight();
-      freight.Carrier = carrier;
-      freight.Address = address;
+      freight.carrier = carrier;
+      freight.address = address;
 
       const card = new Card();
-      card.Id = req.body.cardToSales[0].card.id;
+      card.id = req.body.cardToSales[0].card.id;
 
       const cardToSale = new CardToSale();
-      cardToSale.Card = card;
+      cardToSale.card = card;
 
       const cart = new Cart();
-      cart.Id = req.body.cart.id;
+      cart.id = req.body.cart.id;
 
       const sale = new Sale();
-      sale.TotalValue = req.body.totalValue;
-      sale.PaymentMethod = req.body.paymentMethod;
-      sale.Freight = freight;
-      sale.CardsToSales = [cardToSale];
-      sale.Cart = cart;
+      sale.totalValue = req.body.totalValue;
+      sale.paymentMethod = req.body.paymentMethod;
+      sale.freight = freight;
+      sale.cardsToSales = [cardToSale];
+      sale.cart = cart;
 
       const saleResponse = await controller.create(sale);
       res.json(saleResponse);
@@ -71,9 +79,10 @@ export async function postSale(req: Request, res: Response) {
 
 export async function putSale(req: Request, res: Response) {
    try {
-      const sale = new Sale({ ...req.body });
+      const sale = new Sale();
 
-      sale.Id = parseInt(req.params.id);
+      sale.id = parseInt(req.params.id);
+      sale.status = req.body.status;
 
       const saleResponse = await controller.update(sale);
       res.json(saleResponse);
@@ -86,7 +95,7 @@ export async function deleteSale(req: Request, res: Response) {
    try {
       const sale = new Sale();
 
-      sale.Id = parseInt(req.params.id);
+      sale.id = parseInt(req.params.id);
 
       const saleResponse = await controller.delete(sale);
       res.json(saleResponse);

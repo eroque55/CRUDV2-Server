@@ -19,7 +19,7 @@ export async function getCity(req: Request, res: Response) {
    try {
       const city = new City();
 
-      city.Id = parseInt(req.params.id);
+      city.id = parseInt(req.params.id);
 
       const cityResponse = await controller.get(city);
       res.json(cityResponse);
@@ -43,7 +43,7 @@ export async function putCity(req: Request, res: Response) {
    try {
       const city = new City({ ...req.body });
 
-      city.Id = parseInt(req.params.id);
+      city.id = parseInt(req.params.id);
 
       const cityResponse = await controller.update(city);
       res.json(cityResponse);
@@ -56,7 +56,7 @@ export async function deleteCity(req: Request, res: Response) {
    try {
       const city = new City();
 
-      city.Id = parseInt(req.params.id);
+      city.id = parseInt(req.params.id);
 
       const response = await controller.delete(city);
       res.json(response);

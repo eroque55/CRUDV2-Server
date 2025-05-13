@@ -10,42 +10,42 @@ export default class ValidateAddress implements IStrategy {
       if (entity instanceof Address) {
          const address = entity as Address;
 
-         if (address.Id === 0) {
-            if (!address.Customer?.Id) {
+         if (address.id === 0) {
+            if (!address.customer?.id) {
                message += "Cliente é obrigatório. ";
             }
 
-            if (!address.Nickname) {
+            if (!address.nickname) {
                message += "Apelido é obrigatório. ";
             }
 
-            if (!address.Street) {
+            if (!address.street) {
                message += "Logradouro é obrigatório. ";
             }
 
-            if (!address.Neighborhood) {
+            if (!address.neighborhood) {
                message += "Bairro é obrigatório. ";
             }
 
-            if (!address.Cep) {
+            if (!address.cep) {
                message += "CEP é obrigatório. ";
-            } else if (address.Cep.length !== 8) {
+            } else if (address.cep.length !== 8) {
                message += "CEP inválido. ";
             }
 
-            if (address.City?.Id === 0) {
+            if (address.city?.id === 0) {
                message += "Cidade é obrigatório. ";
             }
 
-            if (!address.AddressType) {
+            if (!address.addressType) {
                message += "Tipo de endereço é obrigatório. ";
             }
 
-            if (!address.StreetType) {
+            if (!address.streetType) {
                message += "Tipo de logradouro é obrigatório. ";
             }
 
-            if (!address.ResidenceType) {
+            if (!address.residenceType) {
                message += "Tipo de residência é obrigatória. ";
             }
          }

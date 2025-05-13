@@ -19,7 +19,7 @@ export async function getState(req: Request, res: Response) {
    try {
       const state = new State();
 
-      state.Id = parseInt(req.params.id);
+      state.id = parseInt(req.params.id);
 
       const stateResponse = await controller.get(state);
       res.json(stateResponse);
@@ -43,7 +43,7 @@ export async function putState(req: Request, res: Response) {
    try {
       const state = new State({ ...req.body });
 
-      state.Id = parseInt(req.params.id);
+      state.id = parseInt(req.params.id);
 
       const stateResponse = await controller.update(state);
       res.json(stateResponse);
@@ -56,7 +56,7 @@ export async function deleteState(req: Request, res: Response) {
    try {
       const state = new State();
 
-      state.Id = parseInt(req.params.id);
+      state.id = parseInt(req.params.id);
 
       const response = await controller.delete(state);
       res.json(response);

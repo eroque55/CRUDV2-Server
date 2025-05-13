@@ -19,7 +19,7 @@ export async function getCard(req: Request, res: Response) {
    try {
       const card = new Card();
 
-      card.Id = parseInt(req.params.id);
+      card.id = parseInt(req.params.id);
 
       const cardResponse = await controller.get(card);
       res.json(cardResponse);
@@ -43,7 +43,7 @@ export async function putCard(req: Request, res: Response) {
    try {
       const card = new Card();
 
-      card.Id = parseInt(req.params.id);
+      card.id = parseInt(req.params.id);
 
       const cardResponse = await controller.update(card);
       res.json(cardResponse);
@@ -56,7 +56,7 @@ export async function deleteCard(req: Request, res: Response) {
    try {
       const card = new Card();
 
-      card.Id = parseInt(req.params.id);
+      card.id = parseInt(req.params.id);
 
       const response = await controller.delete(card);
       res.json(response);

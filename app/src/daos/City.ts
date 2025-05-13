@@ -19,7 +19,7 @@ class CityDao implements IDAO {
    async update(entity: CityModel): Promise<CityModel> {
       try {
          const city = await prisma.city.update({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             data: this.saveData(entity),
          });
          return this.mapToDomain(city);
@@ -31,7 +31,7 @@ class CityDao implements IDAO {
    async delete(entity: CityModel): Promise<void> {
       try {
          await prisma.city.delete({
-            where: { id: entity.Id },
+            where: { id: entity.id },
          });
       } catch (error: any) {
          throw new Error(`Erro ao excluir cidade: ${error.message}`);
@@ -59,7 +59,7 @@ class CityDao implements IDAO {
    async get(entity: CityModel): Promise<CityModel> {
       try {
          const city = await prisma.city.findUnique({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             include: {
                state: {
                   include: {
@@ -81,8 +81,8 @@ class CityDao implements IDAO {
 
    private saveData(entity: CityModel): Prisma.CityCreateInput {
       return {
-         name: entity.Name || "",
-         state: { connect: { id: entity?.State?.Id } },
+         name: entity.name || "",
+         state: { connect: { id: entity?.state?.id } },
       };
    }
 

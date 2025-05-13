@@ -19,7 +19,7 @@ export async function getCountry(req: Request, res: Response) {
    try {
       const contry = new Country();
 
-      contry.Id = parseInt(req.params.id);
+      contry.id = parseInt(req.params.id);
 
       const countryResponse = await controller.get(contry);
       res.json(countryResponse);
@@ -43,7 +43,7 @@ export async function putCountry(req: Request, res: Response) {
    try {
       const country = new Country({ ...req.body });
 
-      country.Id = parseInt(req.params.id);
+      country.id = parseInt(req.params.id);
 
       const countryResponse = await controller.update(country);
       res.json(countryResponse);
@@ -56,7 +56,7 @@ export async function deleteCountry(req: Request, res: Response) {
    try {
       const country = new Country();
 
-      country.Id = parseInt(req.params.id);
+      country.id = parseInt(req.params.id);
 
       const response = await controller.delete(country);
       res.json(response);

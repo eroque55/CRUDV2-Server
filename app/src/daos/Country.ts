@@ -19,7 +19,7 @@ class CountryDao implements IDAO {
    async update(entity: CountryModel): Promise<CountryModel> {
       try {
          const country = await prisma.country.update({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             data: this.saveData(entity),
          });
 
@@ -32,7 +32,7 @@ class CountryDao implements IDAO {
    async delete(entity: CountryModel): Promise<void> {
       try {
          await prisma.country.delete({
-            where: { id: entity.Id },
+            where: { id: entity.id },
          });
       } catch (error: any) {
          throw new Error(`Erro ao excluir pais: ${error.message}`);
@@ -59,7 +59,7 @@ class CountryDao implements IDAO {
    async get(entity: CountryModel): Promise<CountryModel> {
       try {
          const country = await prisma.country.findUnique({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             include: {
                states: {
                   include: { cities: true },
@@ -79,7 +79,7 @@ class CountryDao implements IDAO {
 
    private saveData(entity: CountryModel): Prisma.CountryCreateInput {
       return {
-         name: entity.Name || "",
+         name: entity.name || "",
       };
    }
 

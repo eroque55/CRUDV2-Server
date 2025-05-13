@@ -19,7 +19,7 @@ class AddressDao implements IDAO {
    async update(entity: AddressModel): Promise<AddressModel> {
       try {
          const address = await prisma.address.update({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             data: this.updateData(entity),
          });
 
@@ -32,7 +32,7 @@ class AddressDao implements IDAO {
    async delete(entity: AddressModel): Promise<void> {
       try {
          await prisma.address.delete({
-            where: { id: entity.Id },
+            where: { id: entity.id },
          });
       } catch (error: any) {
          throw new Error(`Erro ao excluir endereço: ${error.message}`);
@@ -64,7 +64,7 @@ class AddressDao implements IDAO {
    async get(entity: AddressModel): Promise<AddressModel> {
       try {
          const address = await prisma.address.findUnique({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             include: {
                city: {
                   include: {
@@ -90,31 +90,31 @@ class AddressDao implements IDAO {
 
    private saveData(entity: AddressModel): Prisma.AddressCreateInput {
       return {
-         customer: { connect: { id: entity.Customer?.["id"] } },
-         nickname: entity.Nickname || "",
-         street: entity.Street || "",
-         number: entity.Number || 0,
-         neighborhood: entity.Neighborhood || "",
-         cep: entity.Cep || "",
-         complement: entity.Complement || "",
-         city: { connect: { id: entity?.City?.["id"] } },
-         addressType: entity.AddressType || "COBRANCA",
-         streetType: entity.StreetType || "RUA",
-         residenceType: entity.ResidenceType || "CASA",
+         customer: { connect: { id: entity.customer?.["id"] } },
+         nickname: entity.nickname || "",
+         street: entity.street || "",
+         number: entity.number || 0,
+         neighborhood: entity.neighborhood || "",
+         cep: entity.cep || "",
+         complement: entity.complement || "",
+         city: { connect: { id: entity?.city?.["id"] } },
+         addressType: entity.addressType || "COBRANCA",
+         streetType: entity.streetType || "RUA",
+         residenceType: entity.residenceType || "CASA",
       };
    }
 
    private updateData(entity: AddressModel): Prisma.AddressUpdateInput {
       return {
-         nickname: entity.Nickname,
-         street: entity.Street,
-         number: entity.Number,
-         neighborhood: entity.Neighborhood,
-         cep: entity.Cep,
-         complement: entity.Complement,
-         city: { connect: { id: entity?.City?.["id"] } },
-         streetType: entity.StreetType,
-         residenceType: entity.ResidenceType,
+         nickname: entity.nickname,
+         street: entity.street,
+         number: entity.number,
+         neighborhood: entity.neighborhood,
+         cep: entity.cep,
+         complement: entity.complement,
+         city: { connect: { id: entity?.city?.["id"] } },
+         streetType: entity.streetType,
+         residenceType: entity.residenceType,
       };
    }
 

@@ -28,7 +28,7 @@ class PhoneDao implements IDAO {
    async update(entity: PhoneModel): Promise<PhoneModel> {
       try {
          const phone = await prisma.phone.update({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             data: this.updateData(entity),
          });
 
@@ -46,7 +46,7 @@ class PhoneDao implements IDAO {
    async delete(entity: PhoneModel): Promise<void> {
       try {
          await prisma.phone.delete({
-            where: { id: entity.Id },
+            where: { id: entity.id },
          });
       } catch (error: any) {
          throw new Error(`Erro ao excluir telefone: ${error.message}`);
@@ -68,7 +68,7 @@ class PhoneDao implements IDAO {
    async get(entity: PhoneModel): Promise<PhoneModel> {
       try {
          const phone = await prisma.phone.findUnique({
-            where: { id: entity.Id },
+            where: { id: entity.id },
          });
 
          if (!phone) {
@@ -83,18 +83,18 @@ class PhoneDao implements IDAO {
 
    private saveData(entity: PhoneModel): Prisma.PhoneCreateInput {
       return {
-         ddd: entity.Ddd || "",
-         number: entity.Number || "",
-         phoneType: entity.PhoneType || PhoneType.CELULAR,
-         customer: { connect: { id: entity?.Customer?.Id } },
+         ddd: entity.ddd || "",
+         number: entity.number || "",
+         phoneType: entity.phoneType || PhoneType.CELULAR,
+         customer: { connect: { id: entity?.customer?.id } },
       };
    }
 
    private updateData(entity: PhoneModel): Prisma.PhoneUpdateInput {
       return {
-         ddd: entity.Ddd,
-         number: entity.Number,
-         phoneType: entity.PhoneType,
+         ddd: entity.ddd,
+         number: entity.number,
+         phoneType: entity.phoneType,
       };
    }
 

@@ -19,7 +19,7 @@ export async function getCategory(req: Request, res: Response) {
    try {
       const category = new Category();
 
-      category.Id = parseInt(req.params.id);
+      category.id = parseInt(req.params.id);
 
       const categoryResponse = await controller.get(category);
       res.json(categoryResponse);
@@ -43,7 +43,7 @@ export async function putCategory(req: Request, res: Response) {
    try {
       const category = new Category({ ...req.body });
 
-      category.Id = parseInt(req.params.id);
+      category.id = parseInt(req.params.id);
 
       const categoryResponse = await controller.update(category);
       res.json(categoryResponse);
@@ -56,7 +56,7 @@ export async function deleteCategory(req: Request, res: Response) {
    try {
       const category = new Category();
 
-      category.Id = parseInt(req.params.id);
+      category.id = parseInt(req.params.id);
 
       const categoryResponse = await controller.delete(category);
       res.json(categoryResponse);

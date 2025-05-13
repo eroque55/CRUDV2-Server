@@ -19,7 +19,7 @@ export async function getPhone(req: Request, res: Response) {
    try {
       const phone = new Phone();
 
-      phone.Id = parseInt(req.params.id);
+      phone.id = parseInt(req.params.id);
 
       const phoneResponse = await controller.get(phone);
       res.json(phoneResponse);
@@ -43,7 +43,7 @@ export async function putPhone(req: Request, res: Response) {
    try {
       const phone = new Phone({ ...req.body });
 
-      phone.Id = parseInt(req.params.id);
+      phone.id = parseInt(req.params.id);
 
       const phoneResponse = await controller.update(phone);
       res.json(phoneResponse);
@@ -56,7 +56,7 @@ export async function deletePhone(req: Request, res: Response) {
    try {
       const phone = new Phone();
 
-      phone.Id = parseInt(req.params.id);
+      phone.id = parseInt(req.params.id);
 
       const response = await controller.delete(phone);
       res.json(response);

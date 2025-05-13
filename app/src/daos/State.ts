@@ -19,7 +19,7 @@ class StateDao implements IDAO {
    async update(entity: StateModel): Promise<StateModel> {
       try {
          const state = await prisma.state.update({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             data: this.saveData(entity),
          });
 
@@ -32,7 +32,7 @@ class StateDao implements IDAO {
    async delete(entity: StateModel): Promise<void> {
       try {
          await prisma.state.delete({
-            where: { id: entity.Id },
+            where: { id: entity.id },
          });
       } catch (error: any) {
          throw new Error(`Erro ao excluir estado: ${error.message}`);
@@ -55,7 +55,7 @@ class StateDao implements IDAO {
    async get(entity: StateModel): Promise<StateModel> {
       try {
          const state = await prisma.state.findUnique({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             include: { cities: true },
          });
 
@@ -71,8 +71,8 @@ class StateDao implements IDAO {
 
    private saveData(entity: StateModel): Prisma.StateCreateInput {
       return {
-         name: entity.Name || "",
-         country: { connect: { id: entity.Country?.Id } },
+         name: entity.name || "",
+         country: { connect: { id: entity.country?.id } },
       };
    }
 

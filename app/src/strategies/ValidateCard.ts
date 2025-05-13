@@ -10,30 +10,30 @@ export default class ValidateCard implements IStrategy {
       if (entity instanceof Card) {
          const card = entity as Card;
 
-         if (card.Id === 0) {
-            if (!card.Customer?.Id) {
+         if (card.id === 0) {
+            if (!card.customer?.id) {
                message += "Cliente é obrigatório. ";
             }
 
-            if (!card.Number) {
+            if (!card.number) {
                message += "Número do cartão é obrigatório. ";
             }
 
-            if (!card.Cardholder) {
+            if (!card.cardholder) {
                message += "Nome impresso no cartão é obrigatório. ";
             }
 
-            if (!card.Cvv) {
+            if (!card.cvv) {
                message += "Código de segurança é obrigatório. ";
-            } else if (card.Cvv.length !== 3) {
+            } else if (card.cvv.length !== 3) {
                message += "Código de segurança deve ter 3 dígitos. ";
             }
 
-            if (!card.ExpirationDate) {
+            if (!card.expirationDate) {
                message += "Data de validade é obrigatória. ";
             }
 
-            if (!card.CardBrand) {
+            if (!card.cardBrand) {
                message += "Bandeira do cartão é obrigatória. ";
             }
          }

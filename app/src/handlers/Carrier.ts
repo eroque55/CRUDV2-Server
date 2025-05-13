@@ -19,7 +19,7 @@ export async function getCarrier(req: Request, res: Response) {
    try {
       const carrier = new Carrier();
 
-      carrier.Id = parseInt(req.params.id);
+      carrier.id = parseInt(req.params.id);
 
       const carrierResponse = await controller.get(carrier);
       res.json(carrierResponse);
@@ -43,7 +43,7 @@ export async function putCarrier(req: Request, res: Response) {
    try {
       const carrier = new Carrier({ ...req.body });
 
-      carrier.Id = parseInt(req.params.id);
+      carrier.id = parseInt(req.params.id);
 
       const carrierResponse = await controller.update(carrier);
       res.json(carrierResponse);
@@ -56,7 +56,7 @@ export async function deleteCarrier(req: Request, res: Response) {
    try {
       const carrier = new Carrier();
 
-      carrier.Id = parseInt(req.params.id);
+      carrier.id = parseInt(req.params.id);
 
       const carrierResponse = await controller.delete(carrier);
       res.json(carrierResponse);

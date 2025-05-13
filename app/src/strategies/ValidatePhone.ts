@@ -10,22 +10,22 @@ export default class ValidatePhone implements IStrategy {
       if (entity instanceof Phone) {
          const phone = entity as Phone;
 
-         if (phone.Id === 0) {
-            if (!phone.Customer?.Id) {
+         if (phone.id === 0) {
+            if (!phone.customer?.id) {
                message += "Cliente é obrigatório. ";
             }
 
-            if (!phone.Ddd) {
+            if (!phone.ddd) {
                message += "DDD é obrigatório. ";
             }
 
-            if (!phone.Number) {
+            if (!phone.number) {
                message += "Número é obrigatório. ";
-            } else if (phone.Number.length < 8 || phone.Number.length > 9) {
+            } else if (phone.number.length < 8 || phone.number.length > 9) {
                message += "Número de telefone inválido. ";
             }
 
-            if (!phone.PhoneType) {
+            if (!phone.phoneType) {
                message += "Tipo de telefone é obrigatório. ";
             }
          }

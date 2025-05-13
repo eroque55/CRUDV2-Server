@@ -7,7 +7,7 @@ class CartDao implements IDAO {
    async create(entity: CartModel): Promise<DomainEntityModel> {
       try {
          const cart = await prisma.cart.findFirst({
-            where: { customerId: entity.Customer?.Id, status: true },
+            where: { customerId: entity.customer?.id, status: true },
          });
 
          if (!cart) {
@@ -15,7 +15,7 @@ class CartDao implements IDAO {
          }
 
          const book = await prisma.book.findUnique({
-            where: { id: entity?.BookToCart?.[0].Book?.Id },
+            where: { id: entity?.bookToCart?.[0].book?.id },
          });
 
          if (!book) {
@@ -57,11 +57,11 @@ class CartDao implements IDAO {
 
    async update(entity: CartModel): Promise<DomainEntityModel> {
       try {
-         if (!entity.BookToCart || !Array.isArray(entity.BookToCart)) {
+         if (!entity.bookToCart || !Array.isArray(entity.bookToCart)) {
             throw new Error("Lista de bookToCart inválida");
          }
 
-         const updateOrDeletePromises = entity.BookToCart.map(
+         const updateOrDeletePromises = entity.bookToCart.map(
             async (item: any) => {
                const { cartId, bookId, amount } = item;
 
@@ -69,7 +69,7 @@ class CartDao implements IDAO {
                const existing = await prisma.bookToCart.findUnique({
                   where: {
                      cartId_bookId: {
-                        cartId: entity.Id || 0,
+                        cartId: entity.id || 0,
                         bookId: item.book.id,
                      },
                   },
@@ -86,7 +86,7 @@ class CartDao implements IDAO {
                   return await prisma.bookToCart.delete({
                      where: {
                         cartId_bookId: {
-                           cartId: entity.Id || 0,
+                           cartId: entity.id || 0,
                            bookId: item.book.id,
                         },
                      },
@@ -96,7 +96,7 @@ class CartDao implements IDAO {
                   return await prisma.bookToCart.update({
                      where: {
                         cartId_bookId: {
-                           cartId: entity.Id || 0,
+                           cartId: entity.id || 0,
                            bookId: item.book.id,
                         },
                      },
@@ -123,7 +123,7 @@ class CartDao implements IDAO {
    async get(entity: CartModel): Promise<DomainEntityModel> {
       try {
          const cart = await prisma.cart.findFirst({
-            where: { customerId: entity.Customer?.Id, status: true },
+            where: { customerId: entity.customer?.id, status: true },
             include: {
                bookToCart: {
                   include: {

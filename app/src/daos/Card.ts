@@ -19,12 +19,12 @@ class CardDao implements IDAO {
    async update(entity: CardModel): Promise<CardModel> {
       try {
          const card = await prisma.card.update({
-            where: { id: entity.Id },
+            where: { id: entity.id },
             data: { preferential: true },
          });
 
          await prisma.card.updateMany({
-            where: { id: { not: entity.Id }, customerId: card.customerId },
+            where: { id: { not: entity.id }, customerId: card.customerId },
             data: { preferential: false },
          });
 
@@ -37,7 +37,7 @@ class CardDao implements IDAO {
    async delete(entity: CardModel): Promise<void> {
       try {
          await prisma.card.delete({
-            where: { id: entity.Id },
+            where: { id: entity.id },
          });
       } catch (error: any) {
          throw new Error(`Erro ao excluir cartão: ${error.message}`);
@@ -58,7 +58,7 @@ class CardDao implements IDAO {
    async get(entity: CardModel): Promise<CardModel> {
       try {
          const card = await prisma.card.findUnique({
-            where: { id: entity.Id },
+            where: { id: entity.id },
          });
 
          if (!card) {
@@ -86,13 +86,13 @@ class CardDao implements IDAO {
 
    private saveData(entity: CardModel): Prisma.CardCreateInput {
       return {
-         customer: { connect: { id: entity.Customer?.["id"] } },
-         number: this.maskCardNumber(entity.Number || ""),
-         cardholder: entity.Cardholder || "",
-         cvv: this.maskCvv(entity.Cvv || ""),
-         expirationDate: entity.ExpirationDate || "",
-         preferential: entity.Preferential,
-         cardBrand: entity.CardBrand || CardBrand.VISA,
+         customer: { connect: { id: entity.customer?.["id"] } },
+         number: this.maskCardNumber(entity.number || ""),
+         cardholder: entity.cardholder || "",
+         cvv: this.maskCvv(entity.cvv || ""),
+         expirationDate: entity.expirationDate || "",
+         preferential: entity.preferential,
+         cardBrand: entity.cardBrand || CardBrand.VISA,
       };
    }
 

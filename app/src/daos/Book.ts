@@ -26,12 +26,12 @@ class BookDao implements IDAO {
 
    async read(entity: BookModel): Promise<BookModel[]> {
       try {
-         const categorySlug = entity.BookToCategory[0]?.Category?.Slug;
+         const categorySlug = entity.bookToCategory[0]?.category?.slug;
 
          const books = await prisma.book.findMany({
             orderBy: { title: "asc" },
             where: {
-               title: { contains: entity.Title },
+               title: { contains: entity.title },
                ...(categorySlug
                   ? {
                        bookToCategory: {
@@ -86,7 +86,7 @@ class BookDao implements IDAO {
    async get(entity: BookModel): Promise<BookModel> {
       try {
          const book = await prisma.book.findUnique({
-            where: { slug: entity.Slug },
+            where: { slug: entity.slug },
             include: {
                bookDimension: true,
                priceGroup: true,
@@ -101,42 +101,50 @@ class BookDao implements IDAO {
       }
    }
 
-   private mapToDomain(country: any): BookModel {
-      if (!country) throw new Error(`Livro inválido para mapeamento`);
-      return { ...country };
+   private mapToDomain(book: any): BookModel {
+      if (!book) throw new Error(`Livro inválido para mapeamento`);
+
+      const bookModel = new BookModel(book);
+
+      const calculatedBook = {
+         ...book,
+         value: bookModel.Value,
+      };
+
+      return calculatedBook;
    }
 
    private saveData(entity: BookModel): Prisma.BookCreateInput {
       return {
-         title: entity.Title || "",
-         slug: entity.Slug || "",
-         author: entity.Author || "",
-         year: entity.Year || 0,
-         synopsis: entity.Synopsis || "",
-         numberPages: entity.NumberPages || 0,
-         publisher: entity.Publisher || "",
-         edition: entity.Edition || 0,
-         isbn: entity.Isbn || "",
-         barcode: entity.Barcode || "",
-         priceGroup: { connect: { id: entity.PriceGroup?.Id || 0 } },
+         title: entity.title || "",
+         slug: entity.slug || "",
+         author: entity.author || "",
+         year: entity.year || 0,
+         synopsis: entity.synopsis || "",
+         numberPages: entity.numberPages || 0,
+         publisher: entity.publisher || "",
+         edition: entity.edition || 0,
+         isbn: entity.isbn || "",
+         barcode: entity.barcode || "",
+         priceGroup: { connect: { id: entity.priceGroup?.id || 0 } },
          bookDimension: {
             create: {
-               height: entity.BookDimension?.Height || 0,
-               width: entity.BookDimension?.Width || 0,
-               thickness: entity.BookDimension?.Thickness || 0,
-               weight: entity.BookDimension?.Weight || 0,
+               height: entity.bookDimension?.height || 0,
+               width: entity.bookDimension?.width || 0,
+               thickness: entity.bookDimension?.thickness || 0,
+               weight: entity.bookDimension?.weight || 0,
             },
          },
          stock: {
             create: {
-               amount: entity.Stock?.Amount || 0,
+               amount: entity.stock?.amount || 0,
                stockMovement: {
                   create: {
-                     amount: entity.Stock?.StockMovement[0]?.Amount || 0,
-                     cost: entity.Stock?.StockMovement[0]?.Cost || 0,
-                     supplier: entity.Stock?.StockMovement[0]?.Supplier || "",
+                     amount: entity.stock?.stockMovement[0]?.amount || 0,
+                     cost: entity.stock?.stockMovement[0]?.cost || 0,
+                     supplier: entity.stock?.stockMovement[0]?.supplier || "",
                      movementType:
-                        entity.Stock?.StockMovement[0]?.MovementType ||
+                        entity.stock?.stockMovement[0]?.movementType ||
                         "ENTRADA",
                   },
                },
@@ -146,7 +154,7 @@ class BookDao implements IDAO {
             create: {
                category: {
                   connect: {
-                     id: entity.BookToCategory[0]?.Category?.Id || 0,
+                     id: entity.bookToCategory[0]?.category?.id || 0,
                   },
                },
             },
