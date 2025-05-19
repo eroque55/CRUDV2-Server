@@ -28,7 +28,6 @@ class SaleDao implements IDAO {
 
          return this.mapToDomain(sale);
       } catch (error: any) {
-         console.log(error);
          throw new Error(error.message);
       }
    }

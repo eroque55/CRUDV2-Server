@@ -44,50 +44,50 @@ app.use("/sales", Routes.SaleRoutes);
 app.use("/states", Routes.StateRoutes);
 
 const category = new Category({
-   Id: 3,
+   id: 1,
 });
 
 const bookToCategory = new BookToCategory({
-   Category: category,
+   category: category,
 });
 
 const bookDimension = new BookDimension({
-   Height: 20,
-   Width: 15,
-   Thickness: 3,
-   Weight: 0.5,
+   height: 20,
+   width: 15,
+   thickness: 3,
+   weight: 0.5,
 });
 
 const stockMovement = new StockMovement({
-   Amount: 10,
-   Cost: 20,
-   Supplier: "Supplier A",
-   MovementType: "ENTRADA",
+   amount: 10,
+   cost: 20,
+   supplier: "Supplier A",
+   movementType: "ENTRADA",
 });
 
 const stock = new Stock({
-   StockMovement: [stockMovement],
+   stockMovement: [stockMovement],
 });
 
 const priceGroup = new PriceGroup({
-   Id: 1,
+   id: 1,
 });
 
 const book: Partial<Book> = {
-   Title: "O Senhor dos Anéis",
-   Slug: "o-senhor-dos-aneis",
-   Author: "J.R.R. Tolkien",
-   Year: 1954,
-   Synopsis: "Uma história épica de fantasia.",
-   NumberPages: 500,
-   Publisher: "HarperCollins",
-   Edition: 1,
-   Isbn: "9783161484100",
-   Barcode: "1234567890123",
-   BookDimension: bookDimension,
-   Stock: stock,
-   PriceGroup: priceGroup,
-   BookToCategory: [bookToCategory],
+   title: "O Senhor dos Anéis",
+   slug: "o-senhor-dos-aneis",
+   author: "J.R.R. Tolkien",
+   year: 1954,
+   synopsis: "Uma história épica de fantasia.",
+   numberPages: 500,
+   publisher: "HarperCollins",
+   edition: 1,
+   isbn: "9783161484100",
+   barcode: "1234567890123",
+   bookDimension: bookDimension,
+   stock: stock,
+   priceGroup: priceGroup,
+   bookToCategory: [bookToCategory],
 };
 
 const controller = new Controller();

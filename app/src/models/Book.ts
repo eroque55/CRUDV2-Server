@@ -31,7 +31,6 @@ class Book extends DomainEntity {
    }
 
    get Value(): number {
-      console.log(this?.priceGroup?.tax);
       const maxCost = this?.stock?.stockMovement?.reduce((max, current) =>
          Number(current.cost) > Number(max.cost) ? current : max
       ).cost;

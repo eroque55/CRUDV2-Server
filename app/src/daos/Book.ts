@@ -78,7 +78,6 @@ class BookDao implements IDAO {
 
          return books.map(this.mapToDomain);
       } catch (error: any) {
-         console.log(error);
          throw new Error(`Erro ao consultar livros: ${error.message}`);
       }
    }
