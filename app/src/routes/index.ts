@@ -1,4 +1,5 @@
 export { default as AddressRoutes } from "./Address";
+export { default as AiRoutes } from "./Ai";
 export { default as BookRoutes } from "./Book";
 export { default as CardRoutes } from "./Card";
 export { default as CarrierRoutes } from "./Carrier";

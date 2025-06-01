@@ -19,6 +19,8 @@ app.listen(8000, () => console.log("Started at: http://localhost:8000"));
 
 app.use("/addresses", Routes.AddressRoutes);
 
+app.use("/ai", Routes.AiRoutes);
+
 app.use("/books", Routes.BookRoutes);
 
 app.use("/cards", Routes.CardRoutes);
@@ -74,16 +76,53 @@ const priceGroup = new PriceGroup({
 });
 
 const book: Partial<Book> = {
-   title: "O Senhor dos Anéis",
-   slug: "o-senhor-dos-aneis",
-   author: "J.R.R. Tolkien",
-   year: 1954,
-   synopsis: "Uma história épica de fantasia.",
-   numberPages: 500,
-   publisher: "HarperCollins",
+   title: "O Pequeno Príncipe",
+   slug: "o-pequeno-principe",
+   author: "Antoine de Saint-Exupéry",
+   year: 1943,
+   synopsis:
+      "O Pequeno Príncipe é uma história sobre um jovem príncipe que viaja de planeta em planeta, aprendendo lições valiosas sobre a vida, o amor e a amizade.",
+   numberPages: 96,
+   publisher: "Editora X",
    edition: 1,
-   isbn: "9783161484100",
-   barcode: "1234567890123",
+   isbn: "9783161484101",
+   barcode: "1234567890127",
+   bookDimension: bookDimension,
+   stock: stock,
+   priceGroup: priceGroup,
+   bookToCategory: [bookToCategory],
+};
+
+const romeuJulieta: Partial<Book> = {
+   title: "Romeu e Julieta",
+   slug: "romeu-e-julieta",
+   author: "William Shakespeare",
+   year: 1597,
+   synopsis:
+      "A trágica história de amor entre Romeu e Julieta, jovens de famílias rivais em Verona, cujo amor proibido leva a um desfecho fatal.",
+   numberPages: 128,
+   publisher: "Editora Y",
+   edition: 1,
+   isbn: "9783161484117",
+   barcode: "1234567890124",
+   bookDimension: bookDimension,
+   stock: stock,
+   priceGroup: priceGroup,
+   bookToCategory: [bookToCategory],
+};
+
+const orgulhoPreconceito: Partial<Book> = {
+   title: "Orgulho e Preconceito",
+   slug: "orgulho-e-preconceito",
+   author: "Jane Austen",
+   year: 1813,
+   synopsis:
+      "A história acompanha Elizabeth Bennet enquanto lida com questões de educação, moralidade e casamento na sociedade aristocrática do início do século XIX.",
+   numberPages: 424,
+   publisher: "Editora Z",
+   edition: 1,
+   isbn: "9783161484124",
+   barcode: "1234567890125",
    bookDimension: bookDimension,
    stock: stock,
    priceGroup: priceGroup,
@@ -94,6 +133,8 @@ const controller = new Controller();
 
 const createBook = async () => {
    await controller.create(new Book(book));
+   await controller.create(new Book(romeuJulieta));
+   await controller.create(new Book(orgulhoPreconceito));
 };
 
 // createBook();

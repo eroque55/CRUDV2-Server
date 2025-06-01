@@ -82,6 +82,34 @@ class BookDao implements IDAO {
       }
    }
 
+   async readNames(): Promise<String[]> {
+      try {
+         const books = await prisma.book.findMany({
+            orderBy: { title: "asc" },
+            omit: {
+               barcode: true,
+               edition: true,
+               inativationReason: true,
+               numberPages: true,
+               isbn: true,
+               publisher: true,
+               reasonCategoryId: true,
+               synopsis: true,
+               year: true,
+               author: true,
+               id: true,
+               priceGroupId: true,
+               slug: true,
+               status: true,
+            },
+         });
+
+         return books.map((book) => book.title);
+      } catch (error: any) {
+         throw new Error(`Erro ao consultar livros: ${error.message}`);
+      }
+   }
+
    async get(entity: BookModel): Promise<BookModel> {
       try {
          const book = await prisma.book.findUnique({
