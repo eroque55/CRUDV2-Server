@@ -132,7 +132,7 @@ const orgulhoPreconceito: Partial<Book> = {
 const controller = new Controller();
 
 const createBook = async () => {
-   await controller.create(new Book(book));
+   // await controller.create(new Book(book));
    await controller.create(new Book(romeuJulieta));
    await controller.create(new Book(orgulhoPreconceito));
 };
