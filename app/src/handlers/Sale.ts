@@ -9,8 +9,10 @@ import Card from "../models/Card";
 import CardToSale from "../models/CardToSale";
 import Cart from "../models/Cart";
 import Customer from "../models/Customer";
+import { SaleDao } from "../daos";
 
 const controller = new Controller();
+const saleDao = new SaleDao();
 
 export async function getSales(req: Request, res: Response) {
    try {
@@ -99,6 +101,24 @@ export async function deleteSale(req: Request, res: Response) {
 
       const saleResponse = await controller.delete(sale);
       res.json(saleResponse);
+   } catch (error: any) {
+      res.status(500).send(error.message);
+   }
+}
+
+export async function getSalesByCategory(req: Request, res: Response) {
+   try {
+      const now = new Date();
+
+      const from = req.query.from
+         ? new Date(req.query.from as string)
+         : new Date(new Date().setFullYear(now.getFullYear() - 1));
+
+      const to = req.query.to ? new Date(req.query.to as string) : now;
+
+      const salesResponse = await saleDao.getByCategory(from, to);
+
+      res.json(salesResponse);
    } catch (error: any) {
       res.status(500).send(error.message);
    }

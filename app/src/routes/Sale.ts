@@ -5,11 +5,14 @@ import {
    postSale,
    putSale,
    deleteSale,
+   getSalesByCategory,
 } from "../handlers/Sale";
 
 const router = Router();
 
 router.get("/", getSales);
+
+router.get("/byCategory", getSalesByCategory);
 
 router.get("/customer/:id", getSale);
 
