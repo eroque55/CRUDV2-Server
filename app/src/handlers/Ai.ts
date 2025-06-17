@@ -1,7 +1,7 @@
 import { AzureOpenAI } from "openai";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import BookDao from "../daos/Book";
+import { CategoryDao, BookDao } from "../daos";
 
 dotenv.config();
 
@@ -13,6 +13,7 @@ const client = new AzureOpenAI({
 });
 
 const bookDao = new BookDao();
+const categoryDao = new CategoryDao();
 
 export async function generateResponse(
    req: Request,
@@ -26,6 +27,7 @@ export async function generateResponse(
       }
 
       const bookNames = await bookDao.readNames();
+      const categoryNames = await categoryDao.readNames();
 
       const systemPrompt = `VOCÊ É UM ASSISTENTE ESPECIALIZADO DE LIVRARIA - INSTRUÇÕES RÍGIDAS:
 
@@ -34,6 +36,7 @@ Você é um assistente dedicado exclusivamente à nossa livraria online. Sua ún
 
 CATÁLOGO DISPONÍVEL:
 Livros em estoque: ${bookNames.join(", ")}
+Categorias disponíveis: ${categoryNames.join(", ")}
 
 RESTRIÇÕES ABSOLUTAS:
 - NUNCA fale sobre livros que NÃO estão na lista acima
@@ -70,6 +73,9 @@ FORMATAÇÃO ESTRITA:
   - Listas numeradas (ex: \`1. item\`, \`2. item\`)
   - Tabelas, links, imagens, citações (\`> texto\`) ou qualquer outra marcação
 - Respostas podem conter múltiplos parágrafos (linhas separadas), mas **sempre em texto corrido**
+
+EVITE:
+- Frases do tipo "Quer adquirir este livro?" ou "Gostaria de comprar este título?" ou frases que indiquem que você pode ajudar na compra de livros ou em alguma função que você não pode realizar.
 
 LEMBRE-SE: Você existe APENAS para nossos livros e nossa loja. Mantenha-se sempre dentro deste escopo!`;
 
