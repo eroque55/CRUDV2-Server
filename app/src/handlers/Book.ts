@@ -11,13 +11,18 @@ export async function getBooks(req: Request, res: Response) {
    try {
       const book = new Book();
 
-      const categorySlug = req.query.slug;
-      const category = new Category();
-      category.slug = String(categorySlug);
-      const bookToCategory = new BookToCategory();
-      bookToCategory.category = category;
-      book.bookToCategory = [bookToCategory];
-      book.title = String(req.query.title);
+      if (req.query.slug) {
+         const categorySlug = req.query.slug;
+         const category = new Category();
+         category.slug = String(categorySlug);
+         const bookToCategory = new BookToCategory();
+         bookToCategory.category = category;
+         book.bookToCategory = [bookToCategory];
+      }
+
+      if (req.query.title) {
+         book.title = String(req.query.title);
+      }
 
       const booksResponse = await controller.read(book);
 

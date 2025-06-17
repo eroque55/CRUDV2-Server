@@ -122,6 +122,10 @@ class BookDao implements IDAO {
             },
          });
 
+         if (!book) {
+            throw new Error(`Livro não encontrado`);
+         }
+
          return this.mapToDomain(book);
       } catch (error: any) {
          throw new Error(`Erro ao consultar livro: ${error.message}`);
@@ -133,7 +137,7 @@ class BookDao implements IDAO {
 
       const bookModel = new BookModel(book);
 
-      const calculatedBook = {
+      const calculatedBook: BookModel = {
          ...book,
          value: bookModel.Value,
       };

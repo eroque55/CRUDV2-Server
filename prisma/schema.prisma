@@ -315,7 +315,7 @@ model BookToCart {
    bookId Int
 
    amount    Int
-   updatedAt DateTime @updatedAt
+   updatedAt DateTime @default(now()) @updatedAt
    status    Boolean  @default(true)
 
    @@id([cartId, bookId])
@@ -324,7 +324,7 @@ model BookToCart {
 model Stock {
    id        Int      @id @default(autoincrement())
    amount    Int
-   updatedAt DateTime @updatedAt
+   updatedAt DateTime @default(now()) @updatedAt
 
    book   Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
    bookId Int  @unique
