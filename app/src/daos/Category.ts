@@ -28,6 +28,22 @@ class CategoryDao implements IDAO {
       throw new Error("TODO");
    }
 
+   async readNames(): Promise<String[]> {
+      try {
+         const categories = await prisma.category.findMany({
+            orderBy: { name: "asc" },
+            omit: {
+               id: true,
+               slug: true,
+            },
+         });
+
+         return categories.map((category) => category.name);
+      } catch (error: any) {
+         throw new Error(`Erro ao consultar categorias: ${error.message}`);
+      }
+   }
+
    private mapToDomain(category: any): CategoryModel {
       if (!category) throw new Error(`Categoria inválida para mapeamento`);
       return { ...category };

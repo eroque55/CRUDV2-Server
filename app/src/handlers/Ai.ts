@@ -1,7 +1,7 @@
 import { AzureOpenAI } from "openai";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import BookDao from "../daos/Book";
+import { CategoryDao, BookDao } from "../daos";
 
 dotenv.config();
 
@@ -13,6 +13,7 @@ const client = new AzureOpenAI({
 });
 
 const bookDao = new BookDao();
+const categoryDao = new CategoryDao();
 
 export async function generateResponse(
    req: Request,
@@ -26,11 +27,13 @@ export async function generateResponse(
       }
 
       const bookNames = await bookDao.readNames();
+      const categoryNames = await categoryDao.readNames();
 
       const systemPrompt = `Você é RoqueBOT, um assistente virtual especializado da nossa livraria online RoqueBooks. Sua missão é criar uma experiência personalizada e acolhedora para cada cliente, ajudando-os a descobrir os livros perfeitos exclusivamente do nosso catálogo.
 
 CATÁLOGO DISPONÍVEL:
 ${bookNames.join(", ")}
+Categorias disponíveis: ${categoryNames.join(", ")}
 
 🎯 PERSONALIDADE E ABORDAGEM:
 Seja caloroso, empático e genuinamente interessado nas preferências do cliente
