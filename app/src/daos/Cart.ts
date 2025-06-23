@@ -1,6 +1,6 @@
 import prisma from "./prisma";
 import IDAO from "./IDAO";
-import { DomainEntityModel, CartModel } from "../models";
+import { DomainEntityModel, CartModel, BookModel } from "../models";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 class CartDao implements IDAO {
@@ -146,7 +146,30 @@ class CartDao implements IDAO {
 
    private mapToDomain(cart: any): CartModel {
       if (!cart) throw new Error("Carrinho inválido para mapeamento");
-      return { ...cart };
+
+      // Mapeia os livros do carrinho adicionando o valor calculado
+      const mappedCart = {
+         ...cart,
+
+         bookToCart:
+            cart.bookToCart?.map((item: any) => {
+               const bookModel = new BookModel(item.book);
+
+               const calculatedBook: BookModel = {
+                  ...item.book,
+                  value: bookModel.Value,
+               };
+
+               return {
+                  ...item,
+                  book: {
+                     ...calculatedBook,
+                  },
+               };
+            }) || [],
+      };
+
+      return mappedCart;
    }
 }
 
