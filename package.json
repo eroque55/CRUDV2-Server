@@ -10,7 +10,8 @@
       "test": "echo \"Error: no test specified\" && exit 1",
       "dev": "yarn ts-node-dev app/src/server.ts",
       "dbgen": "prisma generate",
-      "dbmigrate": "prisma migrate dev"
+      "dbmigrate": "prisma migrate dev",
+      "seed": "ts-node prisma/seed.ts"
    },
    "devDependencies": {
       "@prisma/client": "^6.7.0",
