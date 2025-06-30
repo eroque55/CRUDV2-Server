@@ -147,26 +147,32 @@ class CartDao implements IDAO {
    private mapToDomain(cart: any): CartModel {
       if (!cart) throw new Error("Carrinho inválido para mapeamento");
 
-      // Mapeia os livros do carrinho adicionando o valor calculado
-      const mappedCart = {
-         ...cart,
+      // Mapeia os itens do carrinho
+      const mappedBookToCart =
+         cart.bookToCart?.map((item: any) => {
+            const bookModel = new BookModel(item.book);
 
-         bookToCart:
-            cart.bookToCart?.map((item: any) => {
-               const bookModel = new BookModel(item.book);
-
-               const calculatedBook: BookModel = {
+            return {
+               ...item,
+               book: {
                   ...item.book,
-                  value: bookModel.Value,
-               };
+                  value: bookModel.Value, // Usa o getter seguro de valor
+               },
+            };
+         }) || [];
 
-               return {
-                  ...item,
-                  book: {
-                     ...calculatedBook,
-                  },
-               };
-            }) || [],
+      // Calcula o valor total do carrinho
+      const totalValue = mappedBookToCart.reduce((total: number, item: any) => {
+         const unitValue = item.book?.value ?? 0;
+         const amount = item.amount ?? 1;
+         return total + unitValue * amount;
+      }, 0);
+
+      // Retorna o cart montado no formato do domínio
+      const mappedCart: CartModel = {
+         ...cart,
+         bookToCart: mappedBookToCart,
+         value: totalValue,
       };
 
       return mappedCart;

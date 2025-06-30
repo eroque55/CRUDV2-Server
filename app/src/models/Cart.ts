@@ -8,6 +8,7 @@ class Cart extends DomainEntity {
    status?: boolean;
    sale?: Sale;
    bookToCart: BookToCart[] = [];
+   value?: number;
 
    constructor(data?: Partial<Cart>) {
       super();
