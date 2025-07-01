@@ -19,7 +19,7 @@ export async function getCoupon(req: Request, res: Response) {
    try {
       const coupon = new Coupon();
 
-      coupon.id = parseInt(req.params.id);
+      coupon.name = req.params.name;
 
       const couponResponse = await controller.get(coupon);
       res.json(couponResponse);

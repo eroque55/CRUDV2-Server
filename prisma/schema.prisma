@@ -193,7 +193,7 @@ model Sale {
 
 model Coupon {
    id         Int        @id @default(autoincrement())
-   name       String     @db.VarChar(100)
+   name       String     @unique @db.VarChar(100)
    couponType CouponType
    discount   Int
 

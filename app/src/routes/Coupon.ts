@@ -11,7 +11,7 @@ const router = Router();
 
 router.get("/", getCoupons);
 
-router.get("/:id", getCoupon);
+router.get("/:name", getCoupon);
 
 router.post("/", postCoupon);
 

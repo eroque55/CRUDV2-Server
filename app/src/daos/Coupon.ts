@@ -6,19 +6,24 @@ class CartDao implements IDAO {
    create(entity: DomainEntityModel): Promise<DomainEntityModel> {
       throw new Error("TODO");
    }
+
    read(entity: DomainEntityModel): Promise<DomainEntityModel[]> {
       throw new Error("TODO");
    }
+
    update(entity: DomainEntityModel): Promise<DomainEntityModel> {
       throw new Error("TODO");
    }
+
    delete(entity: DomainEntityModel): Promise<void> {
       throw new Error("TODO");
    }
-   async get(entity: DomainEntityModel): Promise<DomainEntityModel> {
+
+   async get(entity: CouponModel): Promise<CouponModel> {
       try {
-         const coupon = await prisma.cart.findUnique({
-            where: { id: entity.id },
+         console.log(entity);
+         const coupon = await prisma.coupon.findUnique({
+            where: { name: entity.name },
          });
 
          if (!coupon) throw new Error(`Cupom não encontrado`);
