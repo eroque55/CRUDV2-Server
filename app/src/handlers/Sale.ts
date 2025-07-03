@@ -123,3 +123,15 @@ export async function getSalesByCategory(req: Request, res: Response) {
       res.status(500).send(error.message);
    }
 }
+
+export async function acceptTrade(req: Request, res: Response) {
+   try {
+      const saleId = parseInt(req.params.id);
+      const couponValue = parseFloat(req.body.couponValue as string);
+
+      const newCoupon = await saleDao.acceptTrade(saleId, couponValue);
+      res.json(newCoupon);
+   } catch (error: any) {
+      res.status(500).send(error.message);
+   }
+}

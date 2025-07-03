@@ -1,5 +1,5 @@
 import IDAO from "./IDAO";
-import { DomainEntityModel, SaleModel } from "../models";
+import { CouponModel, DomainEntityModel, SaleModel } from "../models";
 import { Prisma } from "@prisma/client";
 import prisma from "./prisma";
 
@@ -79,6 +79,42 @@ class SaleDao implements IDAO {
    }
    get(entity: DomainEntityModel): Promise<DomainEntityModel> {
       throw new Error("TODO");
+   }
+
+   async acceptTrade(
+      saleId: number,
+      couponValue: number
+   ): Promise<CouponModel> {
+      try {
+         if (!saleId) {
+            throw new Error("ID da venda não fornecido");
+         }
+
+         if (!couponValue || couponValue <= 0) {
+            throw new Error("Valor do cupom inválido");
+         }
+
+         const sale = await prisma.sale.update({
+            where: { id: saleId },
+            data: { status: "TROCA_APROVADA" },
+         });
+
+         if (!sale) {
+            throw new Error("Venda não encontrada");
+         }
+
+         const coupon = await prisma.coupon.create({
+            data: {
+               name: `${sale.id}-trade`,
+               discount: couponValue,
+               couponType: "DEVOLUCAO",
+            },
+         });
+
+         return coupon;
+      } catch (error: any) {
+         throw new Error(error.message);
+      }
    }
 
    async getByCategory(from: Date, to: Date): Promise<CategorySalesData[]> {
@@ -214,7 +250,6 @@ class SaleDao implements IDAO {
       return result;
    }
 
-   // Função auxiliar para gerar todos os meses entre duas datas
    private generateMonthsBetweenDates(
       startDate: Date,
       endDate: Date

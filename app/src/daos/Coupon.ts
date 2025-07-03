@@ -21,7 +21,6 @@ class CartDao implements IDAO {
 
    async get(entity: CouponModel): Promise<CouponModel> {
       try {
-         console.log(entity);
          const coupon = await prisma.coupon.findUnique({
             where: { name: entity.name },
          });
